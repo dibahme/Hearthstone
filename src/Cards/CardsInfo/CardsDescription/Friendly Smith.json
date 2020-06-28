@@ -1,0 +1,10 @@
+{
+	name : "Friendly Smith" , 
+	hero : "Rogue",
+	rarity : "Common" , 
+	type : "Spell", 
+	price : 6,
+	mana : 1,
+	"cardAttributes" : [],
+	Description : "find a weapon and add 2 health and damage to it and add it to your deck"
+}

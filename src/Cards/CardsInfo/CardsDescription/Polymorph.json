@@ -1,0 +1,10 @@
+{
+	name : "Polymorph",
+	hero : "Mage",
+	type : "Spell",
+	rarity : "Rare",
+	price : 9,
+	mana : 4,
+	"cardAttributes" : [],
+	description : "Transform a minion into a 1/1 Sheep"
+}

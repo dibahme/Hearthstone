@@ -1,0 +1,10 @@
+{
+	name : "Strength in Numbers",
+	hero : "Neutral",
+	type : "Quest and Reward",
+	rarity : "Common",
+	price : 5,
+	mana : 1,
+	quest : "Spend 10 Mana on minions.",
+	reward : "Summon a minion from your deck."
+}

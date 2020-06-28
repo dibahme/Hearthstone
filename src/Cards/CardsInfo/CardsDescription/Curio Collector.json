@@ -1,0 +1,12 @@
+{
+	name : "Curio Collector",
+	type : "Minion",
+	hero : "Neutral",
+	rarity : "Rare",
+	mana : 5,
+	price : 6,
+	health : 4,
+	damage : 4,
+	"cardAttributes" : [],
+	description : "Whenever you draw a card, gain +1/+1."
+}	

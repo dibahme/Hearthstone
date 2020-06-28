@@ -1,0 +1,10 @@
+{
+	name : "Impferno",
+	hero : "Warlock",
+	type : "Spell",
+	rarity : "Rare",
+	price : 13,
+	mana : 3,
+	"cardAttributes" : [],
+	description : "Give your Minions +1 Attack. Deal 1 damage to all enemy minions"
+}

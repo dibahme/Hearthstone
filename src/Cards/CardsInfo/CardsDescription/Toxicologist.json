@@ -1,0 +1,12 @@
+{
+	name : "Toxicologist",
+	type : "Minion",
+	hero : "Neutral",
+	rarity : "Common",
+	price : 5,
+	mana : 2,
+	health : 2,
+	damage : 2,
+	battleCry : "Give your weapon +1 Attack",
+	"cardAttributes" : []
+}

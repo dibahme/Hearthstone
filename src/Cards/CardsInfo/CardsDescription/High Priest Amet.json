@@ -1,0 +1,12 @@
+{
+	name : "High Priest Amet",
+	type : "Minion",
+	hero : "Priest",
+	rarity : "Legendary",
+	mana : 4,
+	price : 12,
+	health : 7,
+	damage : 2,
+	"cardAttributes" : [],
+	description : "Whenever you summon a minion, set its Health equal to this minion's."
+}	

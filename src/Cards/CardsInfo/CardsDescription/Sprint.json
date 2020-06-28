@@ -1,0 +1,10 @@
+{
+	name : "Sprint",
+	hero : "Neutral",
+	type : "Spell",
+	rarity : "Free",
+	price : 12,
+	mana : 7,
+	"cardAttributes" : [],
+	description : "Draw 4 cards."
+}

@@ -1,0 +1,10 @@
+{
+	name : "Rapid Fire",
+	hero : "Neutral",
+	type : "Spell",
+	rarity : "Common",
+	price : 4,
+	mana : 1,
+	"cardAttributes" : [],
+	description : "Twinspell Deal 1 damage"
+}

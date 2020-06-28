@@ -1,0 +1,10 @@
+{
+	name : "Echo of Medivh",
+	hero : "Mage",
+	type : "Spell",
+	rarity : "Epic",
+	mana : 4,
+	price : 16,
+	"cardAttributes" : [],
+	description : "Put a copy of each friendly minion into your hand"
+}

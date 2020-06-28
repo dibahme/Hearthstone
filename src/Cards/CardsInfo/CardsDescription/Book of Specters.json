@@ -1,0 +1,10 @@
+{
+	name : "Book of Specters",
+	hero : "Neutral",
+	type : "Spell",
+	rarity : "Epic",
+	price : 19,
+	mana : 2,
+	"cardAttributes" : [],
+	description : "Draw 3 cards. Discard any spells drawn."
+}

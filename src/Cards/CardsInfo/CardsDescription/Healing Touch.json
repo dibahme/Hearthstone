@@ -1,0 +1,10 @@
+{
+	name : "Healing Touch",
+	hero : "Neutral",
+	type : "Spell",
+	rarity : "Free",
+	price : 8,
+	mana : 3,
+	"cardAttributes" : [],
+	description : "Restore 8 Health."
+}

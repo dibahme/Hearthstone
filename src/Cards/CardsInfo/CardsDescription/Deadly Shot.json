@@ -1,0 +1,10 @@
+{
+	name : "Deadly Shot",
+	hero : "Neutral",
+	type : "Spell",
+	rarity : "Common",
+	mana : 3,
+	price : 5,
+	"cardAttributes" : [],
+	description : "Destroy a random enemy minion"
+}

@@ -1,0 +1,12 @@
+{
+	name : "Elven Archer",
+	hero : "Neutral",
+	type : "Minion",
+	rarity : "Free",
+	mana : 1,
+	price : 3,
+	health : 1 ,
+	damage : 1,
+	"cardAttributes" : [],
+	battleCry : "Deal 1 damage"
+}

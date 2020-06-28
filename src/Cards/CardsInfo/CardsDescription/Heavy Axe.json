@@ -1,0 +1,10 @@
+{
+	name : "Heavy Axe",
+	hero : "Neutral",
+	type : "Weapon",
+	rarity : "Common",
+	price : 3,
+	mana : 1,
+	health : 3,
+	damage :1
+}

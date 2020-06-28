@@ -1,0 +1,10 @@
+{
+	name : "Rampage",
+	hero : "Neutral",
+	type : "Spell",
+	rarity : "Common",
+	price : 7,
+	mana : 2,
+	"cardAttributes" : [],
+	description : "Give a damaged minion +3/+3"
+}

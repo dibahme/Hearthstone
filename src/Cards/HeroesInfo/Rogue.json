@@ -1,0 +1,58 @@
+{
+	"name" : "Rogue",
+	"health" : 30,
+	"defaultHand" : [
+		{
+			"name" : "Swarm of Locusts",
+			"hero" : "Neutral",
+			"type" : "Spell",
+			"rarity" : "Rare",
+			"price" : 9,
+			"mana" : 6,
+			"cardAttributes" : [],
+			"description" : "Summon seven 1/1 Locusts with Rush"
+		},
+		{
+			"name" : "The Black Knight",
+			"type" : "Minion",
+			"hero" : "Neutral",
+			"rarity" : "Legendary",
+			"price" : 20,
+			"mana" : 6,
+			"health" : 5,
+			"damage" : 4,
+			"cardAttributes" : [],
+			"battleCry" : "Destroy an enemy minion with Taunt."
+		},
+		{
+			"name" : "Friendly Smith" ,
+			"hero" : "Rogue",
+			"rarity" : "Common" ,
+			"type" : "Spell",
+			"price" : 6,
+			"mana" : 1,
+			"cardAttributes" : [],
+			"Description" : "find a weapon and add 2 health and damage to it and add it to your deck"
+		},
+		{
+			"name" : "Healing Touch",
+			"hero" : "Neutral",
+			"type" : "Spell",
+			"rarity" : "Free",
+			"price" : 8,
+			"mana" : 3,
+			"cardAttributes" : [],
+			"description" : "Restore 8 Health."
+		},
+		{
+			"name" : "Wicked Knife",
+			"hero" : "Neutral",
+			"type" : "Weapon",
+			"rarity" : "Common",
+			"price" : 3,
+			"mana" : 1,
+			"health" : 2,
+			"damage" :1
+		}
+	]
+}

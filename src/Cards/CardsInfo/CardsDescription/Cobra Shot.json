@@ -1,0 +1,10 @@
+{
+	name : "Cobra Shot",
+	hero : "Hunter",
+	type : "Spell",
+	rarity : "Common",
+	price : 7,
+	mana : 5,
+	"cardAttributes" : [],
+	description : "Deal 3 damage to a minion and the enemy hero."
+}

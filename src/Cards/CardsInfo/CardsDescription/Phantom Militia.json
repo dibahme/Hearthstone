@@ -1,0 +1,11 @@
+{
+	name : "Phantom Militia",
+	type : "Minion",
+	hero : "Neutral",
+	rarity : "Rare",
+	price : 14,
+	mana : 3,
+	health : 4,
+	damage : 2,
+	"cardAttributes" : ["ECHO" , "TAUNT"]
+}	

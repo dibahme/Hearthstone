@@ -1,0 +1,10 @@
+{
+	name : "Wicked Knife",
+	hero : "Neutral",
+	type : "Weapon",
+	rarity : "Common",
+	price : 3,
+	mana : 1,
+	health : 2,
+	damage :1
+}

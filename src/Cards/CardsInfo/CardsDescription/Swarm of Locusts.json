@@ -1,0 +1,10 @@
+{
+	name : "Swarm of Locusts",
+	hero : "Neutral",
+	type : "Spell",
+	rarity : "Rare",
+	price : 9,
+	mana : 6,
+	"cardAttributes" : [],
+	description : "Summon seven 1/1 Locusts with Rush"
+}

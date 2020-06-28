@@ -1,0 +1,10 @@
+{
+	name : "Moonfire",
+	hero : "Neutral",
+	type : "Spell",
+	rarity : "Free",
+	price : 3,
+	mana : 0,
+	"cardAttributes" : [],
+	description : "Deal 1 damage"
+}

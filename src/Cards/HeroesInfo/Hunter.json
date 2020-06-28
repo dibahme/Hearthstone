@@ -1,0 +1,58 @@
+{
+  "name" : "Hunter",
+  "health" : 30,
+  "defaultHand" : [
+    {
+      "name" : "Argent Squire",
+      "type" : "Minion",
+      "hero" : "Neutral",
+      "rarity" : "Common",
+      "price" : 4,
+      "mana" : 1,
+      "health" : 1,
+      "damage" : 1,
+      "cardAttributes" : ["DIVINE_SHIELD"]
+    },
+    {
+      "name" : "Brawl",
+      "hero" : "Neutral",
+      "type" : "Spell",
+      "rarity" : "Epic",
+      "mana" : 5,
+      "price" : 16,
+      "cardAttributes" : [],
+      "description" : "Destroy all minions except one. (chosen randomly)"
+    },
+    {
+      "name" : "Brawl",
+      "hero" : "Neutral",
+      "type" : "Spell",
+      "rarity" : "Epic",
+      "mana" : 5,
+      "price" : 16,
+      "cardAttributes" : [],
+      "description" : "Destroy all minions except one. (chosen randomly)"
+    },
+    {
+      "name" : "Phantom Militia",
+      "type" : "Minion",
+      "hero" : "Neutral",
+      "rarity" : "Rare",
+      "price" : 14,
+      "mana" : 3,
+      "health" : 4,
+      "damage" : 2,
+      "cardAttributes" : ["ECHO" , "TAUNT"]
+    },
+    {
+      "name" : "Heavy Axe",
+      "hero" : "Neutral",
+      "type" : "Weapon",
+      "rarity" : "Common",
+      "price" : 3,
+      "mana" : 1,
+      "health" : 3,
+      "damage" :1
+    }
+  ]
+}
