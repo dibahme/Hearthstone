@@ -79,7 +79,6 @@ public class Scenes {
         txt.setTranslateY(difY);
         PauseTransition wait = new PauseTransition(Duration.seconds(2));
         wait.setOnFinished(e -> {
-            System.out.println("salam");
             txt.setText(null);
             txt.setVisible(false);
         });

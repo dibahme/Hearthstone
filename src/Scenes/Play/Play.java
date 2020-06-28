@@ -27,30 +27,6 @@ import Cards.FieldCard;
 import javafx.util.Duration;
 
 import static Scenes.Scenes.notificationBox;
-//
-//class FieldCard {
-//    FieldCard(ImageView image , Card card , int parity){
-//        this.cardImage = image;
-//        Bounds bounds = cardImage.localToScene(cardImage.getBoundsInLocal());
-//        this.startX = (bounds.getMinX() + bounds.getMaxX())/2;
-//        this.startY = (bounds.getMinY() + bounds.getMaxY())/2;
-//        this.card = card;
-//        this.parity = parity;
-//        if(parity == 0){
-//            minY = 300;
-//            maxY = 500;
-//        }
-//        else{
-//            minY = 150;
-//            maxY = 350;
-//        }
-//    }
-//
-//    ImageView cardImage , cardDuplicate;
-//    Card card;
-//    double startX , startY;
-//    int parity , minY , maxY;
-//}
 
 public class Play {
 
@@ -103,18 +79,14 @@ public class Play {
 
                 card.getCardDuplicate().setOpacity(0.8);
                 gameField.getChildren().add(card.getCardDuplicate());
-                card.getCardDuplicate().setTranslateX(e.getX());
-                card.getCardDuplicate().setTranslateY(e.getY());
+                card.getCardDuplicate().setLayoutX(e.getSceneX());
+                card.getCardDuplicate().setLayoutY(e.getSceneY());
             }
         });
 
         card.getDeckCardImage().setOnMouseDragged(e -> {
-            if(card.getCard().getMana() <= manasLeft && turnParity == card.getParity()) {
-                double X = e.getSceneX();
-                double Y = e.getSceneY();
-                card.getCardDuplicate().setTranslateX(X - card.getCardDuplicate().getTranslateX());
-                card.getCardDuplicate().setTranslateY(Y - card.getCardDuplicate().getTranslateY());
-            }
+            if(card.getCard().getMana() <= manasLeft && turnParity == card.getParity())
+                card.getCardDuplicate().relocate(e.getSceneX() , e.getSceneY());
         });
 
         card.getDeckCardImage().setOnMouseReleased(e -> {
@@ -134,7 +106,7 @@ public class Play {
 
     private void handleFieldPlace(FieldCard card , double loc){
         try {
-            Cards.FieldCard fieldCard = card.getCard().getFieldCard();
+            Cards.FieldCard fieldCard = card;
             HBox fieldCardsBox = contestant[turnParity].fieldCardsBox;
             List<Node> myFieldCards = fieldCardsBox.getChildren();
 
@@ -152,8 +124,10 @@ public class Play {
             fieldCard.getCardImage().setOnMouseClicked(e -> {
                 if(turnParity == card.getParity() && card.getSummonedTurn() != turn){
                     fieldCard.getCardImage().setStroke(Color.RED);
-                    if(selectedCard != null)
+                    if(selectedCard != null) {
                         selectedCard.getCardImage().setStroke(Color.LIGHTBLUE);
+                        selectedCard = null;
+                    }
                     selectedCard = fieldCard;
                 }
                 else if(turnParity != card.getParity() && selectedCard != null){
@@ -188,33 +162,52 @@ public class Play {
         manaFraction.setText(manasLeft + "/" + Math.min(10 , turn/2 + 1));
     }
 
-    private void attackHandler(FieldCard attacker , FieldCard attackee){
+    private synchronized void attackHandler(FieldCard attacker , FieldCard attackee){
         attackee.setHealth(String.valueOf(Integer.parseInt(attackee.getHealth().getText()) - Integer.parseInt(attacker.getAttack().getText())));
 
-        Pane attackerDuplicate = attacker.getFieldCardPhoto();
-        gameField.getChildren().add(attackerDuplicate);
-        Bounds attackerBounds = attacker.getFieldCardPhoto().localToScene(attacker.getFieldCardPhoto().getBoundsInLocal());
-        Bounds attackeeBounds = attacker.getFieldCardPhoto().localToScene(attackee.getFieldCardPhoto().getBoundsInLocal());
+        FieldCard attackerDuplicate = FieldCard.getCard(attacker.getCard());
+        Pane attackerDuplicatePane = attackerDuplicate.getFieldCardPhoto();
+        gameField.getChildren().add(attackerDuplicatePane);
 
-        attackerDuplicate.setLayoutX(attackerBounds.getMinX());
-        attackerDuplicate.setLayoutY(attackerBounds.getMinY());
+        Bounds attackerBounds = attacker.getFieldCardPhoto().localToScene(attacker.getFieldCardPhoto().getBoundsInLocal());
+        Bounds attackeeBounds = attackee.getFieldCardPhoto().localToScene(attackee.getFieldCardPhoto().getBoundsInLocal());
+
+        attackerDuplicatePane.setLayoutX(attackerBounds.getMinX());
+        attackerDuplicatePane.setLayoutY(attackerBounds.getMinY());
         TranslateTransition translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.millis(500));
-        translateTransition.setNode(attacker.getFieldCardPhoto());
+        translateTransition.setNode(attackerDuplicatePane);
 
         translateTransition.setByX(attackeeBounds.getMinX() - attackerBounds.getMinX());
         translateTransition.setByY(attackeeBounds.getMinY() - attackerBounds.getMinY());
+        translateTransition.setAutoReverse(true);
+        translateTransition.setCycleCount(2);
+
+        attacker.getFieldCardPhoto().setVisible(false);
 
         translateTransition.play();
+        translateTransition.setOnFinished(e -> {
+            attacker.getFieldCardPhoto().setVisible(true);
+            gameField.getChildren().remove(attackerDuplicatePane);
+        });
 
-        int health = Integer.parseInt(attackee.getHealth().getText());
+        System.out.println(attackee.getHealth().getText() + "   "+ attacker.getAttack().getText());
+        int health = Integer.parseInt(attackee.getHealth().getText()) - Integer.parseInt(attacker.getAttack().getText());
+        System.out.println(health);
         if(health <= 0){
             contestant[attackee.getParity()].fieldCards.remove(attackee);
-            contestant[attackee.getParity()].fieldCardsBox.getChildren().remove(attackee.getCardImage());
+            System.out.println(contestant[attackee.getParity()].fieldCardsBox.getChildren().remove(attackee.getFieldCardPhoto()));
+            for(FieldCard fieldCard : contestant[attackee.getParity()].fieldCards){
+                System.out.println("DEBUG: " + fieldCard.getCard().getName());
+            }
         }
+        else
+            attackee.getHealth().setText(String.valueOf(health));
 
-        attacker.getCardImage().setStroke(Color.LIGHTBLUE);
+
+        attacker.getCardImage().setStroke(Color.BLACK);
         selectedCard = null;
+
     }
 
     private void handlePlayedCardOperation(FieldCard card){
@@ -238,7 +231,7 @@ public class Play {
         turn++;
         turnParity = 1 - turnParity;
         handleManasLeft(Math.min(10 , turn/2 + 1));
-        if(turn < 1)
+        if(turn > 1)
             addCardToDeck(contestant[turnParity].hand.get(0) , turnParity);
 
         for(Cards.FieldCard fieldCard : contestant[turnParity].fieldCards)

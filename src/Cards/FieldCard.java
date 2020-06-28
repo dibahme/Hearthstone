@@ -37,6 +37,7 @@ public class FieldCard {
             fieldCard.setHealth(String.valueOf(card.getHealth()));
             fieldCard.setAttack(String.valueOf(card.getDamage()));
 
+            fieldCard.card = card;
         }catch(Exception ignored){
             ignored.printStackTrace();
         }
@@ -44,8 +45,8 @@ public class FieldCard {
         return fieldCard;
     }
 
-    public void setHealth(String health){this.health = new Text(health);}
-    public void setAttack(String attack){this.attack = new Text(attack);}
+    public void setHealth(String health){this.health.setText(health);}
+    public void setAttack(String attack){this.attack.setText(attack);}
     public Text getAttack(){return attack;}
     public Text getHealth(){return health;}
     public Pane getFieldCardPhoto(){return fieldCardPhoto;}
@@ -53,8 +54,6 @@ public class FieldCard {
     public int getParity() { return parity; }
     public int getMinY() { return minY; }
     public int getMaxY() { return maxY; }
-//    public double getStartX() { return startX; }
-//    public double getStartY() { return startY; }
     public Card getCard() { return card; }
     public void setCard(Card card) { this.card = card; }
     public ImageView getDeckCardImage() { return deckCardImage; }

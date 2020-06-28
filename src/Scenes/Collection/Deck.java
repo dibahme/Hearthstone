@@ -141,7 +141,6 @@ public class Deck{
     @FXML
     private void createDeckButtonAction(){
         createDeckButton.setOnAction(e -> {
-            System.out.println("good");
             boolean exist = false;
             this.setName(deckName.getText());
             this.setHero(heroBox.getValue());
