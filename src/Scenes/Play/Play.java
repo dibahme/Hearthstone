@@ -1,6 +1,7 @@
 package Scenes.Play;
 import Cards.Card;
 import Cards.Hero;
+import Controller.GameOperations;
 import Controller.Main;
 import Logs.Log;
 import Scenes.Scenes;
@@ -30,10 +31,32 @@ import static Scenes.Scenes.notificationBox;
 
 public class Play {
 
-    public ImageView myHeroImage;
-    public HBox opponentFieldCards , friendFieldCards , friendDeckCards , opponentDeckCards , manaBox;
-    public Text manaFraction , deckCardsLeft , heroHealth;
-    public AnchorPane gameField;
+    @FXML
+    private ImageView myHeroImage;
+    @FXML
+    private ImageView opponentHeroImage;
+    @FXML
+    private HBox opponentFieldCards;
+    @FXML
+    private HBox friendFieldCards;
+    @FXML
+    private HBox friendDeckCards;
+    @FXML
+    private HBox opponentDeckCards;
+    @FXML
+    private HBox manaBox;
+    @FXML
+    private Text manaFraction;
+    @FXML
+    private Text deckCardsLeft;
+    @FXML
+    private Text heroHealth;
+    @FXML
+    private Text opponentHealth;
+    @FXML
+    private AnchorPane gameField;
+
+
     private int turn = 0 , manasLeft = 1 , turnParity = 0;
     private PlayerGraphics[] contestant;
     private FieldCard selectedCard;
@@ -41,8 +64,11 @@ public class Play {
     @FXML
     private void initialize(){
 
+        Hero opponentHero = Hero.getRandomHero();
+        setOpponentHero(opponentHero);
+
         PlayerGraphics friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , new ArrayList<>() , friendFieldCards , friendDeckCards );
-        PlayerGraphics opponent = new PlayerGraphics(Hero.getRandomHero().getDefaultHand() , new ArrayList<>() , opponentFieldCards , opponentDeckCards);
+        PlayerGraphics opponent = new PlayerGraphics(opponentHero.getDefaultHand() , new ArrayList<>() , opponentFieldCards , opponentDeckCards);
 
         contestant = new PlayerGraphics[] {friend , opponent};
 
@@ -131,7 +157,7 @@ public class Play {
                     selectedCard = fieldCard;
                 }
                 else if(turnParity != card.getParity() && selectedCard != null){
-                    attackHandler(selectedCard , fieldCard);
+                    GameOperations.getInstance().attackHandler(selectedCard , fieldCard , this);
                 }
             });
 
@@ -162,54 +188,6 @@ public class Play {
         manaFraction.setText(manasLeft + "/" + Math.min(10 , turn/2 + 1));
     }
 
-    private synchronized void attackHandler(FieldCard attacker , FieldCard attackee){
-        attackee.setHealth(String.valueOf(Integer.parseInt(attackee.getHealth().getText()) - Integer.parseInt(attacker.getAttack().getText())));
-
-        FieldCard attackerDuplicate = FieldCard.getCard(attacker.getCard());
-        Pane attackerDuplicatePane = attackerDuplicate.getFieldCardPhoto();
-        gameField.getChildren().add(attackerDuplicatePane);
-
-        Bounds attackerBounds = attacker.getFieldCardPhoto().localToScene(attacker.getFieldCardPhoto().getBoundsInLocal());
-        Bounds attackeeBounds = attackee.getFieldCardPhoto().localToScene(attackee.getFieldCardPhoto().getBoundsInLocal());
-
-        attackerDuplicatePane.setLayoutX(attackerBounds.getMinX());
-        attackerDuplicatePane.setLayoutY(attackerBounds.getMinY());
-        TranslateTransition translateTransition = new TranslateTransition();
-        translateTransition.setDuration(Duration.millis(500));
-        translateTransition.setNode(attackerDuplicatePane);
-
-        translateTransition.setByX(attackeeBounds.getMinX() - attackerBounds.getMinX());
-        translateTransition.setByY(attackeeBounds.getMinY() - attackerBounds.getMinY());
-        translateTransition.setAutoReverse(true);
-        translateTransition.setCycleCount(2);
-
-        attacker.getFieldCardPhoto().setVisible(false);
-
-        translateTransition.play();
-        translateTransition.setOnFinished(e -> {
-            attacker.getFieldCardPhoto().setVisible(true);
-            gameField.getChildren().remove(attackerDuplicatePane);
-        });
-
-        System.out.println(attackee.getHealth().getText() + "   "+ attacker.getAttack().getText());
-        int health = Integer.parseInt(attackee.getHealth().getText()) - Integer.parseInt(attacker.getAttack().getText());
-        System.out.println(health);
-        if(health <= 0){
-            contestant[attackee.getParity()].fieldCards.remove(attackee);
-            System.out.println(contestant[attackee.getParity()].fieldCardsBox.getChildren().remove(attackee.getFieldCardPhoto()));
-            for(FieldCard fieldCard : contestant[attackee.getParity()].fieldCards){
-                System.out.println("DEBUG: " + fieldCard.getCard().getName());
-            }
-        }
-        else
-            attackee.getHealth().setText(String.valueOf(health));
-
-
-        attacker.getCardImage().setStroke(Color.BLACK);
-        selectedCard = null;
-
-    }
-
     private void handlePlayedCardOperation(FieldCard card){
         Card deckCard = card.getCard();
         Log.logger("Card_Played_By_" + (card.getParity() == 0 ? "Friend" : "Opponent") , deckCard.getName());
@@ -218,6 +196,13 @@ public class Play {
         card.setSummonedTurn(turn);
         handleManasLeft(manasLeft - deckCard.getMana());
         contestant[turnParity].deckCardsBox.getChildren().remove(card.getDeckCardImage());
+    }
+
+    private void setOpponentHero(Hero hero){
+        try {
+            opponentHeroImage.setImage(new Image(new FileInputStream("src/Images/" + hero.getName() + "Icon.png")));
+        }catch(Exception ignored){ignored.printStackTrace();}
+        opponentHealth.setText(String.valueOf(hero.getHealth()));
     }
 
     @FXML
@@ -240,4 +225,12 @@ public class Play {
         for(Cards.FieldCard fieldCard : contestant[1-turnParity].fieldCards)
             fieldCard.getCardImage().setStroke(Color.BLACK);
     }
+
+    public AnchorPane getGameField() { return gameField; }
+    public void setGameField(AnchorPane gameField) { this.gameField = gameField; }
+    public FieldCard getSelectedCard() { return selectedCard; }
+    public void setSelectedCard(FieldCard selectedCard) { this.selectedCard = selectedCard; }
+    public PlayerGraphics[] getContestant() { return contestant; }
+    public void setContestant(PlayerGraphics[] contestant) { this.contestant = contestant; }
+    public ImageView getMyHeroImage() { return myHeroImage; }
 }

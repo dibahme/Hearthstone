@@ -358,7 +358,7 @@ public class Scenes {
             currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
             Play play = loader.getController();
-            play.myHeroImage.setImage(new Image(new FileInputStream("src/Images/" + Main.player.getCurrentDeck().getHero() + "Icon.png")));
+            play.getMyHeroImage().setImage(new Image(new FileInputStream("src/Images/" + Main.player.getCurrentDeck().getHero() + "Icon.png")));
 
             VBox vBox = new VBox();
             vBox.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream("src/Images/InfoPassive.png")),
