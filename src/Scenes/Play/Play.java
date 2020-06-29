@@ -5,27 +5,22 @@ import Controller.GameOperations;
 import Controller.Main;
 import Logs.Log;
 import Scenes.Scenes;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.io.FileInputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import Cards.FieldCard;
-import javafx.util.Duration;
 
 import static Scenes.Scenes.notificationBox;
 
@@ -50,9 +45,9 @@ public class Play {
     @FXML
     private Text deckCardsLeft;
     @FXML
-    private Text heroHealth;
+    private Text myHeroHealth;
     @FXML
-    private Text opponentHealth;
+    private Text opponentHeroHealth;
     @FXML
     private AnchorPane gameField;
 
@@ -61,11 +56,23 @@ public class Play {
     private PlayerGraphics[] contestant;
     private FieldCard selectedCard;
 
+
+
+    private ArrayList <FieldCard> usedMinions = new ArrayList<>();
+
     @FXML
     private void initialize(){
 
         Hero opponentHero = Hero.getRandomHero();
         setOpponentHero(opponentHero);
+
+        myHeroImage.setOnMouseClicked(e -> {
+            if(turnParity == 1 && selectedCard != null){
+                FieldCard fieldCard = selectedCard;
+                GameOperations.getInstance().transitionAction(selectedCard , myHeroImage , this);
+                GameOperations.getInstance().changeHealth(fieldCard.getAttack() , myHeroHealth);
+            }
+        });
 
         PlayerGraphics friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , new ArrayList<>() , friendFieldCards , friendDeckCards );
         PlayerGraphics opponent = new PlayerGraphics(opponentHero.getDefaultHand() , new ArrayList<>() , opponentFieldCards , opponentDeckCards);
@@ -148,7 +155,7 @@ public class Play {
             contestant[turnParity].fieldCards.add(fieldCard);
 
             fieldCard.getCardImage().setOnMouseClicked(e -> {
-                if(turnParity == card.getParity() && card.getSummonedTurn() != turn){
+                if(turnParity == card.getParity() && card.getSummonedTurn() != turn && !usedMinions.contains(fieldCard)){
                     fieldCard.getCardImage().setStroke(Color.RED);
                     if(selectedCard != null) {
                         selectedCard.getCardImage().setStroke(Color.LIGHTBLUE);
@@ -156,9 +163,8 @@ public class Play {
                     }
                     selectedCard = fieldCard;
                 }
-                else if(turnParity != card.getParity() && selectedCard != null){
+                else if(turnParity != card.getParity() && selectedCard != null)
                     GameOperations.getInstance().attackHandler(selectedCard , fieldCard , this);
-                }
             });
 
         }catch(Exception ignored){ignored.printStackTrace();}
@@ -201,8 +207,16 @@ public class Play {
     private void setOpponentHero(Hero hero){
         try {
             opponentHeroImage.setImage(new Image(new FileInputStream("src/Images/" + hero.getName() + "Icon.png")));
+            opponentHeroImage.setOnMouseClicked(e -> {
+                if(turnParity == 0 && selectedCard != null){
+                    FieldCard fieldCard = selectedCard;
+                    GameOperations.getInstance().transitionAction(selectedCard , opponentHeroImage , this);
+                    GameOperations.getInstance().changeHealth(fieldCard.getAttack() , opponentHeroHealth);
+                }
+            });
+
         }catch(Exception ignored){ignored.printStackTrace();}
-        opponentHealth.setText(String.valueOf(hero.getHealth()));
+        opponentHeroHealth.setText(String.valueOf(hero.getHealth()));
     }
 
     @FXML
@@ -216,7 +230,7 @@ public class Play {
         turn++;
         turnParity = 1 - turnParity;
         handleManasLeft(Math.min(10 , turn/2 + 1));
-        if(turn > 1)
+        if(turn > 1 && !contestant[turnParity].hand.isEmpty())
             addCardToDeck(contestant[turnParity].hand.get(0) , turnParity);
 
         for(Cards.FieldCard fieldCard : contestant[turnParity].fieldCards)
@@ -224,6 +238,8 @@ public class Play {
 
         for(Cards.FieldCard fieldCard : contestant[1-turnParity].fieldCards)
             fieldCard.getCardImage().setStroke(Color.BLACK);
+
+        usedMinions.clear();
     }
 
     public AnchorPane getGameField() { return gameField; }
@@ -233,4 +249,5 @@ public class Play {
     public PlayerGraphics[] getContestant() { return contestant; }
     public void setContestant(PlayerGraphics[] contestant) { this.contestant = contestant; }
     public ImageView getMyHeroImage() { return myHeroImage; }
+    public ArrayList<FieldCard> getUsedMinions() { return usedMinions; }
 }
