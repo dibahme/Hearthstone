@@ -5,7 +5,6 @@ import Cards.FieldCard;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -21,6 +20,8 @@ public class GameOperations {
     public void transitionAction(FieldCard attacker , Node attackee , Play playScene){
         playScene.getUsedMinions().add(attacker);
         FieldCard attackerDuplicate = FieldCard.getCard(attacker.getCard());
+        attackerDuplicate.setHealth(attacker.getHealth().getText());
+        attackerDuplicate.setAttack(attacker.getAttack().getText());
         Pane attackerDuplicatePane = attackerDuplicate.getFieldCardPhoto();
         playScene.getGameField().getChildren().add(attackerDuplicatePane);
 

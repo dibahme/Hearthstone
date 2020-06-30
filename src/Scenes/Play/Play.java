@@ -5,6 +5,7 @@ import Controller.GameOperations;
 import Controller.Main;
 import Logs.Log;
 import Scenes.Scenes;
+import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
@@ -15,10 +16,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 import Cards.FieldCard;
 
@@ -55,16 +59,36 @@ public class Play {
     private int turn = 0 , manasLeft = 1 , turnParity = 0;
     private PlayerGraphics[] contestant;
     private FieldCard selectedCard;
-
-
+    private boolean configExists = false;
 
     private ArrayList <FieldCard> usedMinions = new ArrayList<>();
 
     @FXML
     private void initialize(){
 
-        Hero opponentHero = Hero.getRandomHero();
-        setOpponentHero(opponentHero);
+        File file = new File("src/Cards/Config/config.json");
+        PlayerGraphics friend = new PlayerGraphics() , opponent = new PlayerGraphics();
+
+        if(file.exists()){
+            Gson gson = new Gson();
+            try {
+                Scanner sc = new Scanner(file);
+                StringBuilder stringBuilder = new StringBuilder();
+                while(sc.hasNext())
+                    stringBuilder.append(sc.nextLine());
+
+                ConfigReader configReader = gson.fromJson(stringBuilder.toString() , ConfigReader.class);
+                friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend()) , new ArrayList<>() , friendFieldCards , friendDeckCards );
+                opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , new ArrayList<>() , opponentFieldCards , opponentDeckCards);
+                configExists = true;
+            } catch (FileNotFoundException e) { e.printStackTrace(); }
+        }
+        else{
+            Hero opponentHero = Hero.getRandomHero();
+            setOpponentHero(opponentHero);
+            friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , new ArrayList<>() , friendFieldCards , friendDeckCards );
+            opponent = new PlayerGraphics(opponentHero.getDefaultHand() , new ArrayList<>() , opponentFieldCards , opponentDeckCards);
+        }
 
         myHeroImage.setOnMouseClicked(e -> {
             if(turnParity == 1 && selectedCard != null){
@@ -74,14 +98,13 @@ public class Play {
             }
         });
 
-        PlayerGraphics friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , new ArrayList<>() , friendFieldCards , friendDeckCards );
-        PlayerGraphics opponent = new PlayerGraphics(opponentHero.getDefaultHand() , new ArrayList<>() , opponentFieldCards , opponentDeckCards);
-
         contestant = new PlayerGraphics[] {friend , opponent};
 
         for(int i = 0 ; i < 2; i++) {
             ArrayList <Card> hand = contestant[i].hand;
-            Collections.shuffle(hand);
+
+            if(!configExists)
+                Collections.shuffle(hand);
 
             int sz = hand.size();
             for(int j = 0 ; j < Math.min(sz , 3) ; j++)
@@ -127,7 +150,7 @@ public class Play {
             if(card.getCard().getMana() <= manasLeft && card.getMinY() <= Y && Y <= card.getMaxY() && turnParity == card.getParity()){
                 if(card.getCard().getType().equals("Spell") || contestant[card.getParity()].fieldCardsBox.getChildren().size() < 7){
                     if(card.getCard().getType().equals("Minion"))
-                        handleFieldPlace(card , e.getX());
+                        handleFieldPlace(card, e.getX());
 
                     handlePlayedCardOperation(card);
                 }
@@ -143,18 +166,25 @@ public class Play {
             HBox fieldCardsBox = contestant[turnParity].fieldCardsBox;
             List<Node> myFieldCards = fieldCardsBox.getChildren();
 
+            boolean flag = false;
+
             for (int i = 0; i < myFieldCards.size(); i++) {
                 Node node = myFieldCards.get(i);
-                if (loc < node.getLayoutX() + node.getTranslateX()) {
+                if (loc < node.getLayoutX() + node.getTranslateX() && !flag) {
                     fieldCardsBox.getChildren().add(i, fieldCard.getFieldCardPhoto());
-                    return;
+                    contestant[turnParity].fieldCards.add(fieldCard);
+                    flag = true;
                 }
             }
 
-            fieldCardsBox.getChildren().add(fieldCard.getFieldCardPhoto());
-            contestant[turnParity].fieldCards.add(fieldCard);
+            if(!flag) {
+                fieldCardsBox.getChildren().add(fieldCard.getFieldCardPhoto());
+                contestant[turnParity].fieldCards.add(fieldCard);
+            }
 
-            fieldCard.getCardImage().setOnMouseClicked(e -> {
+
+            System.out.println("im card " + card.getCard().getName() + " and I'm here with parity " + card.getParity());
+            fieldCard.getFieldCardPhoto().setOnMouseClicked(e -> {
                 if(turnParity == card.getParity() && card.getSummonedTurn() != turn && !usedMinions.contains(fieldCard)){
                     fieldCard.getCardImage().setStroke(Color.RED);
                     if(selectedCard != null) {
