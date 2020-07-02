@@ -14,9 +14,9 @@ public class Card{
 
     private int price , mana , health , damage , restore;
     private String name , type , hero , description , battleCry , deathRattle , rarity , reward , quest;
-    private ArrayList <CardAttribute> cardAttributes;
-    private ArrayList <CardAbility> cardAbilities;
-    private Image cardImage;
+    private transient ArrayList <CardAttribute> cardAttributes;     //??
+    private transient ArrayList <CardAbility> cardAbilities;        //??
+    private transient Image cardImage;
 
     public Card(String name){
         File userPath = new File("src/Cards/CardsInfo/CardsDescription/" + name + ".json");

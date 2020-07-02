@@ -4,7 +4,7 @@ import Cards.Card;
 import java.util.ArrayList;
 import java.util.Arrays;
 import Scenes.Collection.Deck;
-import Scenes.Play.InfoPassive;
+import static Scenes.Play.InfoPassiveHandler.InfoPassive;
 
 public class Player {
 
@@ -15,7 +15,7 @@ public class Player {
     private transient Deck currentDeck;
     private ArrayList <Deck> allDecks = new ArrayList<>();
     private transient String hero = "Mage";
-    private InfoPassive infoPassive;
+    private transient InfoPassive infoPassive;
 
     public Player(String user, String pass, String regDate) {
         this.username = user;

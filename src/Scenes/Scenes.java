@@ -5,7 +5,7 @@ import Controller.*;
 import Cards.Card;
 import Logs.Log;
 import Scenes.Collection.Collection;
-import Scenes.Play.InfoPassive;
+import static Scenes.Play.InfoPassiveHandler.InfoPassive;
 import Scenes.Play.Play;
 import Scenes.Shop.Shop;
 import Scenes.Status.Status;

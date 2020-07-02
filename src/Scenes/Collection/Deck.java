@@ -24,7 +24,7 @@ public class Deck{
     private int wins = 0, totalPlays = 0;
     private double meanCost = 0;
 
-    public static Deck primaryDeck;
+    public static transient Deck primaryDeck;
 
     @FXML
     private transient TextField deckName;

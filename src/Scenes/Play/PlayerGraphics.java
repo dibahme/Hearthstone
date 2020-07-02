@@ -6,8 +6,6 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
-
-
 public class PlayerGraphics{
     public ArrayList<Card> hand  = new ArrayList<>() , deck = new ArrayList<>();
     public HBox fieldCardsBox, deckCardsBox;

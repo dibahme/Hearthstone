@@ -45,22 +45,6 @@ public class FieldCard {
         return fieldCard;
     }
 
-    public void setHealth(String health){this.health.setText(health);}
-    public void setAttack(String attack){this.attack.setText(attack);}
-    public Text getAttack(){return attack;}
-    public Text getHealth(){return health;}
-    public Pane getFieldCardPhoto(){return fieldCardPhoto;}
-    public Ellipse getCardImage(){return cardImage;}
-    public int getParity() { return parity; }
-    public int getMinY() { return minY; }
-    public int getMaxY() { return maxY; }
-    public Card getCard() { return card; }
-    public void setCard(Card card) { this.card = card; }
-    public ImageView getDeckCardImage() { return deckCardImage; }
-    public ImageView getCardDuplicate() { return cardDuplicate; }
-    public void setCardDuplicate(ImageView cardDuplicate) { this.cardDuplicate = cardDuplicate; }
-    public int getSummonedTurn() { return summonedTurn; }
-    public void setSummonedTurn(int summonedTurn) { this.summonedTurn = summonedTurn;}
     public FieldCard setCardAttributes(Card card , int parity){
         try{
             this.deckCardImage = new ImageView(new Image(new FileInputStream("src/Cards/CardsInfo/ShopCards/" + card.getName() + ".png")));
@@ -81,4 +65,25 @@ public class FieldCard {
 
         return this;
     }
+
+    public void restore(){
+        this.setHealth(String.valueOf(new Card(this.getCard().getName()).getHealth()));
+    }
+
+    public void setHealth(String health){this.health.setText(health);}
+    public void setAttack(String attack){this.attack.setText(attack);}
+    public Text getAttack(){return attack;}
+    public Text getHealth(){return health;}
+    public Pane getFieldCardPhoto(){return fieldCardPhoto;}
+    public Ellipse getCardImage(){return cardImage;}
+    public int getParity() { return parity; }
+    public int getMinY() { return minY; }
+    public int getMaxY() { return maxY; }
+    public Card getCard() { return card; }
+    public void setCard(Card card) { this.card = card; }
+    public ImageView getDeckCardImage() { return deckCardImage; }
+    public ImageView getCardDuplicate() { return cardDuplicate; }
+    public void setCardDuplicate(ImageView cardDuplicate) { this.cardDuplicate = cardDuplicate; }
+    public int getSummonedTurn() { return summonedTurn; }
+    public void setSummonedTurn(int summonedTurn) { this.summonedTurn = summonedTurn;}
 }

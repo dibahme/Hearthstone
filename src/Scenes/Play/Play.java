@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,8 +56,7 @@ public class Play {
     @FXML
     private AnchorPane gameField;
 
-
-    private int turn = 0 , manasLeft = 1 , turnParity = 0;
+    private int turn = 0 , manasLeft = 1 , turnParity = 0 , manas = 1 , offCard = 0;
     private PlayerGraphics[] contestant;
     private FieldCard selectedCard;
     private boolean configExists = false;
@@ -129,7 +129,7 @@ public class Play {
 
     private void deckCardPreparation(FieldCard card){
         card.getDeckCardImage().setOnMousePressed(e -> {
-            if(card.getCard().getMana() <= manasLeft && turnParity == card.getParity()) {
+            if(card.getCard().getMana() + offCard <= manasLeft && turnParity == card.getParity()) {
                 card.setCardDuplicate(new ImageView(card.getDeckCardImage().getImage()));
                 Card.setCardSize(card.getCardDuplicate(), 180, 150);
 
@@ -141,13 +141,13 @@ public class Play {
         });
 
         card.getDeckCardImage().setOnMouseDragged(e -> {
-            if(card.getCard().getMana() <= manasLeft && turnParity == card.getParity())
+            if(card.getCard().getMana() <= manasLeft + offCard && turnParity == card.getParity())
                 card.getCardDuplicate().relocate(e.getSceneX() , e.getSceneY());
         });
 
         card.getDeckCardImage().setOnMouseReleased(e -> {
             double Y = e.getSceneY();
-            if(card.getCard().getMana() <= manasLeft && card.getMinY() <= Y && Y <= card.getMaxY() && turnParity == card.getParity()){
+            if(card.getCard().getMana() <= manasLeft + offCard && card.getMinY() <= Y && Y <= card.getMaxY() && turnParity == card.getParity()){
                 if(card.getCard().getType().equals("Spell") || contestant[card.getParity()].fieldCardsBox.getChildren().size() < 7){
                     if(card.getCard().getType().equals("Minion"))
                         handleFieldPlace(card, e.getX());
@@ -200,13 +200,13 @@ public class Play {
         }catch(Exception ignored){ignored.printStackTrace();}
     }
 
-    private void handleManasLeft(int number){
+    public void handleManasLeft(int number){
         manasLeft = number;
 
-        for(int i = turn/2+1 ; i < 10 ; i++)
+        for(int i = manas ; i < 10 ; i++)
             manaBox.getChildren().get(i).setVisible(false);
 
-        for(int i = 0 ; i <= turn/2 ; i++){
+        for(int i = 0 ; i <= manas ; i++){
             ImageView image = (ImageView) manaBox.getChildren().get(i);
             ColorAdjust monochrome = new ColorAdjust();
             monochrome.setSaturation(0);
@@ -214,14 +214,14 @@ public class Play {
             image.setVisible(true);
         }
 
-        for(int i = number ; i <= turn/2 ; i++){
+        for(int i = number ; i < manas ; i++){
             ImageView image = (ImageView) manaBox.getChildren().get(i);
             ColorAdjust monochrome = new ColorAdjust();
             monochrome.setSaturation(-1);
             image.setEffect(monochrome);
         }
 
-        manaFraction.setText(manasLeft + "/" + Math.min(10 , turn/2 + 1));
+        manaFraction.setText(manasLeft + "/" + Math.min(10 , manas));
     }
 
     private void handlePlayedCardOperation(FieldCard card){
@@ -230,7 +230,7 @@ public class Play {
         notificationBox(deckCard.getName() + " Is Played" , 400 , 100);
         contestant[card.getParity()].deck.remove(deckCard);
         card.setSummonedTurn(turn);
-        handleManasLeft(manasLeft - deckCard.getMana());
+        handleManasLeft(manasLeft - deckCard.getMana() - offCard);
         contestant[turnParity].deckCardsBox.getChildren().remove(card.getDeckCardImage());
     }
 
@@ -255,13 +255,20 @@ public class Play {
         Log.logger("Button_Clicked" , "Back");
     }
 
+    public void drawCard(int parity){
+        if(!contestant[parity].hand.isEmpty())
+            addCardToDeck(contestant[parity].hand.get(0) , parity);
+    }
+
     @FXML
     private void endTurnAction(){
         turn++;
         turnParity = 1 - turnParity;
-        handleManasLeft(Math.min(10 , turn/2 + 1));
-        if(turn > 1 && !contestant[turnParity].hand.isEmpty())
-            addCardToDeck(contestant[turnParity].hand.get(0) , turnParity);
+        manas = Math.min(turn/2 + 1 , 10);
+
+        handleManasLeft(manas);
+        if(turn > 1)
+            drawCard(turnParity);
 
         for(Cards.FieldCard fieldCard : contestant[turnParity].fieldCards)
             fieldCard.getCardImage().setStroke(Color.LIGHTBLUE);
@@ -270,6 +277,11 @@ public class Play {
             fieldCard.getCardImage().setStroke(Color.BLACK);
 
         usedMinions.clear();
+        if(turnParity == 0){
+            try {
+                InfoPassiveHandler.class.getMethod(Main.player.getInfoPassive().getValue() , Play.class).invoke(null , this);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) { e.printStackTrace(); }
+        }
     }
 
     public AnchorPane getGameField() { return gameField; }
@@ -280,4 +292,8 @@ public class Play {
     public void setContestant(PlayerGraphics[] contestant) { this.contestant = contestant; }
     public ImageView getMyHeroImage() { return myHeroImage; }
     public ArrayList<FieldCard> getUsedMinions() { return usedMinions; }
+    public int getManas() { return manas; }
+    public void setManas(int manas) { this.manas = manas; }
+    public int getTurn() { return turn; }
+    public void setOffCard(int offCard) { this.offCard = offCard; }
 }
