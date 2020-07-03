@@ -51,6 +51,9 @@ public class Play {
     private Text deckCardsLeft;
     @FXML
     private Text myHeroHealth;
+
+
+
     @FXML
     private Text opponentHeroHealth;
     @FXML
@@ -111,7 +114,7 @@ public class Play {
                 addCardToDeck(contestant[i].hand.get(0) , i);
         }
 
-        handleManasLeft(turn + 1);
+        handleManasLeft(manas);
     }
 
     private void addCardToDeck(Card card , int parity){
@@ -206,7 +209,7 @@ public class Play {
         for(int i = manas ; i < 10 ; i++)
             manaBox.getChildren().get(i).setVisible(false);
 
-        for(int i = 0 ; i <= manas ; i++){
+        for(int i = 0 ; i < manas ; i++){
             ImageView image = (ImageView) manaBox.getChildren().get(i);
             ColorAdjust monochrome = new ColorAdjust();
             monochrome.setSaturation(0);
@@ -296,4 +299,6 @@ public class Play {
     public void setManas(int manas) { this.manas = manas; }
     public int getTurn() { return turn; }
     public void setOffCard(int offCard) { this.offCard = offCard; }
+    public Text getOpponentHeroHealth() { return opponentHeroHealth; }
+    public Text getMyHeroHealth() { return myHeroHealth; }
 }

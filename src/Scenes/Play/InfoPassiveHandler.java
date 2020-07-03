@@ -1,7 +1,5 @@
 package Scenes.Play;
-
 import Cards.FieldCard;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -32,7 +30,6 @@ public class InfoPassiveHandler{
             int r = new Random().nextInt(card.size());
             card.get(r).restore();
         }
-
     }
 
     public static void manaJump(Play play){

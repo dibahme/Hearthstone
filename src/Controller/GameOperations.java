@@ -53,10 +53,17 @@ public class GameOperations {
     public synchronized void attackHandler(FieldCard attacker , FieldCard attackee , Play playScene){
         transitionAction(attacker , attackee.getFieldCardPhoto() , playScene);
         changeHealth(attacker.getAttack() , attackee.getHealth());
-        int health = Integer.parseInt(attackee.getHealth().getText());
+        changeHealth(attackee.getAttack() , attacker.getHealth());
+        checkRemove(attacker , playScene);
+        checkRemove(attackee , playScene);
+
+    }
+
+    public void checkRemove(FieldCard card , Play playScene){
+        int health = Integer.parseInt(card.getHealth().getText());
         if(health <= 0){
-            playScene.getContestant()[attackee.getParity()].fieldCards.remove(attackee);
-            playScene.getContestant()[attackee.getParity()].fieldCardsBox.getChildren().remove(attackee.getFieldCardPhoto());
+            playScene.getContestant()[card.getParity()].fieldCards.remove(card);
+            playScene.getContestant()[card.getParity()].fieldCardsBox.getChildren().remove(card.getFieldCardPhoto());
         }
     }
 
