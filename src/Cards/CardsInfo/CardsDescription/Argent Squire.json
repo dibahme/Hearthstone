@@ -1,10 +1,10 @@
 {
-	name : "Argent Squire",
-	type : "Minion",
-	hero : "Neutral",
-	rarity : "Common",
-	price : 4,
-	mana : 1,
+	"name" : "Argent Squire",
+	"type" : "Minion",
+	"hero" : "Neutral",
+	"rarity" : "Common",
+	"price" : 4,
+	"mana" : 1,
 	"health" : 1,
 	"damage" : 1,
 	"cardAttributes" : ["DIVINE_SHIELD"]

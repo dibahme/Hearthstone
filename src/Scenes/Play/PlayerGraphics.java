@@ -11,7 +11,7 @@ public class PlayerGraphics{
     public ArrayList<Card> hand  = new ArrayList<>() , deck = new ArrayList<>();
     public HBox fieldCardsBox, deckCardsBox;
     public ArrayList <FieldCard> fieldCards = new ArrayList<>();
-
+    private FieldCard weapon;
 
     PlayerGraphics(){}
     PlayerGraphics(ArrayList <Card> hand , ArrayList<Card> deck , HBox fieldCardsBox, HBox deckCardsBox){
@@ -24,5 +24,5 @@ public class PlayerGraphics{
         this.deckCardsBox = deckCardsBox;
     }
 
-
+    public FieldCard getWeapon() { return weapon; }
 }

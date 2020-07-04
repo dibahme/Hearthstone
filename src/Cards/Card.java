@@ -14,8 +14,8 @@ public class Card{
 
     private int price , mana , health , damage , restore;
     private String name , type , hero , description , battleCry , deathRattle , rarity , reward , quest;
-    private transient ArrayList <CardAttribute> cardAttributes;     //??
-    private transient ArrayList <CardAbility> cardAbilities;        //??
+    private ArrayList <CardAttribute> cardAttributes;
+    private ArrayList <CardAbility> cardAbilities;
     private transient Image cardImage;
 
     public Card(String name){
@@ -58,4 +58,5 @@ public class Card{
     public String getRarity() { return rarity; }
     public FieldCard getFieldCard(){ return FieldCard.getCard(this); }
     public Card getCloned(){ return new Card(this.name); }
+    public ArrayList<CardAbility> getCardAbilities() { return cardAbilities; }
 }

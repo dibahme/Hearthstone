@@ -37,7 +37,7 @@ public class InfoPassiveHandler{
         play.handleManasLeft(play.getManas());
     }
 
-    public static void freePower(){
+    public static void freePower(Play play){
 
     }
 

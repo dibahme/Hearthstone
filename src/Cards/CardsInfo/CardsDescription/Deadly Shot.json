@@ -1,10 +1,21 @@
 {
-	name : "Deadly Shot",
-	hero : "Neutral",
-	type : "Spell",
-	rarity : "Common",
-	mana : 3,
-	price : 5,
+	"name" : "Deadly Shot",
+	"hero" : "Neutral",
+	"type" : "Spell",
+	"rarity" : "Common",
+	"mana" : 3,
+	"price" : 5,
 	"cardAttributes" : [],
-	description : "Destroy a random enemy minion"
+	"cardAbilities" : [{
+		"applicationTime" : "DESCRIPTION",
+		"attackNumber" : 0,
+		"healthNumber" : 0,
+		"change" : true,
+		"zone" : "ENEMY",
+		"targetType" : "MINION" ,
+		"selectionType" : "RANDOM" ,
+		"cardAttributes" : [],
+		"className" : "CardPowerChanger"
+	}],
+	"description" : "Destroy a random enemy minion"
 }

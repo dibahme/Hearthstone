@@ -1,11 +1,11 @@
 {
-	name : "Blade Flurry",
-	hero : "Rogue",
-	type : "Spell",
-	rarity : "Rare",
-	mana : 4,
-	price : 9,
+	"name" : "Blade Flurry",
+	"hero" : "Rogue",
+	"type" : "Spell",
+	"rarity" : "Rare",
+	"mana" : 4,
+	"price" : 9,
 	"cardAttributes" : [],
 	"cardAbilities" : [],
-	description : "Destroy your weapon and deal its damage to all enemy minions"
+	"description" : "Destroy your weapon and deal its damage to all enemy minions"
 }

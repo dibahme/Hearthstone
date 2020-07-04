@@ -56,6 +56,7 @@ public class Deck{
         createDeckButton.fire();
         Scenes.notificationBox("Deck's Selected" , 120 , 560);
         Log.logger("Button_Clicked" , "SelectDeck");
+        System.out.println(Main.player.getCurrentDeck().getName() + "   " + Main.player.getCurrentDeck().deckCards.size());
     }
 
     @FXML
@@ -140,34 +141,33 @@ public class Deck{
 
     @FXML
     private void createDeckButtonAction(){
-        createDeckButton.setOnAction(e -> {
-            boolean exist = false;
-            this.setName(deckName.getText());
-            this.setHero(heroBox.getValue());
-            for(Deck playerDeck : Main.player.getAllDecks())
-                if (playerDeck.getName().equals(this.getName())) {
-                    exist = true;
-                    break;
-                }
+        boolean exist = false;
+        this.setName(deckName.getText());
+        this.setHero(heroBox.getValue());
+        for(Deck playerDeck : Main.player.getAllDecks())
+            if (playerDeck.getName().equals(this.getName())) {
+                exist = true;
+                break;
+            }
 
-            if(exist && !primaryDeck.getName().equals(this.getName())) {
-                Scenes.alertBox(Scenes.secondStage , "Deck with this name already exist!");
-                Log.logger("Error" , "Deck Already Exist");
-            }
-            else if(this.getHero().equals("")) {
-                Scenes.alertBox(Scenes.secondStage , "You need to choose a hero for your deck!");
-                Log.logger("Error", "Deck Has No Hero");
-            }
-            else {
-                Main.player.getAllDecks().add(this);
-                Scenes.secondStage.close();
-                Main.player.getAllDecks().remove(primaryDeck);
-                if(Main.player.getCurrentDeck() == primaryDeck)
-                    Main.player.setCurrentDeck(this);
-                Scenes.collectionScene();
-                Log.logger("Button_Clicked" , "Created Deck " + this.getName());
-            }
-        });
+        if(exist && !primaryDeck.getName().equals(this.getName())) {
+            Scenes.alertBox(Scenes.secondStage , "Deck with this name already exist!");
+            Log.logger("Error" , "Deck Already Exist");
+        }
+        else if(this.getHero().equals("")) {
+            Scenes.alertBox(Scenes.secondStage , "You need to choose a hero for your deck!");
+            Log.logger("Error", "Deck Has No Hero");
+        }
+        else {
+            Main.player.getAllDecks().add(this);
+            Scenes.secondStage.close();
+            Main.player.getAllDecks().remove(primaryDeck);
+            if(Main.player.getCurrentDeck() == primaryDeck)
+                Main.player.setCurrentDeck(this);
+            Scenes.collectionScene();
+            Log.logger("Button_Clicked" , "Created Deck " + this.getName());
+        }
+
     }
 
     public void showDeck(){

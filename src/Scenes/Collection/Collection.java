@@ -114,7 +114,7 @@ public class Collection {
             try {
                 stage.initOwner(Scenes.currentStage);
                 stage.initModality(Modality.WINDOW_MODAL);
-            }catch(Exception ignored){ignored.printStackTrace();}
+            }catch(Exception ignored){}
             stage.show();
             Deck deckController = loader.getController();
             Deck.primaryDeck = new Deck();
@@ -197,7 +197,7 @@ public class Collection {
                         try {
                             stage.initOwner(Scenes.currentStage);
                             stage.initModality(Modality.WINDOW_MODAL);
-                        }catch(Exception ignored){ignored.printStackTrace();}
+                        }catch(Exception ignored){}
                         stage.show();
 
                         Deck deckController = loader.getController();

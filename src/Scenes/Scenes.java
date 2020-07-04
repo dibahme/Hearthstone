@@ -43,7 +43,6 @@ public class Scenes {
     public static Stage secondStage = new Stage();
     public static TextField txt = new TextField();
 
-
     public static void alertBox(Stage father , String message){
         Stage stage = new Stage();
         VBox vBox = new VBox();
@@ -318,7 +317,7 @@ public class Scenes {
             try {
                 secondStage.initOwner(Scenes.currentStage);
                 secondStage.initModality(Modality.WINDOW_MODAL);
-            }catch(Exception ignored){ignored.printStackTrace();}
+            }catch(Exception ignored){}
             secondStage.show();
             window.sellButton.setOnAction(e ->{
                 for(Card playerCard : Main.player.getHand()){

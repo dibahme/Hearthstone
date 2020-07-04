@@ -1,5 +1,6 @@
 package Scenes.Play;
 import Cards.Card;
+import Cards.CardAbility;
 import Cards.Hero;
 import Controller.GameOperations;
 import Controller.Main;
@@ -235,6 +236,23 @@ public class Play {
         card.setSummonedTurn(turn);
         handleManasLeft(manasLeft - deckCard.getMana() - offCard);
         contestant[turnParity].deckCardsBox.getChildren().remove(card.getDeckCardImage());
+
+        ArrayList <CardAbility> cardAbilities = card.getCard().getCardAbilities();
+        System.out.println("DEBUG  " + cardAbilities);
+        if(cardAbilities != null) {
+            for (CardAbility cardAbility : cardAbilities) {
+                String applicationTime = cardAbility.getApplicationTime().name();
+                if (applicationTime.equals("DESCRIPTION") || applicationTime.equals("BATTLE_CRY")) {
+                    try {
+                        System.out.println("NICE JOB!  " + cardAbility.getClassName() + "  " + cardAbility.getClass().getName());
+                        Class cls = Class.forName("Cards." + cardAbility.getClassName());
+                        cls.getMethod("getInstance" , FieldCard.class , Play.class).invoke(cls.newInstance(), card, this);
+                    } catch (Exception ignored) {
+                        ignored.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     private void setOpponentHero(Hero hero){
@@ -282,6 +300,7 @@ public class Play {
         usedMinions.clear();
         if(turnParity == 0){
             try {
+                System.out.println(Main.player.getInfoPassive().getValue());
                 InfoPassiveHandler.class.getMethod(Main.player.getInfoPassive().getValue() , Play.class).invoke(null , this);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) { e.printStackTrace(); }
         }

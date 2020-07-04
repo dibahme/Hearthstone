@@ -75,4 +75,8 @@ public class GameOperations {
     private void checkGameFinish(){
         // TODO
     }
+
+    public void gameOver(){
+        // TODO
+    }
 }
