@@ -4,6 +4,8 @@ import Controller.GameOperations;
 import Scenes.Play.Play;
 import Scenes.Play.PlayerGraphics;
 import javafx.scene.text.Text;
+
+import static Controller.GameOperations.gameState;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,7 +13,8 @@ import java.util.Random;
 enum Zone {
     FRIEND,
     ENEMY,
-    BOTH
+    BOTH,
+    SELF
 }
 
 enum SelectionType {
@@ -31,6 +34,8 @@ enum TargetType{
 
 public class CardPowerChanger extends CardAbility {
 
+//    private ApplicationTime applicationTime;
+//    private String className;
     private int attackNumber , healthNumber;
     private boolean change;
     private Zone zone;
@@ -63,24 +68,28 @@ public class CardPowerChanger extends CardAbility {
         }
     }
 
-    private void heroHandler(FieldCard card , Play play){
+    private void heroHandler(FieldCard targetCard , Play play , FieldCard card){
         Text friend = play.getMyHeroHealth() , enemy = play.getOpponentHeroHealth();
         switch(this.zone.name()){
             case "FRIEND" :
-                applyChangeToHero(card.getParity() == 0 ? friend : enemy);
+                applyChangeToHero(targetCard.getParity() == 0 ? friend : enemy);
                 break;
             case "ENEMY" :
-                applyChangeToHero(card.getParity() == 0 ? enemy : friend);
+                applyChangeToHero(targetCard.getParity() == 0 ? enemy : friend);
                 break;
             case "BOTH" :
                 //not happened yet! :D
+                break;
+            case "SELF":
+                //not happened yet! :D
+                break;
         }
     }
 
-    private void minionHandler(FieldCard card , Play play){
+    public void minionHandler(FieldCard targetCard , Play play , FieldCard card){
         ArrayList <FieldCard> targetCards = new ArrayList<>() ,
-                friend = play.getContestant()[card.getParity()].fieldCards,
-                enemy = play.getContestant()[1 - card.getParity()].fieldCards;
+                friend = play.getContestant()[targetCard.getParity()].fieldCards,
+                enemy = play.getContestant()[1 - targetCard.getParity()].fieldCards;
 
         switch(this.zone.name()){
             case "FRIEND":
@@ -93,6 +102,9 @@ public class CardPowerChanger extends CardAbility {
                 targetCards.addAll(friend);
                 targetCards.addAll(enemy);
                 break;
+            case "SELF":
+                applyChangeToCard(targetCard , play);
+                return;
         }
 
         switch (this.selectionType.name()){
@@ -108,11 +120,15 @@ public class CardPowerChanger extends CardAbility {
         }
     }
 
-    public void handleOperations(FieldCard card ,Play play){
+    public void handleOperations(FieldCard targetCard ,Play play , FieldCard card){
         try {
-            System.out.println("HOW YOU DOIN");
-            this.getClass().getMethod(this.targetType.name()).invoke(this , card , play);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) { e.printStackTrace(); }
+            this.getClass().getDeclaredMethod(targetType.getValue() , FieldCard.class , Play.class , FieldCard.class).invoke(this , targetCard , play , card);
+        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) { e.printStackTrace(); }
+    }
+
+
+    public void doAction(FieldCard targetCard , Play play , gameState gameState , FieldCard card){
+        super.doAction(targetCard , play , gameState , card);
     }
 
 }

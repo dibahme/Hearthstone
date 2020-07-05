@@ -3,9 +3,7 @@ package Cards;
 import com.google.gson.Gson;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,8 +13,10 @@ public class Card{
     private int price , mana , health , damage , restore;
     private String name , type , hero , description , battleCry , deathRattle , rarity , reward , quest;
     private ArrayList <CardAttribute> cardAttributes;
-    private ArrayList <CardAbility> cardAbilities;
+    private ArrayList <CardAbility> cardActions;
+    private transient ArrayList <CardAbility> cardAbilities;
     private transient Image cardImage;
+
 
     public Card(String name){
         File userPath = new File("src/Cards/CardsInfo/CardsDescription/" + name + ".json");
@@ -33,7 +33,12 @@ public class Card{
             for(Field field : fields)
                 field.set(this , field.get(tmp));
 
-            this.cardImage = new Image(new FileInputStream("src/Cards/CardsInfo/ShopCards/" + name + ".png"));
+            cardAbilities = new ArrayList<>();
+            if(cardActions != null)
+                for (CardAbility cardAction : cardActions)
+                    cardAbilities.add(cardAction.getAbility());
+
+            //this.cardImage = new Image(new FileInputStream("src/Cards/CardsInfo/ShopCards/" + name + ".png"));
         }catch(Exception ignored){
             ignored.printStackTrace();
         }

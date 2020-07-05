@@ -15,7 +15,12 @@ public class GameOperations {
 
     private static GameOperations gameOperations = new GameOperations();
     public static GameOperations getInstance(){return gameOperations;}
-
+    public enum gameState {
+        END_TURN,
+        SUMMON_CARD,
+        DRAW_CARD,
+        DEAD_CARD
+    }
 
     public void transitionAction(FieldCard attacker , Node attackee , Play playScene){
         playScene.getUsedMinions().add(attacker);

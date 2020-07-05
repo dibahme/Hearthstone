@@ -6,15 +6,8 @@
 	"mana" : 3,
 	"price" : 5,
 	"cardAttributes" : [],
-	"cardAbilities" : [{
-		"applicationTime" : "DESCRIPTION",
-		"attackNumber" : 0,
-		"healthNumber" : 0,
-		"change" : true,
-		"zone" : "ENEMY",
-		"targetType" : "MINION" ,
-		"selectionType" : "RANDOM" ,
-		"cardAttributes" : [],
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 0,\"change\" : true,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"RANDOM\" ,\"cardAttributes\" : []}",
 		"className" : "CardPowerChanger"
 	}],
 	"description" : "Destroy a random enemy minion"

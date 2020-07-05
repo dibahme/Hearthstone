@@ -1,12 +1,12 @@
 {
-	name : "Dreadscale",
-	type : "Minion",
-	hero : "Warlock",
-	rarity : "Legendary",
-	mana : 3,
-	price : 22,
-	health : 2,
-	damage : 4,
+	"name" : "Dreadscale",
+	"type" : "Minion",
+	"hero" : "Warlock",
+	"rarity" : "Legendary",
+	"mana" : 3,
+	"price" : 22,
+	"health" : 2,
+	"damage" : 4,
 	"cardAttributes" : [],
-	description : "At the end of your turn, deal 1 damage to all other minions"
+	"description" : "At the end of your turn, deal 1 damage to all other minions"
 }

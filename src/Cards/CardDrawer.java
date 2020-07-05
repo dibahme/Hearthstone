@@ -1,5 +1,5 @@
 package Cards;
 
-public class CardDrawer extends CardAbility{
+public class CardDrawer{
     int number;
 }

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import Cards.FieldCard;
+import static Controller.GameOperations.gameState;
 
 import static Scenes.Scenes.notificationBox;
 
@@ -237,22 +238,12 @@ public class Play {
         handleManasLeft(manasLeft - deckCard.getMana() - offCard);
         contestant[turnParity].deckCardsBox.getChildren().remove(card.getDeckCardImage());
 
-        ArrayList <CardAbility> cardAbilities = card.getCard().getCardAbilities();
-        System.out.println("DEBUG  " + cardAbilities);
-        if(cardAbilities != null) {
-            for (CardAbility cardAbility : cardAbilities) {
-                String applicationTime = cardAbility.getApplicationTime().name();
-                if (applicationTime.equals("DESCRIPTION") || applicationTime.equals("BATTLE_CRY")) {
-                    try {
-                        System.out.println("NICE JOB!  " + cardAbility.getClassName() + "  " + cardAbility.getClass().getName());
-                        Class cls = Class.forName("Cards." + cardAbility.getClassName());
-                        cls.getMethod("getInstance" , FieldCard.class , Play.class).invoke(cls.newInstance(), card, this);
-                    } catch (Exception ignored) {
-                        ignored.printStackTrace();
-                    }
-                }
-            }
-        }
+        for(FieldCard targetCard : contestant[turnParity].fieldCards)
+            for(CardAbility cardAbility : targetCard.getCard().getCardAbilities())
+                cardAbility.doAction(targetCard , this , gameState.SUMMON_CARD , card);
+
+        for(CardAbility cardAbility : card.getCard().getCardAbilities())
+            cardAbility.doAction(card , this , gameState.SUMMON_CARD , card);
     }
 
     private void setOpponentHero(Hero hero){
