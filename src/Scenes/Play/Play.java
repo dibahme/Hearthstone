@@ -119,7 +119,7 @@ public class Play {
         handleManasLeft(manas);
     }
 
-    private void addCardToDeck(Card card , int parity){
+    private FieldCard addCardToDeck(Card card , int parity){
         try {
             FieldCard fieldCard = FieldCard.getCard(card).setCardAttributes(card , parity);
 
@@ -129,7 +129,9 @@ public class Play {
             contestant[parity].deck.add(card);
             deckCardPreparation(fieldCard);
 
+            return fieldCard;
         }catch(Exception ignored){ignored.printStackTrace();}
+        return new FieldCard();
     }
 
     private void deckCardPreparation(FieldCard card){
@@ -268,12 +270,20 @@ public class Play {
     }
 
     public void drawCard(int parity){
-        if(!contestant[parity].hand.isEmpty())
-            addCardToDeck(contestant[parity].hand.get(0) , parity);
+        if(!contestant[parity].hand.isEmpty()){
+            FieldCard card = addCardToDeck(contestant[parity].hand.get(0) , parity);
+            for(FieldCard fieldCard : contestant[parity].fieldCards)
+                for(CardAbility cardAbility : fieldCard.getCard().getCardAbilities())
+                    cardAbility.doAction(fieldCard , this , gameState.DRAW_CARD , card);
+        }
     }
 
     @FXML
     private void endTurnAction(){
+        for(FieldCard fieldCard : contestant[turnParity].fieldCards)
+            for(CardAbility cardAbility : fieldCard.getCard().getCardAbilities())
+                cardAbility.doAction(fieldCard , this , gameState.END_TURN , null);
+
         turn++;
         turnParity = 1 - turnParity;
         manas = Math.min(turn/2 + 1 , 10);
@@ -291,7 +301,6 @@ public class Play {
         usedMinions.clear();
         if(turnParity == 0){
             try {
-                System.out.println(Main.player.getInfoPassive().getValue());
                 InfoPassiveHandler.class.getMethod(Main.player.getInfoPassive().getValue() , Play.class).invoke(null , this);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) { e.printStackTrace(); }
         }

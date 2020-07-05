@@ -8,5 +8,15 @@
 	"health" : 2,
 	"damage" : 4,
 	"cardAttributes" : [],
+	"cardActions" : [
+		{
+		"classJson" : "{\"applicationTime\" : \"END_TURN\",\"attackNumber\" : 0,\"healthNumber\" : 1,\"change\" : false,\"zone\" : \"BOTH\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+		"className" : "CardPowerChanger"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"END_TURN\",\"attackNumber\" : 0,\"healthNumber\" : -1,\"change\" : false,\"zone\" : \"SELF\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+			"className" : "CardPowerChanger"
+		}
+	],
 	"description" : "At the end of your turn, deal 1 damage to all other minions"
 }

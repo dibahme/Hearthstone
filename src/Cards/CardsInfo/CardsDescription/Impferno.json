@@ -1,10 +1,20 @@
 {
-	name : "Impferno",
-	hero : "Warlock",
-	type : "Spell",
-	rarity : "Rare",
-	price : 13,
-	mana : 3,
+	"name" : "Impferno",
+	"hero" : "Warlock",
+	"type" : "Spell",
+	"rarity" : "Rare",
+	"price" : 13,
+	"mana" : 3,
 	"cardAttributes" : [],
-	description : "Give your Minions +1 Attack. Deal 1 damage to all enemy minions"
+	"cardActions" : [
+		{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 1,\"change\" : false,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+		"className" : "CardPowerChanger"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : 0,\"change\" : false,\"zone\" : \"FRIEND\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+			"className" : "CardPowerChanger"
+		}
+	],
+	"description" : "Give your Minions +1 Attack. Deal 1 damage to all enemy minions"
 }

@@ -5,6 +5,9 @@
 	rarity : "Common",
 	price : 7,
 	mana : 2,
-	"cardAttributes" : [],
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -3,\"healthNumber\" : -3,\"change\" : false,\"zone\" : \"DAMAGED_FRIEND\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"RANDOM\" ,\"cardAttributes\" : []}",
+		"className" : "CardPowerChanger"
+	}],
 	description : "Give a damaged minion +3/+3"
 }

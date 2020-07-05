@@ -12,6 +12,7 @@ import java.util.Random;
 
 enum Zone {
     FRIEND,
+    DAMAGED_FRIEND,
     ENEMY,
     BOTH,
     SELF
@@ -20,7 +21,8 @@ enum Zone {
 enum SelectionType {
     RANDOM,
     ALL,
-    CHOOSE
+    CHOOSE,
+    HIGH_PRIEST_AMET
 }
 
 enum TargetType{
@@ -47,7 +49,7 @@ public class CardPowerChanger extends CardAbility {
         int health = Integer.parseInt(field.getText());
         health = (change ? number : health - number);
         field.setText(String.valueOf(health));
-        return number;
+        return health;
     }
 
     public void applyChangeToHero(Text targetHealth){
@@ -61,6 +63,7 @@ public class CardPowerChanger extends CardAbility {
     public void applyChangeToCard(FieldCard target , Play play){
         int health = changeField(target.getHealth() , healthNumber);
         changeField(target.getAttack() , attackNumber);
+        System.out.println("the health is equal to " + health + " and change is " + change);
         if(health <= 0) {
             PlayerGraphics graphics = play.getContestant()[target.getParity()];
             graphics.fieldCardsBox.getChildren().remove(target.getFieldCardPhoto());
@@ -95,6 +98,10 @@ public class CardPowerChanger extends CardAbility {
             case "FRIEND":
                 targetCards.addAll(friend);
                 break;
+            case "DAMAGED_FRIEND":
+                targetCards.addAll(friend);
+                targetCards.removeIf(fieldCard -> Integer.parseInt(fieldCard.getHealth().getText()) == fieldCard.getCard().getHealth());
+                break;
             case "ENEMY" :
                 targetCards.addAll(enemy);
                 break;
@@ -109,11 +116,17 @@ public class CardPowerChanger extends CardAbility {
 
         switch (this.selectionType.name()){
             case "RANDOM":
-                applyChangeToCard(targetCards.get(new Random().nextInt(targetCards.size())) , play);
+                if(targetCards.size() > 0)
+                    applyChangeToCard(targetCards.get(new Random().nextInt(targetCards.size())) , play);
                 break;
-            case "All":
+            case "ALL":
                 for(FieldCard fieldCard : targetCards)
                     applyChangeToCard(fieldCard , play);
+                break;
+            case "HIGH_PRIEST_AMET":
+                healthNumber = Integer.parseInt(targetCard.getHealth().getText());
+                attackNumber = Integer.parseInt(card.getAttack().getText());
+                applyChangeToCard(card , play);
                 break;
             case "CHOOSE":
                 //TODO :(
@@ -125,7 +138,6 @@ public class CardPowerChanger extends CardAbility {
             this.getClass().getDeclaredMethod(targetType.getValue() , FieldCard.class , Play.class , FieldCard.class).invoke(this , targetCard , play , card);
         } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) { e.printStackTrace(); }
     }
-
 
     public void doAction(FieldCard targetCard , Play play , gameState gameState , FieldCard card){
         super.doAction(targetCard , play , gameState , card);

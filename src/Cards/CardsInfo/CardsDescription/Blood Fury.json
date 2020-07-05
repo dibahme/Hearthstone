@@ -1,10 +1,10 @@
 {
-	name : "Blood Fury",
-	hero : "Neutral",
-	type : "Weapon",
-	rarity : "Common",
-	price : 6,
-	mana : 3,
-	health : 8,
-	damage :3
+	"name" : "Blood Fury",
+	"hero" : "Neutral",
+	"type" : "Weapon",
+	"rarity" : "Common",
+	"price" : 6,
+	"mana" : 3,
+	"health" : 8,
+	"damage" :3
 }

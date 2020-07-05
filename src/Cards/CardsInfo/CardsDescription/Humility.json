@@ -1,10 +1,10 @@
 {
-	name : "Humility",
-	hero : "Neutral",
-	type : "Spell",
-	rarity : "Free",
-	price : 4,
-	mana : 1,
+	"name" : "Humility",
+	"hero" : "Neutral",
+	"type" : "Spell",
+	"rarity" : "Free",
+	"price" : 4,
+	"mana" : 1,
 	"cardAttributes" : [],
-	description : "Change a minion's Attack to 1"
+	"description" : "Change a minion's Attack to 1"
 }

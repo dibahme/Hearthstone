@@ -1,10 +1,10 @@
 {
-	name : "Learn Draconic",
-	hero : "Neutral",
-	type : "Quest and Reward",
-	rarity : "Common",
-	price : 5,
-	mana : 1,
-	quest : "Spend 8 Mana on spells.",
-	reward : "Summon a 6/6 Minion"
+	"name" : "Learn Draconic",
+	"hero" : "Neutral",
+	"type" : "Quest and Reward",
+	"rarity" : "Common",
+	"price" : 5,
+	"mana" : 1,
+	"quest" : "Spend 8 Mana on spells.",
+	"reward" : "Summon a 6/6 Minion"
 }
