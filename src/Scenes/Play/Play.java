@@ -53,9 +53,6 @@ public class Play {
     private Text deckCardsLeft;
     @FXML
     private Text myHeroHealth;
-
-
-
     @FXML
     private Text opponentHeroHealth;
     @FXML
@@ -320,4 +317,5 @@ public class Play {
     public void setOffCard(int offCard) { this.offCard = offCard; }
     public Text getOpponentHeroHealth() { return opponentHeroHealth; }
     public Text getMyHeroHealth() { return myHeroHealth; }
+    public ImageView getOpponentHeroImage() { return opponentHeroImage; }
 }

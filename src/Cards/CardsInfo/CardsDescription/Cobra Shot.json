@@ -1,10 +1,20 @@
 {
-	name : "Cobra Shot",
-	hero : "Hunter",
-	type : "Spell",
-	rarity : "Common",
-	price : 7,
-	mana : 5,
+	"name" : "Cobra Shot",
+	"hero" : "Hunter",
+	"type" : "Spell",
+	"rarity" : "Common",
+	"price" : 7,
+	"mana" : 5,
 	"cardAttributes" : [],
-	description : "Deal 3 damage to a minion and the enemy hero."
+	"cardActions" : [
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 3,\"change\" : false,\"zone\" : \"ENEMY\",\"targetType\" : \"HERO\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+			"className" : "CardPowerChanger"
+		},
+		{
+			"classJson": "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 3,\"change\" : false,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"CHOOSE\" ,\"cardAttributes\" : []}",
+			"className": "CardPowerChanger"
+		}
+	],
+	"description" : "Deal 3 damage to a minion and the enemy hero."
 }

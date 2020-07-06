@@ -1,12 +1,12 @@
 {
-	name : "Sathrovarr",
-	type : "Minion",
-	hero : "Neutral",
-	rarity : "Legendary",
-	mana : 9,
-	price : 24,
-	health : 5,
-	damage : 5,
+	"name" : "Sathrovarr",
+	"type" : "Minion",
+	"hero" : "Neutral",
+	"rarity" : "Legendary",
+	"mana" : 9,
+	"price" : 24,
+	"health" : 5,
+	"damage" : 5,
 	"cardAttributes" : [],
-	battleCry : "Choose a friendly minion. Add a copy of it to your hand, deck, and battlefield."
+	"battleCry" : "Choose a friendly minion. Add a copy of it to your hand, deck, and battlefield."
 }	

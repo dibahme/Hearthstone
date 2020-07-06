@@ -3,7 +3,15 @@ package Cards;
 import Controller.GameOperations;
 import Scenes.Play.Play;
 import Scenes.Play.PlayerGraphics;
+import javafx.animation.PauseTransition;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import static Controller.GameOperations.gameState;
 import java.lang.reflect.InvocationTargetException;
@@ -27,8 +35,8 @@ enum SelectionType {
 
 enum TargetType{
     HERO("heroHandler"),
-    MINION("minionHandler");
-
+    MINION("minionHandler"),
+    BOTH("bothHandler");
     private String value;
     private TargetType(String function) { value = function; }
     public String getValue() { return this.value; }
@@ -36,14 +44,33 @@ enum TargetType{
 
 public class CardPowerChanger extends CardAbility {
 
-//    private ApplicationTime applicationTime;
-//    private String className;
     private int attackNumber , healthNumber;
     private boolean change;
     private Zone zone;
     private TargetType targetType;
     private SelectionType selectionType;
     private ArrayList<CardAttribute> cardAttributes;
+
+    private void chooseTarget(ArrayList <FieldCard> targetCards , Play play){
+        HBox hBox = new HBox();
+        hBox.setStyle("-fx-background-color: rgba(0 , 0 , 0 , 0.8)");
+        hBox.setPrefWidth(1280);
+        hBox.setPrefHeight(220);
+        hBox.setAlignment(Pos.BASELINE_CENTER);
+        hBox.setPadding(new Insets(50 , 0 , 0 , 0));
+        for(FieldCard fieldCard : targetCards) {
+            FieldCard clonedCard = fieldCard.cloneForCardAbility();
+            hBox.getChildren().add(new Pane(clonedCard.getFieldCardPhoto()));
+            clonedCard.getFieldCardPhoto().setOnMouseClicked(e -> {
+                applyChangeToCard(fieldCard , play);
+                play.getGameField().getChildren().remove(hBox);
+            });
+        }
+
+        play.getGameField().getChildren().add(hBox);
+        hBox.setTranslateY(250);
+    }
+
 
     private int changeField(Text field , int number){
         int health = Integer.parseInt(field.getText());
@@ -63,7 +90,6 @@ public class CardPowerChanger extends CardAbility {
     public void applyChangeToCard(FieldCard target , Play play){
         int health = changeField(target.getHealth() , healthNumber);
         changeField(target.getAttack() , attackNumber);
-        System.out.println("the health is equal to " + health + " and change is " + change);
         if(health <= 0) {
             PlayerGraphics graphics = play.getContestant()[target.getParity()];
             graphics.fieldCardsBox.getChildren().remove(target.getFieldCardPhoto());
@@ -114,6 +140,10 @@ public class CardPowerChanger extends CardAbility {
                 return;
         }
 
+        switchSelectionType(targetCards , targetCard , play , card);
+    }
+
+    public void switchSelectionType(ArrayList <FieldCard> targetCards , FieldCard targetCard , Play play , FieldCard card ){
         switch (this.selectionType.name()){
             case "RANDOM":
                 if(targetCards.size() > 0)
@@ -129,8 +159,43 @@ public class CardPowerChanger extends CardAbility {
                 applyChangeToCard(card , play);
                 break;
             case "CHOOSE":
+                System.out.println("Got here right");
+                chooseTarget(targetCards , play);
                 //TODO :(
         }
+    }
+
+    public void bothHandler(FieldCard targetCard , Play play , FieldCard card){
+        ArrayList <FieldCard> targetCards = new ArrayList<>() ,
+                friend = play.getContestant()[targetCard.getParity()].fieldCards,
+                enemy = play.getContestant()[1 - targetCard.getParity()].fieldCards;
+        int parity = targetCard.getParity();
+
+        switch(this.zone.name()){
+            case "FRIEND":
+                targetCards.addAll(friend);
+                if(parity == 0)
+                    targetCards.add(FieldCard.getHeroFieldCard(play.getMyHeroImage() , play.getMyHeroHealth()));
+                else
+                    targetCards.add(FieldCard.getHeroFieldCard(play.getOpponentHeroImage() , play.getOpponentHeroHealth()));
+                break;
+            case "ENEMY" :
+                targetCards.addAll(enemy);
+                if(parity == 1)
+                    targetCards.add(FieldCard.getHeroFieldCard(play.getMyHeroImage() , play.getMyHeroHealth()));
+                else
+                    targetCards.add(FieldCard.getHeroFieldCard(play.getOpponentHeroImage() , play.getOpponentHeroHealth()));
+                break;
+            case "BOTH" :
+                targetCards.addAll(friend);
+                targetCards.addAll(enemy);
+                targetCards.add(FieldCard.getHeroFieldCard(play.getMyHeroImage() , play.getMyHeroHealth()));
+                System.out.println(targetCard.getCard().getName() + " is fine until here");
+                targetCards.add(FieldCard.getHeroFieldCard(play.getOpponentHeroImage() , play.getOpponentHeroHealth()));
+                break;
+        }
+
+        switchSelectionType(targetCards , targetCard , play , card);
     }
 
     public void handleOperations(FieldCard targetCard ,Play play , FieldCard card){

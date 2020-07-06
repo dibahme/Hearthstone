@@ -1,12 +1,18 @@
 {
-	name : "Elven Archer",
-	hero : "Neutral",
-	type : "Minion",
-	rarity : "Free",
-	mana : 1,
-	price : 3,
-	health : 1 ,
-	damage : 1,
+	"name" : "Elven Archer",
+	"hero" : "Neutral",
+	"type" : "Minion",
+	"rarity" : "Free",
+	"mana" : 1,
+	"price" : 3,
+	"health" : 1 ,
+	"damage" : 1,
 	"cardAttributes" : [],
-	battleCry : "Deal 1 damage"
+	"cardActions" : [
+		{
+			"classJson": "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 1,\"change\" : false,\"zone\" : \"BOTH\",\"targetType\" : \"BOTH\" ,\"selectionType\" : \"CHOOSE\" ,\"cardAttributes\" : []}",
+			"className": "CardPowerChanger"
+		}
+	],
+	"battleCry" : "Deal 1 damage"
 }

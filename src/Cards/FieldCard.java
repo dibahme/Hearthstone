@@ -45,6 +45,15 @@ public class FieldCard {
         return fieldCard;
     }
 
+    public static FieldCard getHeroFieldCard(ImageView image , Text health){
+        FieldCard fieldCard = new FieldCard();
+        fieldCard.setHealth(health.getText());
+        Pane pane = new Pane();
+        pane.getChildren().add(image);
+        fieldCard.setFieldCardPhoto(pane);
+        return fieldCard;
+    }
+
     public FieldCard setCardAttributes(Card card , int parity){
         try{
             this.deckCardImage = new ImageView(new Image(new FileInputStream("src/Cards/CardsInfo/ShopCards/" + card.getName() + ".png")));
@@ -70,6 +79,13 @@ public class FieldCard {
         this.setHealth(String.valueOf(new Card(this.getCard().getName()).getHealth()));
     }
 
+    public FieldCard cloneForCardAbility(){
+        FieldCard fieldCard = getCard(this.getCard());
+        fieldCard.setHealth(this.getHealth().getText());
+        fieldCard.setAttack(this.getAttack().getText());
+        return fieldCard;
+    }
+
     public void setHealth(String health){this.health.setText(health);}
     public void setAttack(String attack){this.attack.setText(attack);}
     public Text getAttack(){return attack;}
@@ -86,4 +102,5 @@ public class FieldCard {
     public void setCardDuplicate(ImageView cardDuplicate) { this.cardDuplicate = cardDuplicate; }
     public int getSummonedTurn() { return summonedTurn; }
     public void setSummonedTurn(int summonedTurn) { this.summonedTurn = summonedTurn;}
+    public void setFieldCardPhoto(Pane fieldCardPhoto) { this.fieldCardPhoto = fieldCardPhoto; }
 }
