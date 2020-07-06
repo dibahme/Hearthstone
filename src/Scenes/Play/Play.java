@@ -1,6 +1,8 @@
 package Scenes.Play;
+
 import Cards.Card;
 import Cards.CardAbility;
+import Cards.FieldCard;
 import Cards.Hero;
 import Controller.GameOperations;
 import Controller.Main;
@@ -10,25 +12,19 @@ import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-
-import Cards.FieldCard;
 import static Controller.GameOperations.gameState;
-
 import static Scenes.Scenes.notificationBox;
 
 public class Play {

@@ -3,12 +3,14 @@ package Cards;
 import com.google.gson.Gson;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Card{
+public class Card {
 
     private int price , mana , health , damage , restore;
     private String name , type , hero , description , battleCry , deathRattle , rarity , reward , quest;
@@ -62,7 +64,12 @@ public class Card{
     public String getDeathRattle() { return deathRattle; }
     public String getRarity() { return rarity; }
     public FieldCard getFieldCard(){ return FieldCard.getCard(this); }
-    public Card getCloned(){ return new Card(this.name); }
+    public Card getCloned(){
+        try {
+            return (Card) Class.forName(this.getType()).getConstructors()[0].newInstance(this.getName());
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) { e.printStackTrace(); }
+        return new Card(this.getName());
+    }
     public ArrayList<CardAbility> getCardAbilities() { return cardAbilities; }
     public ArrayList<CardAttribute> getCardAttributes() { return cardAttributes; }
 }

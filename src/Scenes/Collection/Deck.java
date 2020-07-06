@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
@@ -72,12 +73,21 @@ public class Deck{
                 numberInDeck++;
 
         Card tmp = new Card(cardName);
+        try {
+            tmp = (Card) Class.forName(tmp.getType()).getConstructors()[0].newInstance(cardName);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) { e.printStackTrace(); }
+
         if(!tmp.getHero().equals(heroBox.getValue()) && !heroBox.getValue().equals("") && !tmp.getHero().equals("Neutral")) {
             Scenes.alertBox(Scenes.secondStage , "This Card Doesn't Match to Your Deck's Hero!");
             Log.logger("Error" , "Card and Hero don't Match");
         }
         else if(numberInHand >= numberInDeck) {
-            deckCards.add(new Card(cardName));
+            Card card = new Card(cardName);
+            try {
+                deckCards.add((Card) Class.forName(card.getType()).getConstructors()[0].newInstance(card.getName()));
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             Log.logger("Button_Clicked" , "Add " + cardName);
         }
         else {

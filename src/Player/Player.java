@@ -3,6 +3,9 @@ package Player;
 import Cards.Card;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import Cards.Minion;
+import Cards.Spell;
 import Scenes.Collection.Deck;
 import static Scenes.Play.InfoPassiveHandler.InfoPassive;
 
@@ -22,11 +25,11 @@ public class Player {
         this.password = pass;
         this.registrationDate = regDate;
         this.gems = 50;
-        this.hand.addAll(Arrays.asList(new Card("Humility"),
-                new Card("Deadly Shot") ,
-                new Card("Healing Touch"),
-                new Card("Frostwolf Grunt"),
-                new Card("Phantom Militia")));
+        this.hand.addAll(Arrays.asList(new Spell("Humility"),
+                new Spell("Deadly Shot") ,
+                new Spell("Healing Touch"),
+                new Minion("Frostwolf Grunt"),
+                new Minion("Phantom Militia")));
     }
 
     public Player() {

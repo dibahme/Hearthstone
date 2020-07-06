@@ -7,6 +7,7 @@ import Scenes.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -90,6 +91,9 @@ public class Controller {
             for (String card : cards.list()) {
                 if(card.contains(".json")) {
                     Card check = new Card(card.substring(0, card.length() - ".json".length()));
+                    try {
+                        check = (Card) Class.forName(check.getType()).getConstructors()[0].newInstance(check.getName());
+                    } catch (InstantiationException | ClassNotFoundException | InvocationTargetException | IllegalAccessException e) { e.printStackTrace(); }
                     int num = 0;
                     for (Card playerCard : playerCards)
                         if (playerCard.getName().equals(card))
@@ -111,8 +115,12 @@ public class Controller {
         ArrayList<Card> ret = new ArrayList<Card>();
         File file = new File("src/Cards/CardsInfo/CardsDescription");
         for(String name : file.list()){
-            if(name.contains(".json"))
-                ret.add(new Card(name.substring(0 , name.length() - ".json".length())));
+            if(name.contains(".json")) {
+                Card card = new Card(name.substring(0, name.length() - ".json".length()));
+                try {
+                    ret.add((Card) Class.forName("Cards." + card.getType()).getConstructors()[0].newInstance(card.getName()));
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) { e.printStackTrace(); }
+            }
         }
 
         if(!arg.equals("a")){
