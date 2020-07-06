@@ -74,8 +74,8 @@ public class Deck{
 
         Card tmp = new Card(cardName);
         try {
-            tmp = (Card) Class.forName(tmp.getType()).getConstructors()[0].newInstance(cardName);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) { e.printStackTrace(); }
+            tmp = (Card) Class.forName("Cards." + tmp.getType()).getConstructor(String.class).newInstance(cardName);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) { e.printStackTrace(); }
 
         if(!tmp.getHero().equals(heroBox.getValue()) && !heroBox.getValue().equals("") && !tmp.getHero().equals("Neutral")) {
             Scenes.alertBox(Scenes.secondStage , "This Card Doesn't Match to Your Deck's Hero!");
@@ -84,8 +84,8 @@ public class Deck{
         else if(numberInHand >= numberInDeck) {
             Card card = new Card(cardName);
             try {
-                deckCards.add((Card) Class.forName(card.getType()).getConstructors()[0].newInstance(card.getName()));
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
+                deckCards.add((Card) Class.forName("Cards." + card.getType()).getConstructor(String.class).newInstance(card.getName()));
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
             Log.logger("Button_Clicked" , "Add " + cardName);

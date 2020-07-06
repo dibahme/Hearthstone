@@ -46,6 +46,8 @@ public class Card {
         }
     }
 
+    public Card(){}
+
     public static void setCardSize(ImageView card , int height , int width) {
         card.setFitWidth(width);
         card.setFitHeight(height);
@@ -66,8 +68,8 @@ public class Card {
     public FieldCard getFieldCard(){ return FieldCard.getCard(this); }
     public Card getCloned(){
         try {
-            return (Card) Class.forName(this.getType()).getConstructors()[0].newInstance(this.getName());
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) { e.printStackTrace(); }
+            return (Card) Class.forName("Cards." + this.getType()).getConstructor(String.class).newInstance(this.getName());
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) { e.printStackTrace(); }
         return new Card(this.getName());
     }
     public ArrayList<CardAbility> getCardAbilities() { return cardAbilities; }

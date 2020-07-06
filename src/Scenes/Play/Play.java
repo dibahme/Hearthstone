@@ -1,9 +1,6 @@
 package Scenes.Play;
 
-import Cards.Card;
-import Cards.CardAbility;
-import Cards.FieldCard;
-import Cards.Hero;
+import Cards.*;
 import Controller.GameOperations;
 import Controller.Main;
 import Logs.Log;
@@ -12,18 +9,24 @@ import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+
 import static Controller.GameOperations.gameState;
 import static Scenes.Scenes.notificationBox;
 
@@ -53,6 +56,22 @@ public class Play {
     private Text opponentHeroHealth;
     @FXML
     private AnchorPane gameField;
+    @FXML
+    private Circle myHeroPowerImage;
+    @FXML
+    private Circle opponentHeroPowerImage;
+    @FXML
+    private Circle myWeaponImage;
+    @FXML
+    private Circle opponentWeaponImage;
+    @FXML
+    private Text myWeaponDurability;
+    @FXML
+    private Text opponentWeaponDurability;
+    @FXML
+    private Text myWeaponAttack;
+    @FXML
+    private Text opponentWeaponAttack;
 
     private int turn = 0 , manasLeft = 1 , turnParity = 0 , manas = 1 , offCard = 0;
     private PlayerGraphics[] contestant;
@@ -69,7 +88,8 @@ public class Play {
         Hero opponentHero = Hero.getRandomHero();
         opponentHeroImage.setImage(opponentHero.getImage().getImage());
         setHeroAttributes(opponentHero , opponentHeroImage , opponentHeroHealth , 1);
-
+        Weapon friendWeapon = Weapon.getBasicWeapon(myWeaponDurability , myWeaponAttack , myWeaponImage) ,
+                opponentWeapon = Weapon.getBasicWeapon(opponentWeaponDurability , opponentWeaponAttack , opponentWeaponImage);
         if(file.exists()){
             Gson gson = new Gson();
             try {
@@ -80,15 +100,15 @@ public class Play {
 
                 myHero = Hero.getRandomHero();
                 ConfigReader configReader = gson.fromJson(stringBuilder.toString() , ConfigReader.class);
-                friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend())  , friendFieldCards , friendDeckCards , myHero);
-                opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , opponentFieldCards , opponentDeckCards , opponentHero);
+                friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend())  , friendFieldCards , friendDeckCards , myHero , myHeroPowerImage , friendWeapon);
+                opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , opponentFieldCards , opponentDeckCards , opponentHero , opponentHeroPowerImage , opponentWeapon);
                 configExists = true;
             } catch (FileNotFoundException e) { e.printStackTrace(); }
         }
         else{
             myHero = new Hero(Main.player.getCurrentDeck().getHero());
-            friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , friendFieldCards , friendDeckCards , myHero);
-            opponent = new PlayerGraphics(opponentHero.getDefaultHand() , opponentFieldCards , opponentDeckCards , opponentHero);
+            friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , friendFieldCards , friendDeckCards , myHero, myHeroPowerImage , friendWeapon);
+            opponent = new PlayerGraphics(opponentHero.getDefaultHand() , opponentFieldCards , opponentDeckCards , opponentHero, opponentHeroPowerImage , opponentWeapon);
         }
 
         setHeroAttributes(myHero , myHeroImage , myHeroHealth , 0);
@@ -152,9 +172,11 @@ public class Play {
         card.getDeckCardImage().setOnMouseReleased(e -> {
             double Y = e.getSceneY();
             if(card.getCard().getMana() <= manasLeft + offCard && card.getMinY() <= Y && Y <= card.getMaxY() && turnParity == card.getParity()){
-                if(card.getCard().getType().equals("Spell") || contestant[card.getParity()].fieldCardsBox.getChildren().size() < 7){
-                    if(card.getCard().getType().equals("Minion"))
+                if(card.getCard() instanceof Spell || contestant[card.getParity()].fieldCardsBox.getChildren().size() < 7){
+                    if (Minion.class.equals(card.getCard().getClass()))
                         handleFieldPlace(card, e.getX());
+                    else if (Weapon.class.equals(card.getCard().getClass()))
+                        handleWeaponCard(card);
 
                     handlePlayedCardOperation(card);
                 }
@@ -162,6 +184,17 @@ public class Play {
 
             gameField.getChildren().remove(card.getCardDuplicate());
         });
+    }
+
+    private void handleWeaponCard(FieldCard card){
+        Weapon weapon = new Weapon(card.getCard().getName());
+        weapon.setDurability(contestant[card.getParity()].getWeapon().getDurability());
+        weapon.setAttack(contestant[card.getParity()].getWeapon().getAttack());
+        weapon.setWeaponImage(contestant[card.getParity()].getWeapon().getWeaponImage());
+        try {
+            weapon.getWeaponImage().setFill(new ImagePattern(new Image(new FileInputStream("src/Cards/CardsInfo/FieldCards/" + card.getCard().getName() + ".jpg"))));
+        } catch (FileNotFoundException e) { e.printStackTrace(); }
+        weapon.getWeaponImage().setVisible(true);
     }
 
     private void handleFieldPlace(FieldCard card , double loc){
@@ -237,7 +270,7 @@ public class Play {
         for(FieldCard targetCard : contestant[turnParity].fieldCards)
             for(CardAbility cardAbility : targetCard.getCard().getCardAbilities())
                 cardAbility.doAction(targetCard , this , gameState.SUMMON_CARD , card);
-        if(!card.getCard().getType().equals("Minion"))
+        if(!(card.getCard() instanceof Minion))
             for(CardAbility cardAbility : card.getCard().getCardAbilities())
                 cardAbility.doAction(card , this , gameState.SUMMON_CARD , card);
     }

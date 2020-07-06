@@ -92,8 +92,8 @@ public class Controller {
                 if(card.contains(".json")) {
                     Card check = new Card(card.substring(0, card.length() - ".json".length()));
                     try {
-                        check = (Card) Class.forName(check.getType()).getConstructors()[0].newInstance(check.getName());
-                    } catch (InstantiationException | ClassNotFoundException | InvocationTargetException | IllegalAccessException e) { e.printStackTrace(); }
+                        check = (Card) Class.forName(check.getType()).getConstructor(String.class).newInstance(check.getName());
+                    } catch (InstantiationException | ClassNotFoundException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e) { e.printStackTrace(); }
                     int num = 0;
                     for (Card playerCard : playerCards)
                         if (playerCard.getName().equals(card))
@@ -118,8 +118,8 @@ public class Controller {
             if(name.contains(".json")) {
                 Card card = new Card(name.substring(0, name.length() - ".json".length()));
                 try {
-                    ret.add((Card) Class.forName("Cards." + card.getType()).getConstructors()[0].newInstance(card.getName()));
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) { e.printStackTrace(); }
+                    ret.add((Card) Class.forName("Cards." + card.getType()).getConstructor(String.class).newInstance(card.getName()));
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) { e.printStackTrace(); }
             }
         }
 

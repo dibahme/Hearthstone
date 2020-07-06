@@ -23,7 +23,7 @@ public class Hero implements Choosable{
     public Hero(){}
 
     public Hero(String name){
-        File userPath = new File("src/Cards/HeroesInfo/" + name + ".json");
+        File userPath = new File("src/Cards/HeroesInfo/HeroesDescription/" + name + ".json");
         try {
             Scanner sc = new Scanner(userPath);
             StringBuilder userFile = new StringBuilder();
@@ -44,7 +44,8 @@ public class Hero implements Choosable{
     }
 
     public static Hero getRandomHero(){
-        File file = new File("src/Cards/HeroesInfo");
+        File file = new File("src/Cards/HeroesInfo/HeroesDescription");
+
         String name = file.list()[new Random().nextInt(file.list().length)];
         return new Hero(name.substring(0 , name.length() - ".json".length()));
     }
