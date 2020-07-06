@@ -6,5 +6,11 @@
 	"price" : 4,
 	"mana" : 1,
 	"cardAttributes" : [],
+	"cardActions" : [
+		{
+			"classJson": "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 1,\"healthNumber\" : -1,\"change\" : true,\"zone\" : \"BOTH\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"CHOOSE\" ,\"cardAttributes\" : []}",
+			"className": "CardPowerChanger"
+		}
+	],
 	"description" : "Change a minion's Attack to 1"
 }

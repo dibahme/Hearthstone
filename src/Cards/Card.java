@@ -64,4 +64,5 @@ public class Card{
     public FieldCard getFieldCard(){ return FieldCard.getCard(this); }
     public Card getCloned(){ return new Card(this.name); }
     public ArrayList<CardAbility> getCardAbilities() { return cardAbilities; }
+    public ArrayList<CardAttribute> getCardAttributes() { return cardAttributes; }
 }

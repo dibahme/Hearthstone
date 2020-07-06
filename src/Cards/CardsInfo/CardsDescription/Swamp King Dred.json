@@ -1,12 +1,12 @@
 {
-	name : "Swamp King Dred",
-	type : "Minion",
-	hero : "Hunter",
-	rarity : "Legendary",
-	mana : 7,
-	price : 18,
-	health : 9,
-	damage : 9,
+	"name" : "Swamp King Dred",
+	"type" : "Minion",
+	"hero" : "Hunter",
+	"rarity" : "Legendary",
+	"mana" : 7,
+	"price" : 18,
+	"health" : 9,
+	"damage" : 9,
 	"cardAttributes" : [],
-	description : "After your opponent plays a minion, attack it."
+	"description" : "After your opponent plays a minion, attack it."
 }	

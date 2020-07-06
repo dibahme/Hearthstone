@@ -6,5 +6,11 @@
 	"price" : 11,
 	"mana" : 6,
 	"cardAttributes" : [],
+	"cardActions" : [
+		{
+			"classJson": "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 4,\"healthNumber\" : 4,\"change\" : false,\"zone\" : \"BOTH\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"CHOOSE\" ,\"cardAttributes\" : [TAUNT , DIVINE_SHIELD]}",
+			"className": "CardPowerChanger"
+		}
+	],
 	"description" : "Give a minion +4/+4, Divine Shield, and Taunt"
 }

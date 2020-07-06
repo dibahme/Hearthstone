@@ -1,10 +1,14 @@
 {
-	name : "Polymorph",
-	hero : "Mage",
-	type : "Spell",
-	rarity : "Rare",
-	price : 9,
-	mana : 4,
+	"name" : "Polymorph",
+	"hero" : "Mage",
+	"type" : "Spell",
+	"rarity" : "Rare",
+	"price" : 9,
+	"mana" : 4,
 	"cardAttributes" : [],
-	description : "Transform a minion into a 1/1 Sheep"
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 1,\"healthNumber\" : 1,\"change\" : true,\"zone\" : \"BOTH\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"CHOOSE\" ,\"cardAttributes\" : []}",
+		"className" : "CardPowerChanger"
+	}],
+	"description" : "Transform a minion into a 1/1 Sheep"
 }

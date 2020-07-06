@@ -1,10 +1,16 @@
 {
-	name : "Moonfire",
-	hero : "Neutral",
-	type : "Spell",
-	rarity : "Free",
-	price : 3,
-	mana : 0,
+	"name" : "Moonfire",
+	"hero" : "Neutral",
+	"type" : "Spell",
+	"rarity" : "Free",
+	"price" : 3,
+	"mana" : 0,
 	"cardAttributes" : [],
-	description : "Deal 1 damage"
+	"cardActions" : [
+		{
+			"classJson": "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 1,\"change\" : false,\"zone\" : \"BOTH\",\"targetType\" : \"BOTH\" ,\"selectionType\" : \"CHOOSE\" ,\"cardAttributes\" : []}",
+			"className": "CardPowerChanger"
+		}
+	],
+	"description" : "Deal 1 damage"
 }

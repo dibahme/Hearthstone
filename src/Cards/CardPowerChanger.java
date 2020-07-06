@@ -82,6 +82,8 @@ public class CardPowerChanger extends CardAbility {
 
     private int changeField(Text field , int number){
         int health = Integer.parseInt(field.getText());
+        if(change && number < 0)
+            return health;
         health = (change ? number : health - number);
         field.setText(String.valueOf(health));
         return health;
@@ -98,6 +100,12 @@ public class CardPowerChanger extends CardAbility {
     public void applyChangeToCard(FieldCard target , Play play){
         int health = changeField(target.getHealth() , healthNumber);
         changeField(target.getAttack() , attackNumber);
+
+        for(CardAttribute cardAttribute : cardAttributes){
+            if(!target.getCard().getCardAttributes().contains(cardAttribute))
+                target.getCard().getCardAttributes().add(cardAttribute);
+        }
+
         if(health <= 0) {
             PlayerGraphics graphics = play.getContestant()[target.getParity()];
             graphics.fieldCardsBox.getChildren().remove(target.getFieldCardPhoto());
