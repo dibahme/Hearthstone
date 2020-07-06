@@ -56,7 +56,6 @@ public class Deck{
         createDeckButton.fire();
         Scenes.notificationBox("Deck's Selected" , 120 , 560);
         Log.logger("Button_Clicked" , "SelectDeck");
-        System.out.println(Main.player.getCurrentDeck().getName() + "   " + Main.player.getCurrentDeck().deckCards.size());
     }
 
     @FXML

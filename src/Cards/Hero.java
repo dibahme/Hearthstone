@@ -3,15 +3,21 @@ package Cards;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class Hero {
+public class Hero implements Choosable{
 
     private String name;
     private int health;
+    private transient Text healthText;
+    private transient ImageView image;
     private ArrayList<Card> defaultHand;
 
     public Hero(){}
@@ -43,9 +49,23 @@ public class Hero {
         return new Hero(name.substring(0 , name.length() - ".json".length()));
     }
 
-    public int getHealth(){return health;}
+    public int getHealthNumber(){return health;}
+    public Text getHealth(){return healthText;}
+    public Text getAttack(){return new Text();}
     public void setHealth(int health){this.health = health;}
     public String getName(){return name;}
     public void setName(String name){this.name = name;}
     public ArrayList<Card> getDefaultHand(){return defaultHand;}
+    public void setImage(ImageView image) { this.image = image; }
+    public void setHealthText(Text healthText) { this.healthText = healthText; }
+    public ImageView getImage() {
+        try {
+            ImageView image = new ImageView(new Image(new FileInputStream("src/Images/" + this.getName() + "Icon.png")));
+            image.setFitHeight(130);
+            image.setFitWidth(130);
+            return image;
+        }catch(Exception ignored){ignored.printStackTrace();}
+
+        return new ImageView();
+    }
 }

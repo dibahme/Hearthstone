@@ -62,14 +62,17 @@ public class Play {
     private PlayerGraphics[] contestant;
     private FieldCard selectedCard;
     private boolean configExists = false;
-
     private ArrayList <FieldCard> usedMinions = new ArrayList<>();
+    private Hero myHero , opponentHero;
 
     @FXML
     private void initialize(){
 
         File file = new File("src/Cards/Config/config.json");
         PlayerGraphics friend = new PlayerGraphics() , opponent = new PlayerGraphics();
+        Hero opponentHero = Hero.getRandomHero();
+        opponentHeroImage.setImage(opponentHero.getImage().getImage());
+        setHeroAttributes(opponentHero , opponentHeroImage , opponentHeroHealth , 1);
 
         if(file.exists()){
             Gson gson = new Gson();
@@ -79,19 +82,20 @@ public class Play {
                 while(sc.hasNext())
                     stringBuilder.append(sc.nextLine());
 
+                myHero = Hero.getRandomHero();
                 ConfigReader configReader = gson.fromJson(stringBuilder.toString() , ConfigReader.class);
-                friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend()) , new ArrayList<>() , friendFieldCards , friendDeckCards );
-                opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , new ArrayList<>() , opponentFieldCards , opponentDeckCards);
+                friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend())  , friendFieldCards , friendDeckCards , myHero);
+                opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , opponentFieldCards , opponentDeckCards , opponentHero);
                 configExists = true;
             } catch (FileNotFoundException e) { e.printStackTrace(); }
         }
         else{
-            Hero opponentHero = Hero.getRandomHero();
-            setOpponentHero(opponentHero);
-            friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , new ArrayList<>() , friendFieldCards , friendDeckCards );
-            opponent = new PlayerGraphics(opponentHero.getDefaultHand() , new ArrayList<>() , opponentFieldCards , opponentDeckCards);
+            myHero = new Hero(Main.player.getCurrentDeck().getHero());
+            friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , friendFieldCards , friendDeckCards , myHero);
+            opponent = new PlayerGraphics(opponentHero.getDefaultHand() , opponentFieldCards , opponentDeckCards , opponentHero);
         }
 
+        setHeroAttributes(myHero , myHeroImage , myHeroHealth , 0);
         myHeroImage.setOnMouseClicked(e -> {
             if(turnParity == 1 && selectedCard != null){
                 FieldCard fieldCard = selectedCard;
@@ -186,8 +190,6 @@ public class Play {
                 contestant[turnParity].fieldCards.add(fieldCard);
             }
 
-
-            System.out.println("im card " + card.getCard().getName() + " and I'm here with parity " + card.getParity());
             fieldCard.getFieldCardPhoto().setOnMouseClicked(e -> {
                 if(turnParity == card.getParity() && card.getSummonedTurn() != turn && !usedMinions.contains(fieldCard)){
                     fieldCard.getCardImage().setStroke(Color.RED);
@@ -200,7 +202,6 @@ public class Play {
                 else if(turnParity != card.getParity() && selectedCard != null)
                     GameOperations.getInstance().attackHandler(selectedCard , fieldCard , this);
             });
-
         }catch(Exception ignored){ignored.printStackTrace();}
     }
 
@@ -240,16 +241,17 @@ public class Play {
         for(FieldCard targetCard : contestant[turnParity].fieldCards)
             for(CardAbility cardAbility : targetCard.getCard().getCardAbilities())
                 cardAbility.doAction(targetCard , this , gameState.SUMMON_CARD , card);
-
-        for(CardAbility cardAbility : card.getCard().getCardAbilities())
-            cardAbility.doAction(card , this , gameState.SUMMON_CARD , card);
+        if(!card.getCard().getType().equals("Minion"))
+            for(CardAbility cardAbility : card.getCard().getCardAbilities())
+                cardAbility.doAction(card , this , gameState.SUMMON_CARD , card);
     }
 
-    private void setOpponentHero(Hero hero){
+    private void setHeroAttributes(Hero hero , ImageView image , Text health , int parity){
         try {
-            opponentHeroImage.setImage(new Image(new FileInputStream("src/Images/" + hero.getName() + "Icon.png")));
-            opponentHeroImage.setOnMouseClicked(e -> {
-                if(turnParity == 0 && selectedCard != null){
+//            hero.setImage(image);
+            hero.setHealthText(health);
+            image.setOnMouseClicked(e -> {
+                if(turnParity != parity && selectedCard != null){
                     FieldCard fieldCard = selectedCard;
                     GameOperations.getInstance().transitionAction(selectedCard , opponentHeroImage , this);
                     GameOperations.getInstance().changeHealth(fieldCard.getAttack() , opponentHeroHealth);
@@ -257,7 +259,6 @@ public class Play {
             });
 
         }catch(Exception ignored){ignored.printStackTrace();}
-        opponentHeroHealth.setText(String.valueOf(hero.getHealth()));
     }
 
     @FXML

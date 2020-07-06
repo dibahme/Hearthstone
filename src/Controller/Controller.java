@@ -80,9 +80,6 @@ public class Controller {
     public static List<Card> showDealableCards(String arg) {
         ArrayList<Card> ret = new ArrayList<Card>();
 
-        for(Card card : Main.player.getHand())
-            System.out.println(card.getName());
-
         if (arg.contains("sell")) {
             ret.addAll(Main.player.getHand());
         } else {
@@ -105,8 +102,6 @@ public class Controller {
         }
 
         if(arg.length() <= 4) {
-            for (Card card : ret)
-                System.out.println(card.getName());
             Log.logger("List", "Cards: The ones that we can " + arg);
         }
         return ret;

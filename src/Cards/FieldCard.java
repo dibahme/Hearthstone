@@ -11,7 +11,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Text;
 import java.io.FileInputStream;
 
-public class FieldCard {
+public class FieldCard implements Choosable {
     @FXML
     private Pane fieldCardPhoto;
     @FXML
@@ -47,7 +47,7 @@ public class FieldCard {
 
     public static FieldCard getHeroFieldCard(ImageView image , Text health){
         FieldCard fieldCard = new FieldCard();
-        fieldCard.setHealth(health.getText());
+        fieldCard.health = new Text(health.getText());
         Pane pane = new Pane();
         pane.getChildren().add(image);
         fieldCard.setFieldCardPhoto(pane);
@@ -80,6 +80,7 @@ public class FieldCard {
     }
 
     public FieldCard cloneForCardAbility(){
+        System.out.println("just checking " + this.getCard().getName());
         FieldCard fieldCard = getCard(this.getCard());
         fieldCard.setHealth(this.getHealth().getText());
         fieldCard.setAttack(this.getAttack().getText());
