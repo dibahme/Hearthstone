@@ -6,11 +6,14 @@ import Controller.Main;
 import Logs.Log;
 import Scenes.Scenes;
 import com.google.gson.Gson;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -112,14 +115,6 @@ public class Play {
         }
 
         setHeroAttributes(myHero , myHeroImage , myHeroHealth , 0);
-        myHeroImage.setOnMouseClicked(e -> {
-            if(turnParity == 1 && selectedCard != null){
-                FieldCard fieldCard = selectedCard;
-                GameOperations.getInstance().transitionAction(selectedCard , myHeroImage , this);
-                GameOperations.getInstance().changeHealth(fieldCard.getAttack() , myHeroHealth);
-            }
-        });
-
         contestant = new PlayerGraphics[] {friend , opponent};
 
         for(int i = 0 ; i < 2; i++) {
@@ -187,14 +182,17 @@ public class Play {
     }
 
     private void handleWeaponCard(FieldCard card){
+
         Weapon weapon = new Weapon(card.getCard().getName());
-        weapon.setDurability(contestant[card.getParity()].getWeapon().getDurability());
-        weapon.setAttack(contestant[card.getParity()].getWeapon().getAttack());
         weapon.setWeaponImage(contestant[card.getParity()].getWeapon().getWeaponImage());
-        try {
-            weapon.getWeaponImage().setFill(new ImagePattern(new Image(new FileInputStream("src/Cards/CardsInfo/FieldCards/" + card.getCard().getName() + ".jpg"))));
-        } catch (FileNotFoundException e) { e.printStackTrace(); }
-        weapon.getWeaponImage().setVisible(true);
+        weapon.setDurabilityText(contestant[card.getParity()].getWeapon().getDurabilityText());
+        weapon.setAttackText(contestant[card.getParity()].getWeapon().getAttackText());
+        weapon.startPlaying(card);
+
+        weapon.getWeaponImage().setOnMouseClicked(e -> {
+            if(turnParity == card.getParity())
+                selectedCard = card;
+        });
     }
 
     private void handleFieldPlace(FieldCard card , double loc){
@@ -277,13 +275,18 @@ public class Play {
 
     private void setHeroAttributes(Hero hero , ImageView image , Text health , int parity){
         try {
-//            hero.setImage(image);
             hero.setHealthText(health);
             image.setOnMouseClicked(e -> {
                 if(turnParity != parity && selectedCard != null){
                     FieldCard fieldCard = selectedCard;
+
                     GameOperations.getInstance().transitionAction(selectedCard , opponentHeroImage , this);
                     GameOperations.getInstance().changeHealth(fieldCard.getAttack() , opponentHeroHealth);
+                    if(fieldCard.getCard() instanceof Weapon) {
+                        Weapon weapon = contestant[fieldCard.getParity()].getWeapon();
+                        GameOperations.getInstance().changeHealth(new Text("1"), weapon.getDurabilityText());
+                        GameOperations.getInstance().checkRemove(fieldCard , weapon.getDurabilityText() , this);
+                    }
                 }
             });
 

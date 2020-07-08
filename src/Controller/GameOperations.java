@@ -1,10 +1,14 @@
 package Controller;
 
+import Cards.Minion;
+import Cards.Weapon;
 import Scenes.Play.Play;
 import Cards.FieldCard;
 import javafx.animation.TranslateTransition;
+import javafx.event.EventType;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -23,6 +27,8 @@ public class GameOperations {
     }
 
     public void transitionAction(FieldCard attacker , Node attackee , Play playScene){
+        if(attacker.getCard() instanceof Weapon)
+            return;
         playScene.getUsedMinions().add(attacker);
         FieldCard attackerDuplicate = FieldCard.getCard(attacker.getCard());
         attackerDuplicate.setHealth(attacker.getHealth().getText());
@@ -58,17 +64,28 @@ public class GameOperations {
     public synchronized void attackHandler(FieldCard attacker , FieldCard attackee , Play playScene){
         transitionAction(attacker , attackee.getFieldCardPhoto() , playScene);
         changeHealth(attacker.getAttack() , attackee.getHealth());
-        changeHealth(attackee.getAttack() , attacker.getHealth());
-        checkRemove(attacker , playScene);
-        checkRemove(attackee , playScene);
+        Weapon weapon = playScene.getContestant()[attacker.getParity()].getWeapon();
+        if(attacker.getCard() instanceof Weapon) {
+            changeHealth(new Text("1"), weapon.getDurabilityText());
+            checkRemove(attacker , playScene.getContestant()[attacker.getParity()].getWeapon().getDurabilityText() , playScene);
+        }
+        else {
+            changeHealth(attackee.getAttack(), attacker.getHealth());
+            checkRemove(attacker , attacker.getHealth() , playScene);
+        }
 
+        checkRemove(attackee , attackee.getHealth(), playScene);
     }
 
-    public void checkRemove(FieldCard card , Play playScene){
-        int health = Integer.parseInt(card.getHealth().getText());
+    public void checkRemove(FieldCard card , Text healthField , Play playScene){
+        int health = Integer.parseInt(healthField.getText());
         if(health <= 0){
-            playScene.getContestant()[card.getParity()].fieldCards.remove(card);
-            playScene.getContestant()[card.getParity()].fieldCardsBox.getChildren().remove(card.getFieldCardPhoto());
+            if(card.getCard() instanceof Minion) {
+                playScene.getContestant()[card.getParity()].fieldCards.remove(card);
+                playScene.getContestant()[card.getParity()].fieldCardsBox.getChildren().remove(card.getFieldCardPhoto());
+            }
+            else if(card.getCard() instanceof Weapon)
+                playScene.getContestant()[card.getParity()].getWeapon().stopPlaying();
         }
     }
 

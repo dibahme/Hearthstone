@@ -173,12 +173,12 @@
       <Circle fx:id="myWeaponImage" fill="#1f93ff00" layoutX="536.0" layoutY="544.0" radius="44.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
       <Circle fx:id="opponentHeroPowerImage" fill="DODGERBLUE" layoutX="766.0" layoutY="125.0" radius="44.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
       <Circle fx:id="opponentWeaponImage" fill="#1f93ff00" layoutX="538.0" layoutY="131.0" radius="44.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
-      <ImageView fitHeight="122.0" fitWidth="121.0" layoutX="476.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="122.0" fitWidth="121.0" layoutX="476.0" layoutY="484.0" preserveRatio="true">
          <image>
             <Image url="@../../Images/Weapon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="128.0" fitWidth="128.0" layoutX="473.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="128.0" fitWidth="128.0" layoutX="473.0" layoutY="67.0" preserveRatio="true">
          <image>
             <Image url="@../../Images/Weapon.png" />
          </image>
@@ -188,22 +188,22 @@
             <Image url="@../../Images/LockedWeapon.png" />
          </image>
       </ImageView>
-      <Text fx:id="myWeaponDurability" fill="WHITE" layoutX="565.0" layoutY="579.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" wrappingWidth="13.8046875">
+      <Text fx:id="myWeaponDurability" fill="WHITE" layoutX="565.0" layoutY="579.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" visible="false" wrappingWidth="13.8046875">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Text>
-      <Text fx:id="myWeaponAttack" fill="WHITE" layoutX="496.0" layoutY="578.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" wrappingWidth="13.8046875">
+      <Text fx:id="myWeaponAttack" fill="WHITE" layoutX="496.0" layoutY="578.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" visible="false" wrappingWidth="13.8046875">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Text>
-      <Text fx:id="opponentWeaponDurability" fill="WHITE" layoutX="567.0" layoutY="167.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" wrappingWidth="13.8046875">
+      <Text fx:id="opponentWeaponDurability" fill="WHITE" layoutX="567.0" layoutY="167.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" visible="false" wrappingWidth="13.8046875">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Text>
-      <Text fx:id="opponentWeaponAttack" fill="WHITE" layoutX="494.0" layoutY="165.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" wrappingWidth="13.8046875">
+      <Text fx:id="opponentWeaponAttack" fill="WHITE" layoutX="494.0" layoutY="165.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" visible="false" wrappingWidth="13.8046875">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>

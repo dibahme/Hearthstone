@@ -33,4 +33,5 @@ public class PlayerGraphics{
     public Weapon getWeapon() { return weapon; }
     public Hero getHero() { return hero; }
     public Circle getHeroPowerImage() { return heroPowerImage; }
+    public void setWeapon(Weapon weapon){this.weapon = weapon;}
 }
