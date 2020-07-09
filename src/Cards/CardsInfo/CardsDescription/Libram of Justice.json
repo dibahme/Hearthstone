@@ -1,0 +1,14 @@
+{
+	"name" : "Libram of Justice",
+	"hero" : "Neutral",
+	"type" : "Spell",
+	"rarity" : "Epic",
+	"mana" : 5,
+	"price" : 16,
+	"cardAttributes" : [],
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : 1,\"change\" : true,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+		"className" : "CardPowerChanger"
+	}],
+	"description" : "Equip a 1/4 weapon. Change the Health of all enemy minions to 1."
+}

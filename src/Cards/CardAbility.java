@@ -3,6 +3,13 @@ package Cards;
 import Controller.GameOperations;
 import Scenes.Play.Play;
 import com.google.gson.Gson;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+
 import static Controller.GameOperations.gameState;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -31,7 +38,39 @@ public class CardAbility {
     public String getClassName() { return className; }
     public String getClassJson() { return classJson; }
     public ApplicationTime getApplicationTime(){return applicationTime;}
-    public void handleOperations(FieldCard targetCard , Play play , FieldCard card){
+    public void handleOperations(FieldCard targetCard , Play play , FieldCard card){ }
+    public void applyChangeToHero(Text targetHealth){}
+    public void applyChangeToCard(FieldCard card , Play play){}
+
+    public void chooseTarget(ArrayList <? extends Choosable> targetCards , Play play){
+        HBox hBox = new HBox();
+        hBox.setStyle("-fx-background-color: rgba(0 , 0 , 0 , 0.8)");
+        hBox.setPrefWidth(1280);
+        hBox.setPrefHeight(220);
+        hBox.setAlignment(Pos.BASELINE_CENTER);
+        hBox.setPadding(new Insets(50 , 0 , 0 , 0));
+        play.getGameField().getChildren().add(hBox);
+        hBox.setTranslateY(250);
+        for(Choosable fieldCard : targetCards) {
+            Pane pane = new Pane();
+            if (fieldCard instanceof FieldCard) {
+                FieldCard clonedCard = ((FieldCard) fieldCard).cloneForCardAbility();
+                pane = new Pane(clonedCard.getFieldCardPhoto());
+            }
+            else if (fieldCard instanceof Hero) {
+                ImageView image = ((Hero) fieldCard).getImage();
+                pane = new Pane(((Hero) fieldCard).getImage());
+            }
+
+            hBox.getChildren().add(pane);
+            pane.setOnMouseClicked(e -> {
+                if(fieldCard instanceof  FieldCard)
+                    applyChangeToCard((FieldCard) fieldCard , play);
+                else if(fieldCard instanceof Hero)
+                    applyChangeToHero(fieldCard.getHealth());
+                play.getGameField().getChildren().remove(hBox);
+            });
+        }
     }
 
     public void doAction(FieldCard targetCard, Play play, gameState gameState , FieldCard card){

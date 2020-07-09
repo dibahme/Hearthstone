@@ -47,38 +47,36 @@ public class CardPowerChanger extends CardAbility {
     private SelectionType selectionType;
     private ArrayList<CardAttribute> cardAttributes;
 
-    private void chooseTarget(ArrayList <? extends Choosable> targetCards , Play play){
-        HBox hBox = new HBox();
-        hBox.setStyle("-fx-background-color: rgba(0 , 0 , 0 , 0.8)");
-        hBox.setPrefWidth(1280);
-        hBox.setPrefHeight(220);
-        hBox.setAlignment(Pos.BASELINE_CENTER);
-        hBox.setPadding(new Insets(50 , 0 , 0 , 0));
-        play.getGameField().getChildren().add(hBox);
-        hBox.setTranslateY(250);
-        for(Choosable fieldCard : targetCards) {
-            Pane pane = new Pane();
-            if (fieldCard instanceof FieldCard) {
-                FieldCard clonedCard = ((FieldCard) fieldCard).cloneForCardAbility();
-                pane = new Pane(clonedCard.getFieldCardPhoto());
-            }
-            else if (fieldCard instanceof Hero) {
-                System.out.println("I'm here with hero named " + ((Hero) fieldCard).getName());
-                ImageView image = ((Hero) fieldCard).getImage();
-                pane = new Pane(((Hero) fieldCard).getImage());
-            }
-
-            hBox.getChildren().add(pane);
-            pane.setOnMouseClicked(e -> {
-                if(fieldCard instanceof  FieldCard)
-                    applyChangeToCard((FieldCard) fieldCard , play);
-                else if(fieldCard instanceof Hero)
-                    applyChangeToHero(fieldCard.getHealth());
-                play.getGameField().getChildren().remove(hBox);
-            });
-        }
-    }
-
+//    private void chooseTarget(ArrayList <? extends Choosable> targetCards , Play play){
+//        HBox hBox = new HBox();
+//        hBox.setStyle("-fx-background-color: rgba(0 , 0 , 0 , 0.8)");
+//        hBox.setPrefWidth(1280);
+//        hBox.setPrefHeight(220);
+//        hBox.setAlignment(Pos.BASELINE_CENTER);
+//        hBox.setPadding(new Insets(50 , 0 , 0 , 0));
+//        play.getGameField().getChildren().add(hBox);
+//        hBox.setTranslateY(250);
+//        for(Choosable fieldCard : targetCards) {
+//            Pane pane = new Pane();
+//            if (fieldCard instanceof FieldCard) {
+//                FieldCard clonedCard = ((FieldCard) fieldCard).cloneForCardAbility();
+//                pane = new Pane(clonedCard.getFieldCardPhoto());
+//            }
+//            else if (fieldCard instanceof Hero) {
+//                ImageView image = ((Hero) fieldCard).getImage();
+//                pane = new Pane(((Hero) fieldCard).getImage());
+//            }
+//
+//            hBox.getChildren().add(pane);
+//            pane.setOnMouseClicked(e -> {
+//                if(fieldCard instanceof  FieldCard)
+//                    applyChangeToCard((FieldCard) fieldCard , play);
+//                else if(fieldCard instanceof Hero)
+//                    applyChangeToHero(fieldCard.getHealth());
+//                play.getGameField().getChildren().remove(hBox);
+//            });
+//        }
+//    }
 
     private int changeField(Text field , int number){
         int health = Integer.parseInt(field.getText());
@@ -110,6 +108,35 @@ public class CardPowerChanger extends CardAbility {
             PlayerGraphics graphics = play.getContestant()[target.getParity()];
             graphics.fieldCardsBox.getChildren().remove(target.getFieldCardPhoto());
             graphics.fieldCards.remove(target);
+        }
+    }
+
+    public void applyChange(Choosable choosable , Play play){
+//        Choosable choosable = targetCards.get(new Random().nextInt(targetCards.size()));
+        if(choosable instanceof Hero)
+            applyChangeToHero(choosable.getHealth());
+        else if(choosable instanceof FieldCard)
+            applyChangeToCard((FieldCard) choosable , play);
+    }
+
+    public void switchSelectionType(ArrayList <? extends Choosable> targetCards , FieldCard targetCard , Play play , FieldCard card ){
+        switch (this.selectionType.name()){
+            case "RANDOM":
+                if(targetCards.size() > 0)
+                    applyChange(targetCards.get(new Random().nextInt(targetCards.size())) , play);
+                break;
+            case "ALL":
+                for(Choosable fieldCard : targetCards)
+                    applyChange(fieldCard , play);
+                break;
+            case "HIGH_PRIEST_AMET":
+                healthNumber = Integer.parseInt(targetCard.getHealth().getText());
+                attackNumber = Integer.parseInt(card.getAttack().getText());
+                applyChangeToCard(card , play);
+                break;
+            case "CHOOSE":
+                chooseTarget(targetCards , play);
+                //TODO :(
         }
     }
 
@@ -157,36 +184,6 @@ public class CardPowerChanger extends CardAbility {
         }
 
         switchSelectionType(targetCards , targetCard , play , card);
-    }
-
-
-    public void applyChange(Choosable choosable , Play play){
-//        Choosable choosable = targetCards.get(new Random().nextInt(targetCards.size()));
-        if(choosable instanceof Hero)
-            applyChangeToHero(choosable.getHealth());
-        else if(choosable instanceof FieldCard)
-            applyChangeToCard((FieldCard) choosable , play);
-    }
-
-    public void switchSelectionType(ArrayList <? extends Choosable> targetCards , FieldCard targetCard , Play play , FieldCard card ){
-        switch (this.selectionType.name()){
-            case "RANDOM":
-                if(targetCards.size() > 0)
-                    applyChange(targetCards.get(new Random().nextInt(targetCards.size())) , play);
-                break;
-            case "ALL":
-                for(Choosable fieldCard : targetCards)
-                    applyChange(fieldCard , play);
-                break;
-            case "HIGH_PRIEST_AMET":
-                healthNumber = Integer.parseInt(targetCard.getHealth().getText());
-                attackNumber = Integer.parseInt(card.getAttack().getText());
-                applyChangeToCard(card , play);
-                break;
-            case "CHOOSE":
-                chooseTarget(targetCards , play);
-                //TODO :(
-        }
     }
 
     public void bothHandler(FieldCard targetCard , Play play , FieldCard card){

@@ -1,0 +1,14 @@
+{
+	"name" : "Fan of Knives",
+	"hero" : "Rogue",
+	"type" : "Spell",
+	"rarity" : "Rare",
+	"mana" : 3,
+	"price" : 9,
+	"cardAttributes" : [],
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 1,\"change\" : false,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+		"className" : "CardPowerChanger"
+	}],
+	"description" : "Deal 1 damage to all enemy Minions. Draw a Card"
+}
