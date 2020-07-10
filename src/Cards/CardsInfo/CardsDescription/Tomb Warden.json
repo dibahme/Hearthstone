@@ -1,13 +1,17 @@
 {
-	name : "Tomb Warden",
-	type : "Minion",
-	hero : "Neutral",
-	rarity : "Rare",
-	mana : 8,
-	price : 14,
-	health : 6,
-	damage : 3,
+	"name" : "Tomb Warden",
+	"type" : "Minion",
+	"hero" : "Neutral",
+	"rarity" : "Rare",
+	"mana" : 8,
+	"price" : 14,
+	"health" : 6,
+	"damage" : 3,
 	"cardAttributes" : ["TAUNT"],
-	battleCry : "Summon a copy of this minion."
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"FIELD\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"THIS\" ,\"cardAttributes\" : []}",
+		"className" : "CardSummoner"
+	}],
+	"battleCry" : "Summon a copy of this minion."
 
 }	

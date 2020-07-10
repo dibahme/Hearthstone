@@ -131,7 +131,7 @@ public class Play {
         handleManasLeft(manas);
     }
 
-    private FieldCard addCardToDeck(Card card , int parity){
+    public FieldCard addCardToDeck(Card card , int parity){
         try {
             FieldCard fieldCard = FieldCard.getCard(card).setCardAttributes(card , parity);
 
@@ -195,7 +195,7 @@ public class Play {
         });
     }
 
-    private void handleFieldPlace(FieldCard card , double loc){
+    public void handleFieldPlace(FieldCard card , double loc){
         try {
             Cards.FieldCard fieldCard = card;
             HBox fieldCardsBox = contestant[turnParity].fieldCardsBox;

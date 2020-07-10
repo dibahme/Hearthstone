@@ -1,10 +1,14 @@
 {
-	name : "Echo of Medivh",
-	hero : "Mage",
-	type : "Spell",
-	rarity : "Epic",
-	mana : 4,
-	price : 16,
+	"name" : "Echo of Medivh",
+	"hero" : "Mage",
+	"type" : "Spell",
+	"rarity" : "Epic",
+	"mana" : 4,
+	"price" : 16,
 	"cardAttributes" : [],
-	description : "Put a copy of each friendly minion into your hand"
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"HAND\"] ,\"cardType\" : \"ALL\" ,\"sourcePlace\" : \"FIELD\" ,\"cardAttributes\" : []}",
+		"className" : "CardSummoner"
+	}],
+	"description" : "Put a copy of each friendly minion into your hand"
 }

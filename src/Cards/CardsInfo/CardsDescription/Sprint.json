@@ -1,10 +1,28 @@
 {
-	name : "Sprint",
-	hero : "Neutral",
-	type : "Spell",
-	rarity : "Free",
-	price : 12,
-	mana : 7,
+	"name" : "Sprint",
+	"hero" : "Neutral",
+	"type" : "Spell",
+	"rarity" : "Free",
+	"price" : 12,
+	"mana" : 7,
 	"cardAttributes" : [],
-	description : "Draw 4 cards."
+	"cardActions" : [
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"HAND\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"HAND\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"HAND\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"HAND\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		}
+	],
+	"description" : "Draw 4 cards."
 }

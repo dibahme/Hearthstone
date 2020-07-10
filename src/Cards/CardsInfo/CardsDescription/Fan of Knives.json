@@ -6,9 +6,15 @@
 	"mana" : 3,
 	"price" : 9,
 	"cardAttributes" : [],
-	"cardActions" : [{
-		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 1,\"change\" : false,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
-		"className" : "CardPowerChanger"
-	}],
+	"cardActions" : [
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 0,\"healthNumber\" : 1,\"change\" : false,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+			"className" : "CardPowerChanger"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"HAND\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		}
+	],
 	"description" : "Deal 1 damage to all enemy Minions. Draw a Card"
 }

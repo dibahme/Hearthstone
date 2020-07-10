@@ -8,5 +8,9 @@
 	"health" : 5,
 	"damage" : 5,
 	"cardAttributes" : [],
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"HAND\" , \"DECK\" , \"FIELD\"] ,\"cardType\" : \"CHOOSE\" ,\"sourcePlace\" : \"FIELD\" ,\"cardAttributes\" : []}",
+		"className" : "CardSummoner"
+	}],
 	"battleCry" : "Choose a friendly minion. Add a copy of it to your hand, deck, and battlefield."
 }	

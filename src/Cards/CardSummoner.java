@@ -4,6 +4,7 @@ import Controller.GameOperations;
 import Scenes.Play.Play;
 import Scenes.Play.PlayerGraphics;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,7 +24,8 @@ enum SourcePlace{
     FIELD,
     HAND,
     DECK,
-    THIS
+    THIS,
+    ALL
 }
 
 public class CardSummoner extends CardAbility{
@@ -33,7 +35,21 @@ public class CardSummoner extends CardAbility{
     SourcePlace sourcePlace;
 
     public void applyChangeToCard(Card card , FieldCard targetCard , Play play){
-
+        FieldCard fieldCard = FieldCard.getCard(card).setCardAttributes(card , targetCard.getParity());
+        PlayerGraphics player = play.getContestant()[targetCard.getParity()];
+        for(TargetPlace targetPlace : targetPlaces) {
+            switch (targetPlace.name()){
+                case "FIELD":
+                    play.handleFieldPlace(fieldCard , 1280);
+                    break;
+                case "HAND":
+                    player.hand.add(card);
+                    break;
+                case "DECK":
+                    play.addCardToDeck(card , targetCard.getParity());
+                    break;
+            }
+        }
     }
 
     public void chooseCard(ArrayList <Card> sourceCards , FieldCard targetCard , Play play){
@@ -46,6 +62,7 @@ public class CardSummoner extends CardAbility{
             case "ALL":
                 for(Card card : sourceCards)
                     applyChangeToCard(card , targetCard , play);
+                break;
             case "CHOOSE":
                 ArrayList sourceFieldCards = new ArrayList();
                 for(Card card : sourceCards)
@@ -70,6 +87,11 @@ public class CardSummoner extends CardAbility{
                 break;
             case "THIS" :
                 sourceCards.add(targetCard.getCard());
+                break;
+            case "ALL":
+                File file = new File("src/Cards/Cards/CardsInfo/CardsDescription");
+                for(File cardFile : file.listFiles())
+                    sourceCards.add(new Card(cardFile.getName().substring(0 ,cardFile.getName().length() - ".json".length())));
         }
 
         chooseCard(sourceCards , targetCard , play);
