@@ -20,6 +20,11 @@ public class FieldCard implements Choosable {
     private Text health;
     @FXML
     private Ellipse cardImage;
+    @FXML
+    private ImageView backgroundEffect;
+    @FXML
+    private ImageView poisonousIcon;
+
     private ImageView deckCardImage , cardDuplicate;
     private Card card;
     private double startX , startY;
@@ -36,8 +41,10 @@ public class FieldCard implements Choosable {
             }catch(Exception ignored){ignored.printStackTrace();}
             fieldCard.setHealth(String.valueOf(card.getHealth()));
             fieldCard.setAttack(String.valueOf(card.getDamage()));
-
             fieldCard.card = card;
+
+            CardAttribute.getInstance().applyCardAttributeEffects(fieldCard);
+
         }catch(Exception ignored){
             ignored.printStackTrace();
         }
@@ -104,4 +111,6 @@ public class FieldCard implements Choosable {
     public int getSummonedTurn() { return summonedTurn; }
     public void setSummonedTurn(int summonedTurn) { this.summonedTurn = summonedTurn;}
     public void setFieldCardPhoto(Pane fieldCardPhoto) { this.fieldCardPhoto = fieldCardPhoto; }
+    public ImageView getBackgroundEffect() { return backgroundEffect; }
+    public ImageView getPoisonousIcon() { return poisonousIcon; }
 }

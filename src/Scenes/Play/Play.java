@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,7 +89,7 @@ public class Play {
 
         File file = new File("src/Cards/Config/config.json");
         PlayerGraphics friend = new PlayerGraphics() , opponent = new PlayerGraphics();
-        Hero opponentHero = Hero.getRandomHero();
+        opponentHero = Hero.getRandomHero();
         opponentHeroImage.setImage(opponentHero.getImage().getImage());
         setHeroAttributes(opponentHero , opponentHeroImage , opponentHeroHealth , 1);
         Weapon friendWeapon = Weapon.getBasicWeapon(myWeaponDurability , myWeaponAttack , myWeaponImage) ,
@@ -102,6 +103,9 @@ public class Play {
                     stringBuilder.append(sc.nextLine());
 
                 myHero = Hero.getRandomHero();
+
+                myHeroImage.setImage(myHero.getImage().getImage());
+                System.out.println("my hero name is " + myHero.getName() + "   " + myHeroImage.getImage());
                 ConfigReader configReader = gson.fromJson(stringBuilder.toString() , ConfigReader.class);
                 friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend())  , friendFieldCards , friendDeckCards , myHero , myHeroPowerImage , friendWeapon);
                 opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , opponentFieldCards , opponentDeckCards , opponentHero , opponentHeroPowerImage , opponentWeapon);
@@ -181,7 +185,7 @@ public class Play {
         });
     }
 
-    private void handleWeaponCard(FieldCard card){
+    public void handleWeaponCard(FieldCard card){
 
         Weapon weapon = new Weapon(card.getCard().getName());
         weapon.setWeaponImage(contestant[card.getParity()].getWeapon().getWeaponImage());
@@ -218,7 +222,9 @@ public class Play {
             }
 
             fieldCard.getFieldCardPhoto().setOnMouseClicked(e -> {
-                if(turnParity == card.getParity() && card.getSummonedTurn() != turn && !usedMinions.contains(fieldCard)){
+                if(turnParity == card.getParity()
+                        && (card.getSummonedTurn() != turn || card.getCard().getCardAttributes().contains(CardAttribute.CardAttributes.RUSH))
+                        && !usedMinions.contains(fieldCard)){
                     fieldCard.getCardImage().setStroke(Color.RED);
                     if(selectedCard != null) {
                         selectedCard.getCardImage().setStroke(Color.LIGHTBLUE);
@@ -226,8 +232,11 @@ public class Play {
                     }
                     selectedCard = fieldCard;
                 }
-                else if(turnParity != card.getParity() && selectedCard != null)
-                    GameOperations.getInstance().attackHandler(selectedCard , fieldCard , this);
+                else if(turnParity != card.getParity() && selectedCard != null) {
+                    if(!CardAttribute.getInstance().hasTaunt(1 - card.getParity() , this) ||
+                            selectedCard.getCard().getCardAttributes().contains(CardAttribute.CardAttributes.TAUNT))
+                    GameOperations.getInstance().attackHandler(selectedCard, fieldCard, this);
+                }
             });
         }catch(Exception ignored){ignored.printStackTrace();}
     }
@@ -265,9 +274,14 @@ public class Play {
         handleManasLeft(manasLeft - deckCard.getMana() - offCard);
         contestant[turnParity].deckCardsBox.getChildren().remove(card.getDeckCardImage());
 
-        for(FieldCard targetCard : contestant[turnParity].fieldCards)
-            for(CardAbility cardAbility : targetCard.getCard().getCardAbilities())
-                cardAbility.doAction(targetCard , this , gameState.SUMMON_CARD , card);
+        for(int i = 0 ; i < contestant[turnParity].fieldCards.size() ; i++) {
+            FieldCard targetCard = contestant[turnParity].fieldCards.get(i);
+            for(int j = 0 ; j < targetCard.getCard().getCardAbilities().size() ; j++) {
+                CardAbility cardAbility = targetCard.getCard().getCardAbilities().get(j);
+                cardAbility.doAction(targetCard, this, gameState.SUMMON_CARD, card);
+            }
+        }
+
         if(!(card.getCard() instanceof Minion))
             for(CardAbility cardAbility : card.getCard().getCardAbilities())
                 cardAbility.doAction(card , this , gameState.SUMMON_CARD , card);
@@ -277,13 +291,13 @@ public class Play {
         try {
             hero.setHealthText(health);
             image.setOnMouseClicked(e -> {
-                if(turnParity != parity && selectedCard != null){
+                if(turnParity != parity && selectedCard != null && selectedCard.getSummonedTurn() != turn){
                     FieldCard fieldCard = selectedCard;
-
                     GameOperations.getInstance().transitionAction(selectedCard , opponentHeroImage , this);
-                    GameOperations.getInstance().changeHealth(fieldCard.getAttack() , opponentHeroHealth);
+
+                    Weapon weapon = contestant[fieldCard.getParity()].getWeapon();
+                    GameOperations.getInstance().changeHealth(fieldCard.getCard() instanceof Weapon ? weapon.getAttackText() : fieldCard.getAttack() , opponentHeroHealth);
                     if(fieldCard.getCard() instanceof Weapon) {
-                        Weapon weapon = contestant[fieldCard.getParity()].getWeapon();
                         GameOperations.getInstance().changeHealth(new Text("1"), weapon.getDurabilityText());
                         GameOperations.getInstance().checkRemove(fieldCard , weapon.getDurabilityText() , this);
                     }
@@ -300,6 +314,7 @@ public class Play {
     }
 
     public void drawCard(int parity){
+        System.out.println("there is " + contestant[parity].hand.size() + " cards left in this player's hand");
         if(!contestant[parity].hand.isEmpty()){
             FieldCard card = addCardToDeck(contestant[parity].hand.get(0) , parity);
             for(FieldCard fieldCard : contestant[parity].fieldCards)
@@ -310,6 +325,7 @@ public class Play {
 
     @FXML
     private void endTurnAction(){
+        System.out.println("in the first line of end turn action number of cards in the hand is " + contestant[0].hand.size());
         for(FieldCard fieldCard : contestant[turnParity].fieldCards)
             for(CardAbility cardAbility : fieldCard.getCard().getCardAbilities())
                 cardAbility.doAction(fieldCard , this , gameState.END_TURN , null);

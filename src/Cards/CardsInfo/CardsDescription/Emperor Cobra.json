@@ -1,11 +1,11 @@
 {
-	name : "Emperor Cobra",
-	type : "Minion",
-	hero : "Neutral",
-	rarity : "Rare",
-	price : 11,
-	mana : 3,
-	health : 3,
-	damage : 2,
+	"name" : "Emperor Cobra",
+	"type" : "Minion",
+	"hero" : "Neutral",
+	"rarity" : "Rare",
+	"price" : 11,
+	"mana" : 3,
+	"health" : 3,
+	"damage" : 2,
 	"cardAttributes" : ["POISONOUS"]
 }	

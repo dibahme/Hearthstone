@@ -1,0 +1,16 @@
+{
+	"name" : "Convincing Infiltrator",
+	"type" : "Minion",
+	"hero" : "Priest",
+	"rarity" : "Rare",
+	"mana" : 5,
+	"price" : 8,
+	"health" : 6,
+	"damage" : 2,
+	"cardAttributes" : ["TAUNT"],
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"DEATH_RATTLE\",\"attackNumber\" : 0,\"healthNumber\" : 0,\"change\" : true,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"RANDOM\" ,\"cardAttributes\" : []}",
+		"className" : "CardPowerChanger"
+	}],
+	"deathRattle" : "Destroy a random enemy minion."
+}	

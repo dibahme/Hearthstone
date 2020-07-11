@@ -3,15 +3,13 @@ package Cards;
 import Controller.GameOperations;
 import Scenes.Play.Play;
 import Scenes.Play.PlayerGraphics;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import static Cards.CardAttribute.CardAttributes;
 import static Controller.GameOperations.gameState;
 
 enum Zone {
@@ -32,9 +30,10 @@ enum SelectionType {
 enum TargetType{
     HERO("heroHandler"),
     MINION("minionHandler"),
-    BOTH("bothHandler");
+    BOTH("bothHandler"),
+    WEAPON("weaponHandler");
     private String value;
-    private TargetType(String function) { value = function; }
+    TargetType(String function) { value = function; }
     public String getValue() { return this.value; }
 }
 
@@ -45,38 +44,7 @@ public class CardPowerChanger extends CardAbility {
     private Zone zone;
     private TargetType targetType;
     private SelectionType selectionType;
-    private ArrayList<CardAttribute> cardAttributes;
-
-//    private void chooseTarget(ArrayList <? extends Choosable> targetCards , Play play){
-//        HBox hBox = new HBox();
-//        hBox.setStyle("-fx-background-color: rgba(0 , 0 , 0 , 0.8)");
-//        hBox.setPrefWidth(1280);
-//        hBox.setPrefHeight(220);
-//        hBox.setAlignment(Pos.BASELINE_CENTER);
-//        hBox.setPadding(new Insets(50 , 0 , 0 , 0));
-//        play.getGameField().getChildren().add(hBox);
-//        hBox.setTranslateY(250);
-//        for(Choosable fieldCard : targetCards) {
-//            Pane pane = new Pane();
-//            if (fieldCard instanceof FieldCard) {
-//                FieldCard clonedCard = ((FieldCard) fieldCard).cloneForCardAbility();
-//                pane = new Pane(clonedCard.getFieldCardPhoto());
-//            }
-//            else if (fieldCard instanceof Hero) {
-//                ImageView image = ((Hero) fieldCard).getImage();
-//                pane = new Pane(((Hero) fieldCard).getImage());
-//            }
-//
-//            hBox.getChildren().add(pane);
-//            pane.setOnMouseClicked(e -> {
-//                if(fieldCard instanceof  FieldCard)
-//                    applyChangeToCard((FieldCard) fieldCard , play);
-//                else if(fieldCard instanceof Hero)
-//                    applyChangeToHero(fieldCard.getHealth());
-//                play.getGameField().getChildren().remove(hBox);
-//            });
-//        }
-//    }
+    private ArrayList<CardAttributes> cardAttributes;
 
     private int changeField(Text field , int number){
         int health = Integer.parseInt(field.getText());
@@ -99,7 +67,7 @@ public class CardPowerChanger extends CardAbility {
         int health = changeField(target.getHealth() , healthNumber);
         changeField(target.getAttack() , attackNumber);
 
-        for(CardAttribute cardAttribute : cardAttributes){
+        for(CardAttributes cardAttribute : cardAttributes){
             if(!target.getCard().getCardAttributes().contains(cardAttribute))
                 target.getCard().getCardAttributes().add(cardAttribute);
         }
@@ -136,8 +104,14 @@ public class CardPowerChanger extends CardAbility {
                 break;
             case "CHOOSE":
                 chooseTarget(targetCards , play);
-                //TODO :(
         }
+    }
+
+    public void weaponHandler(FieldCard targetCard , Play play , FieldCard card){
+        PlayerGraphics player = play.getContestant()[targetCard.getParity()];
+        int attack = Integer.parseInt(player.getWeapon().getAttackText().getText());
+        player.getWeapon().getAttackText().setText(String.valueOf(attack + 1));
+        player.getWeapon().setHealth(attack+1);
     }
 
     private void heroHandler(FieldCard targetCard , Play play , FieldCard card){
@@ -201,7 +175,7 @@ public class CardPowerChanger extends CardAbility {
                 break;
             case "ENEMY" :
                 targetCards.addAll(enemy);
-                play.getContestant()[1-parity].getHero();
+                targetCards.add(play.getContestant()[1-parity].getHero());
                 break;
             case "BOTH" :
                 targetCards.addAll(friend);

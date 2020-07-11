@@ -66,8 +66,8 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Text>
-      <HBox fx:id="opponentFieldCards" alignment="CENTER" layoutX="560.0" layoutY="236.0" prefHeight="100.0" prefWidth="200.0" />
-      <HBox fx:id="friendFieldCards" alignment="CENTER" layoutX="560.0" layoutY="371.0" prefHeight="100.0" prefWidth="200.0" />
+      <HBox fx:id="opponentFieldCards" alignment="CENTER" layoutX="560.0" layoutY="221.0" prefHeight="100.0" prefWidth="200.0" />
+      <HBox fx:id="friendFieldCards" alignment="CENTER" layoutX="560.0" layoutY="348.0" prefHeight="100.0" prefWidth="200.0" />
       <HBox fx:id="opponentDeckCards" alignment="TOP_CENTER" layoutX="540.0" layoutY="-9.0" prefHeight="95.0" prefWidth="258.0" />
       <HBox fx:id="friendDeckCards" alignment="TOP_CENTER" layoutX="552.0" layoutY="623.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="103.0" prefWidth="214.0" />
       <HBox fx:id="manaBox" layoutX="906.0" layoutY="658.0" prefHeight="0.0" prefWidth="200.0">

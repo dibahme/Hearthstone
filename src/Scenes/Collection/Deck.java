@@ -208,7 +208,7 @@ public class Deck{
         }
 
         if(flag){
-            File file = new File("src/Cards/HeroesInfo");
+            File file = new File("src/Cards/HeroesInfo/HeroesDescription/");
             for(String name : Objects.requireNonNull(file.list()))
                 heroBox.getItems().add(name.substring(0 , name.length()-5));
         }

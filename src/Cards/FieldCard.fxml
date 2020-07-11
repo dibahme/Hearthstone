@@ -7,28 +7,34 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="fieldCardPhoto" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0" prefWidth="105.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cards.FieldCard">
+<Pane fx:id="fieldCardPhoto" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="143.0" prefWidth="120.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cards.FieldCard">
    <children>
-      <Ellipse fx:id="cardImage" fill="DODGERBLUE" layoutX="53.0" layoutY="57.0" radiusX="47.0" radiusY="56.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" />
-      <ImageView fitHeight="41.0" fitWidth="31.0" layoutX="9.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="backgroundEffect" fitHeight="157.0" fitWidth="135.0" layoutX="-7.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true" />
+      <Ellipse fx:id="cardImage" fill="DODGERBLUE" layoutX="62.0" layoutY="67.0" radiusX="46.0" radiusY="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" />
+      <ImageView fitHeight="41.0" fitWidth="31.0" layoutX="12.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Images/Damage.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="36.0" fitWidth="25.0" layoutX="74.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="36.0" fitWidth="25.0" layoutX="82.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Images/Health.png" />
          </image>
       </ImageView>
-      <Text fx:id="health" fill="WHITE" layoutX="81.0" layoutY="105.0" stroke="BLACK" strokeType="OUTSIDE" text="1">
+      <Text fx:id="health" fill="WHITE" layoutX="89.0" layoutY="117.0" stroke="BLACK" strokeType="OUTSIDE" text="1">
          <font>
             <Font name="Copperplate Gothic Bold" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="attack" fill="WHITE" layoutX="21.0" layoutY="103.0" stroke="BLACK" strokeType="OUTSIDE" text="1">
+      <Text fx:id="attack" fill="WHITE" layoutX="25.0" layoutY="113.0" stroke="BLACK" strokeType="OUTSIDE" text="1">
          <font>
             <Font name="Copperplate Gothic Bold" size="15.0" />
          </font>
       </Text>
+      <ImageView fx:id="poisonousIcon" fitHeight="57.0" fitWidth="62.0" layoutX="35.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../Images/Poisonous.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

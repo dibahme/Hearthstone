@@ -7,7 +7,7 @@
 	"mana" : 6,
 	"cardAttributes" : [],
 	"cardActions" : [{
-		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 1,\"healthNumber\" : 1,\"change\" : true ,\"targetPlaces\" : [\"FIELD\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"ALL\" ,\"cardAttributes\" : [\"RUSH\"]}",
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 1,\"healthNumber\" : 1,\"change\" : true ,\"targetPlaces\" : [\"FIELD\"] ,\"cardType\" : \"MINION\" ,\"sourcePlace\" : \"ALL\" ,\"cardAttributes\" : [\"RUSH\"]}",
 		"className" : "CardSummoner"
 	}],
 	"description" : "Summon seven 1/1 Locusts with Rush"

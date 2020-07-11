@@ -1,0 +1,11 @@
+{
+	"name" : "Scarlet Crusader",
+	"type" : "Minion",
+	"hero" : "Neutral",
+	"rarity" : "Rare",
+	"price" : 14,
+	"mana" : 3,
+	"health" : 1,
+	"damage" : 3,
+	"cardAttributes" : ["DIVINE_SHIELD"]
+}

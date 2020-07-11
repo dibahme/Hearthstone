@@ -1,18 +1,16 @@
 package Cards;
 
-import Controller.GameOperations;
 import Scenes.Play.Play;
 import com.google.gson.Gson;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
-import static Controller.GameOperations.gameState;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+
+import static Controller.GameOperations.gameState;
 
 public class CardAbility {
 
@@ -58,7 +56,7 @@ public class CardAbility {
                 pane = new Pane(clonedCard.getFieldCardPhoto());
             }
             else if (fieldCard instanceof Hero) {
-                ImageView image = ((Hero) fieldCard).getImage();
+                System.out.println("the hero name is " + ((Hero) fieldCard).getName());
                 pane = new Pane(((Hero) fieldCard).getImage());
             }
 

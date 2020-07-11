@@ -6,9 +6,15 @@
 	"mana" : 5,
 	"price" : 16,
 	"cardAttributes" : [],
-	"cardActions" : [{
-		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : 1,\"change\" : true,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
-		"className" : "CardPowerChanger"
-	}],
+	"cardActions" : [
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : 1,\"change\" : true,\"zone\" : \"ENEMY\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"ALL\" ,\"cardAttributes\" : []}",
+			"className" : "CardPowerChanger"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 1,\"healthNumber\" : 4,\"change\" : true ,\"targetPlaces\" : [\"FIELD\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"WEAPON\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		}
+	],
 	"description" : "Equip a 1/4 weapon. Change the Health of all enemy minions to 1."
 }

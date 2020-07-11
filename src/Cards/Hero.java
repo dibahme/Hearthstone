@@ -38,6 +38,8 @@ public class Hero implements Choosable{
             for(Field field : fields)
                 field.set(this, field.get(tmp));
 
+            this.image = new ImageView(new Image(new FileInputStream("src/Images/" + name + "Icon.png")));
+
         }catch(Exception ignored){
             ignored.printStackTrace();
         }
@@ -45,7 +47,6 @@ public class Hero implements Choosable{
 
     public static Hero getRandomHero(){
         File file = new File("src/Cards/HeroesInfo/HeroesDescription");
-
         String name = file.list()[new Random().nextInt(file.list().length)];
         return new Hero(name.substring(0 , name.length() - ".json".length()));
     }

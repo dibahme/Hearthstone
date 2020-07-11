@@ -29,7 +29,7 @@ public class Player {
                 new Spell("Deadly Shot") ,
                 new Spell("Healing Touch"),
                 new Minion("Frostwolf Grunt"),
-                new Minion("Phantom Militia")));
+                new Minion("Scarlet Crusader")));
     }
 
     public Player() {

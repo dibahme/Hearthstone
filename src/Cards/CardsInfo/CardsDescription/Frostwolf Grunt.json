@@ -1,11 +1,11 @@
 {
-	name : "Frostwolf Grunt",
-	type : "Minion",
-	hero : "Neutral",
-	rarity : "Free",
-	mana : 2,
-	price : 5,
-	health : 2,
-	damage : 2,
+	"name" : "Frostwolf Grunt",
+	"type" : "Minion",
+	"hero" : "Neutral",
+	"rarity" : "Free",
+	"mana" : 2,
+	"price" : 5,
+	"health" : 2,
+	"damage" : 2,
 	"cardAttributes" : ["TAUNT"]
 }	

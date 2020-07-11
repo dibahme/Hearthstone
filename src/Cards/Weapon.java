@@ -27,7 +27,6 @@ public class Weapon extends Card {
     }
 
     public void startPlaying(FieldCard card){
-        System.out.println("playing is started successfully!");
         this.getAttackText().setText(String.valueOf(this.getDamage()));
         this.getDurabilityText().setText(String.valueOf(this.getHealth()));
 
@@ -42,7 +41,6 @@ public class Weapon extends Card {
     }
 
     public void stopPlaying(){
-        System.out.println("playing is stopped successfully!");
         this.getWeaponImage().setVisible(false);
         this.getWeaponImage().setDisable(true);
         this.getDurabilityText().setVisible(false);

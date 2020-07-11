@@ -9,12 +9,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import static Cards.CardAttribute.CardAttributes;
 public class Card {
 
     private int price , mana , health , damage , restore;
     private String name , type , hero , description , battleCry , deathRattle , rarity , reward , quest;
-    private ArrayList <CardAttribute> cardAttributes;
+    private ArrayList <CardAttributes> cardAttributes;
     private ArrayList <CardAbility> cardActions;
     private transient ArrayList <CardAbility> cardAbilities;
     private transient Image cardImage;
@@ -73,5 +73,7 @@ public class Card {
         return new Card(this.getName());
     }
     public ArrayList<CardAbility> getCardAbilities() { return cardAbilities; }
-    public ArrayList<CardAttribute> getCardAttributes() { return cardAttributes; }
+    public ArrayList<CardAttributes> getCardAttributes() { return cardAttributes; }
+    public void setHealth(int health){this.health = health;}
+
 }

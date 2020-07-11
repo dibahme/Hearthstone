@@ -6,5 +6,19 @@
 	"price" : 19,
 	"mana" : 2,
 	"cardAttributes" : [],
+	"cardActions" : [
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"ANTI_SPELL\" ,\"sourcePlace\" : \"HAND\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"ANTI_SPELL\" ,\"sourcePlace\" : \"HAND\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		},
+		{
+			"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"ANTI_SPELL\" ,\"sourcePlace\" : \"HAND\" ,\"cardAttributes\" : []}",
+			"className" : "CardSummoner"
+		}
+	],
 	"description" : "Draw 3 cards. Discard any spells drawn."
 }

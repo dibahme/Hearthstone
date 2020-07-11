@@ -1,9 +1,7 @@
 package Controller;
 
-import Cards.Minion;
-import Cards.Weapon;
+import Cards.*;
 import Scenes.Play.Play;
-import Cards.FieldCard;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventType;
 import javafx.geometry.Bounds;
@@ -14,6 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+
+import static Cards.CardAttribute.CardAttributes;
 
 public class GameOperations {
 
@@ -63,14 +64,27 @@ public class GameOperations {
 
     public synchronized void attackHandler(FieldCard attacker , FieldCard attackee , Play playScene){
         transitionAction(attacker , attackee.getFieldCardPhoto() , playScene);
-        changeHealth(attacker.getAttack() , attackee.getHealth());
         Weapon weapon = playScene.getContestant()[attacker.getParity()].getWeapon();
+
+        if(attackee.getCard().getCardAttributes().contains(CardAttributes.DIVINE_SHIELD)){
+            CardAttribute.getInstance().removeDivineShield(attackee);
+            return;
+        }
+
+        if(attacker.getCard().getCardAttributes().contains(CardAttributes.POISONOUS)){
+            attackee.setHealth("0");
+            checkRemove(attackee , attackee.getHealth() , playScene);
+            return;
+        }
+
         if(attacker.getCard() instanceof Weapon) {
             changeHealth(new Text("1"), weapon.getDurabilityText());
+            changeHealth(weapon.getAttackText() , attackee.getHealth());
             checkRemove(attacker , playScene.getContestant()[attacker.getParity()].getWeapon().getDurabilityText() , playScene);
         }
         else {
             changeHealth(attackee.getAttack(), attacker.getHealth());
+            changeHealth(attacker.getAttack() , attackee.getHealth());
             checkRemove(attacker , attacker.getHealth() , playScene);
         }
 
@@ -86,6 +100,9 @@ public class GameOperations {
             }
             else if(card.getCard() instanceof Weapon)
                 playScene.getContestant()[card.getParity()].getWeapon().stopPlaying();
+
+            for(CardAbility cardAbility : card.getCard().getCardAbilities())
+                cardAbility.doAction(card , playScene , gameState.DEAD_CARD , card);
         }
     }
 

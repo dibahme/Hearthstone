@@ -17,7 +17,8 @@ enum TargetPlace{
 enum CardType{
     RANDOM,
     CHOOSE,
-    ALL
+    ALL,
+    ANTI_SPELL
 }
 
 enum SourcePlace{
@@ -25,7 +26,8 @@ enum SourcePlace{
     HAND,
     DECK,
     THIS,
-    ALL
+    ALL,
+    WEAPON
 }
 
 public class CardSummoner extends CardAbility{
@@ -34,19 +36,24 @@ public class CardSummoner extends CardAbility{
     CardType cardType;
     SourcePlace sourcePlace;
 
-    public void applyChangeToCard(Card card , FieldCard targetCard , Play play){
-        FieldCard fieldCard = FieldCard.getCard(card).setCardAttributes(card , targetCard.getParity());
+    public void applyChangeToCard(FieldCard targetCard , Play play){
+        System.out.println("I got here successfully with card named " + targetCard.getCard().getName());
         PlayerGraphics player = play.getContestant()[targetCard.getParity()];
         for(TargetPlace targetPlace : targetPlaces) {
             switch (targetPlace.name()){
                 case "FIELD":
-                    play.handleFieldPlace(fieldCard , 1280);
+                    if(targetCard.getCard() instanceof Weapon)
+                        play.handleWeaponCard(targetCard);
+                    else
+                        play.handleFieldPlace(targetCard , 1280);
                     break;
                 case "HAND":
-                    player.hand.add(card);
+                    player.hand.add(targetCard.getCard());
+                    System.out.println("checking wether i get here in case hand " + targetCard.getParity() + " " + player.hand.size());
                     break;
                 case "DECK":
-                    play.addCardToDeck(card , targetCard.getParity());
+                    player.hand.add(targetCard.getCard());
+                    play.addCardToDeck(targetCard.getCard() , targetCard.getParity());
                     break;
             }
         }
@@ -55,25 +62,32 @@ public class CardSummoner extends CardAbility{
     public void chooseCard(ArrayList <Card> sourceCards , FieldCard targetCard , Play play){
         switch(cardType.name()){
             case "RANDOM":
+            case "ANTI_SPELL":
                 if(sourceCards.size() == 0)
                     return;
-                applyChangeToCard(sourceCards.get(new Random().nextInt(sourceCards.size())) , targetCard , play);
+                Card chosenCard = sourceCards.get(new Random().nextInt(sourceCards.size()));
+                if(cardType.name().equals("RANDOM") || !chosenCard.getType().equals("Spell"))
+                    applyChangeToCard(FieldCard.getCard(chosenCard).setCardAttributes(chosenCard , targetCard.getParity()) , play);
                 break;
             case "ALL":
                 for(Card card : sourceCards)
-                    applyChangeToCard(card , targetCard , play);
+                    applyChangeToCard(FieldCard.getCard(card).setCardAttributes(card , targetCard.getParity()) , play);
                 break;
             case "CHOOSE":
                 ArrayList sourceFieldCards = new ArrayList();
                 for(Card card : sourceCards)
                     sourceFieldCards.add(FieldCard.getCard(card));
                 chooseTarget(sourceFieldCards , play);
+                break;
+            case "MINION" :
+                //TODO :(
         }
     }
 
     public void handleOperations(FieldCard targetCard ,Play play , FieldCard card){
         ArrayList <Card> sourceCards = new ArrayList<>();
         PlayerGraphics player = play.getContestant()[targetCard.getParity()];
+        File file = new File("src/Cards/CardsInfo/CardsDescription/");
         switch (sourcePlace.name()){
             case "FIELD":
                 for(FieldCard fieldCard : player.fieldCards)
@@ -89,9 +103,16 @@ public class CardSummoner extends CardAbility{
                 sourceCards.add(targetCard.getCard());
                 break;
             case "ALL":
-                File file = new File("src/Cards/Cards/CardsInfo/CardsDescription");
                 for(File cardFile : file.listFiles())
                     sourceCards.add(new Card(cardFile.getName().substring(0 ,cardFile.getName().length() - ".json".length())));
+                break;
+            case "WEAPON":
+                System.out.println("DEBUG   " + file.list());
+                for(String cardName : file.list()){
+                    Card tmp = new Card(cardName.substring(0 ,cardName.length() - ".json".length()));
+                    if(tmp.getType().equals("Weapon"))
+                        sourceCards.add(new Weapon(tmp.getName()));
+                }
         }
 
         chooseCard(sourceCards , targetCard , play);

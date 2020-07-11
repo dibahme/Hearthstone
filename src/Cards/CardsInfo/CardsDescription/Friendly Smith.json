@@ -1,10 +1,14 @@
 {
-	name : "Friendly Smith" , 
-	hero : "Rogue",
-	rarity : "Common" , 
-	type : "Spell", 
-	price : 6,
-	mana : 1,
+	"name" : "Friendly Smith" ,
+	"hero" : "Rogue",
+	"rarity" : "Common" ,
+	"type" : "Spell",
+	"price" : 6,
+	"mana" : 1,
 	"cardAttributes" : [],
-	Description : "find a weapon and add 2 health and damage to it and add it to your deck"
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 2,\"healthNumber\" : 2,\"change\" : false ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"WEAPON\" ,\"cardAttributes\" : []}",
+		"className" : "CardSummoner"
+	}],
+	"Description" : "find a weapon and add 2 health and damage to it and add it to your deck"
 }

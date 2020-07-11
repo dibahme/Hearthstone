@@ -8,7 +8,7 @@
 	"cardAttributes" : [],
 	"cardActions" : [
 		{
-			"classJson": "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 4,\"healthNumber\" : 4,\"change\" : false,\"zone\" : \"BOTH\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"CHOOSE\" ,\"cardAttributes\" : [TAUNT , DIVINE_SHIELD]}",
+			"classJson": "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -4,\"healthNumber\" : -4,\"change\" : false,\"zone\" : \"BOTH\",\"targetType\" : \"MINION\" ,\"selectionType\" : \"CHOOSE\" ,\"cardAttributes\" : [TAUNT , DIVINE_SHIELD]}",
 			"className": "CardPowerChanger"
 		}
 	],

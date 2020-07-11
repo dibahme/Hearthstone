@@ -7,6 +7,10 @@
 	"mana" : 2,
 	"health" : 2,
 	"damage" : 2,
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : 0,\"change\" : false,\"zone\" : \"FRIEND\",\"targetType\" : \"WEAPON\" ,\"selectionType\" : \"RANDOM\" ,\"cardAttributes\" : []}",
+		"className" : "CardPowerChanger"
+	}],
 	"battleCry" : "Give your weapon +1 Attack",
 	"cardAttributes" : []
 }
