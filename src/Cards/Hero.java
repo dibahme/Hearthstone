@@ -15,7 +15,7 @@ import java.util.*;
 public class Hero implements Choosable{
 
     private String name;
-    private int health;
+    private int health , heroPowerCost;
     private transient Text healthText;
     private transient ImageView image;
     private ArrayList<Card> defaultHand;
@@ -60,6 +60,7 @@ public class Hero implements Choosable{
     public ArrayList<Card> getDefaultHand(){return defaultHand;}
     public void setImage(ImageView image) { this.image = image; }
     public void setHealthText(Text healthText) { this.healthText = healthText; }
+    public int getHeroPowerCost() { return heroPowerCost; }
     public ImageView getImage() {
         try {
             ImageView image = new ImageView(new Image(new FileInputStream("src/Images/" + this.getName() + "Icon.png")));

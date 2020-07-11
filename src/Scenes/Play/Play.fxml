@@ -26,7 +26,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <ImageView fitHeight="721.0" fitWidth="1035.0" layoutX="130.0" layoutY="-1.0">
+      <ImageView fitHeight="721.0" fitWidth="1035.0" layoutX="128.0" layoutY="-1.0">
          <image>
             <Image url="@../../Images/PlayField.jpg" />
          </image>
@@ -206,6 +206,26 @@
       <Text fx:id="opponentWeaponAttack" fill="WHITE" layoutX="494.0" layoutY="165.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1" visible="false" wrappingWidth="13.8046875">
          <font>
             <Font name="System Bold" size="19.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="145.0" fitWidth="139.0" layoutX="695.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/Hero%20Powewr.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="691.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/Hero%20Powewr.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="opponentHeroPowerCost" fill="WHITE" layoutX="760.0" layoutY="83.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="myHeroPowerCost" fill="WHITE" layoutX="761.0" layoutY="499.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1">
+         <font>
+            <Font name="System Bold" size="17.0" />
          </font>
       </Text>
    </children>

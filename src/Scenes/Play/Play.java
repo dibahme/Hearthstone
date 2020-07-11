@@ -76,6 +76,10 @@ public class Play {
     private Text myWeaponAttack;
     @FXML
     private Text opponentWeaponAttack;
+    @FXML
+    private Text myHeroPowerCost;
+    @FXML
+    private Text opponentHeroPowerCost;
 
     private int turn = 0 , manasLeft = 1 , turnParity = 0 , manas = 1 , offCard = 0;
     private PlayerGraphics[] contestant;
@@ -103,19 +107,27 @@ public class Play {
                     stringBuilder.append(sc.nextLine());
 
                 myHero = Hero.getRandomHero();
-
                 myHeroImage.setImage(myHero.getImage().getImage());
-                System.out.println("my hero name is " + myHero.getName() + "   " + myHeroImage.getImage());
+
                 ConfigReader configReader = gson.fromJson(stringBuilder.toString() , ConfigReader.class);
-                friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend())  , friendFieldCards , friendDeckCards , myHero , myHeroPowerImage , friendWeapon);
-                opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , opponentFieldCards , opponentDeckCards , opponentHero , opponentHeroPowerImage , opponentWeapon);
+
+                friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend()),
+                        friendFieldCards , friendDeckCards , myHero ,
+                        new HeroPower(myHeroPowerImage , myHeroPowerCost , 0 , myHero) , friendWeapon);
+
+                opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , opponentFieldCards ,
+                        opponentDeckCards , opponentHero ,
+                        new HeroPower(opponentHeroPowerImage , opponentHeroPowerCost , 1 , opponentHero) , opponentWeapon);
+
                 configExists = true;
             } catch (FileNotFoundException e) { e.printStackTrace(); }
         }
         else{
             myHero = new Hero(Main.player.getCurrentDeck().getHero());
-            friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , friendFieldCards , friendDeckCards , myHero, myHeroPowerImage , friendWeapon);
-            opponent = new PlayerGraphics(opponentHero.getDefaultHand() , opponentFieldCards , opponentDeckCards , opponentHero, opponentHeroPowerImage , opponentWeapon);
+            friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , friendFieldCards , friendDeckCards,
+                    myHero, new HeroPower(myHeroPowerImage , myHeroPowerCost , 0 , myHero) , friendWeapon);
+            opponent = new PlayerGraphics(opponentHero.getDefaultHand() , opponentFieldCards , opponentDeckCards ,
+                    opponentHero, new HeroPower(opponentHeroPowerImage , opponentHeroPowerCost , 1 , opponentHero) , opponentWeapon);
         }
 
         setHeroAttributes(myHero , myHeroImage , myHeroHealth , 0);

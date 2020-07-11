@@ -19,11 +19,9 @@ public class InfoPassiveHandler{
     public static void twiceDraw(Play play){
         play.drawCard(0);
     }
-
     public static void offCards(Play play){
         play.setOffCard(-1);
     }
-
     public static void nurse(Play play){
         ArrayList<FieldCard> card = play.getContestant()[0].fieldCards;
         if(!card.isEmpty()) {
@@ -37,8 +35,5 @@ public class InfoPassiveHandler{
         play.handleManasLeft(play.getManas());
     }
 
-    public static void freePower(Play play){
-
-    }
-
+    public static void freePower(Play play){ }
 }

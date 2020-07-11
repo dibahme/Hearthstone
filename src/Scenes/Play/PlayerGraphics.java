@@ -1,10 +1,9 @@
 package Scenes.Play;
 
-import Cards.Card;
-import Cards.FieldCard;
-import Cards.Hero;
-import Cards.Weapon;
+import Cards.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
@@ -15,11 +14,12 @@ public class PlayerGraphics{
     public HBox fieldCardsBox, deckCardsBox;
     public ArrayList <FieldCard> fieldCards = new ArrayList<>();
     private Hero hero;
-    private Circle heroPowerImage;
+//    private Circle heroPowerImage;
     private Weapon weapon;
+    private HeroPower heroPower;
 
     PlayerGraphics(){}
-    PlayerGraphics(ArrayList <Card> hand , HBox fieldCardsBox, HBox deckCardsBox , Hero hero , Circle heroPowerImage, Weapon weapon){
+    PlayerGraphics(ArrayList <Card> hand , HBox fieldCardsBox, HBox deckCardsBox , Hero hero , HeroPower heroPower, Weapon weapon){
         for(Card card : hand)
             this.hand.add(card.getCloned());
         deck = new ArrayList<>();
@@ -27,11 +27,13 @@ public class PlayerGraphics{
         this.deckCardsBox = deckCardsBox;
         this.hero = hero;
         this.weapon = weapon;
-        this.heroPowerImage = heroPowerImage;
+        this.heroPower = heroPower;
+
+
     }
 
     public Weapon getWeapon() { return weapon; }
     public Hero getHero() { return hero; }
-    public Circle getHeroPowerImage() { return heroPowerImage; }
+//    public Circle getHeroPowerImage() { return heroPowerImage; }
     public void setWeapon(Weapon weapon){this.weapon = weapon;}
 }
