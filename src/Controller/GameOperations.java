@@ -3,22 +3,18 @@ package Controller;
 import Cards.*;
 import Scenes.Play.Play;
 import javafx.animation.TranslateTransition;
-import javafx.event.EventType;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-
 import static Cards.CardAttribute.CardAttributes;
 
 public class GameOperations {
 
-    private static GameOperations gameOperations = new GameOperations();
+    private static final GameOperations gameOperations = new GameOperations();
     public static GameOperations getInstance(){return gameOperations;}
     public enum gameState {
         END_TURN,

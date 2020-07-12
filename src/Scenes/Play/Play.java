@@ -233,6 +233,9 @@ public class Play {
                 contestant[turnParity].fieldCards.add(fieldCard);
             }
 
+            if(contestant[1-fieldCard.getParity()].getHero().getName().equals("Hunter"))
+                GameOperations.getInstance().changeHealth(new Text("1") ,fieldCard.getHealth());
+
             fieldCard.getFieldCardPhoto().setOnMouseClicked(e -> {
                 if(turnParity == card.getParity()
                         && (card.getSummonedTurn() != turn || card.getCard().getCardAttributes().contains(CardAttribute.CardAttributes.RUSH))

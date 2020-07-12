@@ -64,7 +64,7 @@ public class FieldCard implements Choosable {
     public FieldCard setCardAttributes(Card card , int parity){
         try{
             this.deckCardImage = new ImageView(new Image(new FileInputStream("src/Cards/CardsInfo/ShopCards/" + card.getName() + ".png")));
-        }catch(Exception ignored){ignored.printStackTrace();}
+        }catch(Exception ignored){}
         Bounds bounds = deckCardImage.localToScene(deckCardImage.getBoundsInLocal());
         this.startX = this.deckCardImage.getLayoutX();
         this.startY = this.deckCardImage.getLayoutY();

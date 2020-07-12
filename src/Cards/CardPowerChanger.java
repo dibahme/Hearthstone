@@ -46,6 +46,17 @@ public class CardPowerChanger extends CardAbility {
     private SelectionType selectionType;
     private ArrayList<CardAttributes> cardAttributes;
 
+    public CardPowerChanger(int attackNumber , int healthNumber , boolean change , TargetType targetType ,
+                            SelectionType selectionType , ArrayList<CardAttributes> cardAttributes , Zone zone){
+        this.attackNumber = attackNumber;
+        this.healthNumber = healthNumber;
+        this.change = change;
+        this.targetType = targetType;
+        this.selectionType = selectionType;
+        this.cardAttributes = cardAttributes;
+    }
+
+
     private int changeField(Text field , int number){
         int health = Integer.parseInt(field.getText());
         if(change && number < 0)
@@ -161,12 +172,11 @@ public class CardPowerChanger extends CardAbility {
     }
 
     public void bothHandler(FieldCard targetCard , Play play , FieldCard card){
-        ArrayList <Choosable> targetCards = new ArrayList<>();
-
-        ArrayList <FieldCard >friend = play.getContestant()[targetCard.getParity()].fieldCards,
-                enemy = play.getContestant()[1 - targetCard.getParity()].fieldCards;
 
         int parity = targetCard.getParity();
+        ArrayList <Choosable> targetCards = new ArrayList<>();
+        ArrayList <FieldCard >friend = play.getContestant()[parity].fieldCards,
+                enemy = play.getContestant()[1 - parity].fieldCards;
 
         switch(this.zone.name()){
             case "FRIEND":

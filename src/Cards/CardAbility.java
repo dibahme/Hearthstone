@@ -30,7 +30,7 @@ public class CardAbility {
          try {
              return (CardAbility) new Gson().fromJson(classJson , Class.forName("Cards." + className));
          } catch (ClassNotFoundException e) { e.printStackTrace(); }
-         return new CardPowerChanger();
+         return new CardAbility();
      }
 
     public String getClassName() { return className; }
@@ -55,10 +55,9 @@ public class CardAbility {
                 FieldCard clonedCard = ((FieldCard) fieldCard).cloneForCardAbility();
                 pane = new Pane(clonedCard.getFieldCardPhoto());
             }
-            else if (fieldCard instanceof Hero) {
-                System.out.println("the hero name is " + ((Hero) fieldCard).getName());
+            else if (fieldCard instanceof Hero)
                 pane = new Pane(((Hero) fieldCard).getImage());
-            }
+
 
             hBox.getChildren().add(pane);
             pane.setOnMouseClicked(e -> {
