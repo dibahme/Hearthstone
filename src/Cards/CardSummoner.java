@@ -7,7 +7,7 @@ import Scenes.Play.PlayerGraphics;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-
+import static Cards.CardAttribute.CardAttributes;
 enum TargetPlace{
     FIELD,
     HAND,
@@ -35,9 +35,17 @@ public class CardSummoner extends CardAbility{
     ArrayList <TargetPlace> targetPlaces;
     CardType cardType;
     SourcePlace sourcePlace;
+    private ArrayList<CardAttributes> cardAttributes;
+
+    public CardSummoner(CardType cardType , SourcePlace sourcePlace
+            , ArrayList <TargetPlace> targetPlaces){
+        this.cardType = cardType;
+        this.sourcePlace = sourcePlace;
+        this.targetPlaces = targetPlaces;
+        this.cardAttributes = cardAttributes;
+    }
 
     public void applyChangeToCard(FieldCard targetCard , Play play){
-        System.out.println("I got here successfully with card named " + targetCard.getCard().getName());
         PlayerGraphics player = play.getContestant()[targetCard.getParity()];
         for(TargetPlace targetPlace : targetPlaces) {
             switch (targetPlace.name()){
@@ -49,7 +57,6 @@ public class CardSummoner extends CardAbility{
                     break;
                 case "HAND":
                     player.hand.add(targetCard.getCard());
-                    System.out.println("checking wether i get here in case hand " + targetCard.getParity() + " " + player.hand.size());
                     break;
                 case "DECK":
                     player.hand.add(targetCard.getCard());

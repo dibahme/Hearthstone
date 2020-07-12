@@ -286,7 +286,14 @@ public class Play {
         notificationBox(deckCard.getName() + " Is Played" , 400 , 100);
         contestant[card.getParity()].deck.remove(deckCard);
         card.setSummonedTurn(turn);
-        handleManasLeft(manasLeft - deckCard.getMana() - offCard);
+
+        if(card.getCard() instanceof Quest)
+            contestant[card.getParity()].getQuests().add((Quest) card.getCard());
+        else
+            Quest.checkPlayerQuests(this.contestant[card.getParity()].getQuests() , card.getParity(),
+                    deckCard.getMana() - offCard , card.getCard() , this);
+
+        handleManasLeft(manasLeft - deckCard.getMana() + offCard);
         contestant[turnParity].deckCardsBox.getChildren().remove(card.getDeckCardImage());
 
         for(int i = 0 ; i < contestant[turnParity].fieldCards.size() ; i++) {
@@ -300,6 +307,7 @@ public class Play {
         if(!(card.getCard() instanceof Minion))
             for(CardAbility cardAbility : card.getCard().getCardAbilities())
                 cardAbility.doAction(card , this , gameState.SUMMON_CARD , card);
+
     }
 
     private void setHeroAttributes(Hero hero , ImageView image , Text health , int parity){

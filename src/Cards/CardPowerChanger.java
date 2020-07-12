@@ -44,7 +44,7 @@ public class CardPowerChanger extends CardAbility {
     private Zone zone;
     private TargetType targetType;
     private SelectionType selectionType;
-    private ArrayList<CardAttributes> cardAttributes;
+    private ArrayList<CardAttribute.CardAttributes> cardAttributes;
 
     public CardPowerChanger(int attackNumber , int healthNumber , boolean change , TargetType targetType ,
                             SelectionType selectionType , ArrayList<CardAttributes> cardAttributes , Zone zone){
