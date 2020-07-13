@@ -11,6 +11,7 @@ import Scenes.Shop.Shop;
 import Scenes.Status.Status;
 import com.google.gson.Gson;
 import javafx.animation.PauseTransition;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -26,12 +27,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -123,7 +126,7 @@ public class Scenes {
         });
         play.setOnAction(e -> {
             stage.close();
-            if(Main.player.getCurrentDeck() == null)
+            if(Main.player.getCurrentDeck() == null && !new File("src/Cards/Config/Config.json").exists())
                 collectionScene();
             else
                 playScene();
@@ -348,9 +351,10 @@ public class Scenes {
     }
 
     public static void playScene(){
-        FXMLLoader loader = new FXMLLoader(Play.class.getResource("Play.fxml"));
         try {
-            Parent root = loader.load();
+
+            FXMLLoader loader = new FXMLLoader(Play.class.getResource("Play.fxml"));
+            Pane root = loader.load();
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
             currentStage.setFullScreen(true);
@@ -381,6 +385,10 @@ public class Scenes {
                     Main.player.setInfoPassive(infoPassive);
                     secondStage.close();
                     Log.logger("Choose_Info_Passive" , infoPassive.name());
+                    if(infoPassive.equals(InfoPassive.MANA_JUMP)) {
+                        play.setManas(2);
+                        play.handleManasLeft(2);
+                    }
                 });
 
                 vBox.getChildren().add(button);

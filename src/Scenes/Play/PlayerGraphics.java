@@ -14,10 +14,9 @@ public class PlayerGraphics{
     public HBox fieldCardsBox, deckCardsBox;
     public ArrayList <FieldCard> fieldCards = new ArrayList<>();
     private Hero hero;
-//    private Circle heroPowerImage;
     private Weapon weapon;
     private HeroPower heroPower;
-    private ArrayList <Quest> quests;
+    private ArrayList <Quest> quests = new ArrayList<>();
 
     PlayerGraphics(){}
     PlayerGraphics(ArrayList <Card> hand , HBox fieldCardsBox, HBox deckCardsBox , Hero hero , HeroPower heroPower, Weapon weapon){
@@ -29,13 +28,10 @@ public class PlayerGraphics{
         this.hero = hero;
         this.weapon = weapon;
         this.heroPower = heroPower;
-
-
     }
 
     public Weapon getWeapon() { return weapon; }
     public Hero getHero() { return hero; }
-//    public Circle getHeroPowerImage() { return heroPowerImage; }
     public void setWeapon(Weapon weapon){this.weapon = weapon;}
     public ArrayList<Quest> getQuests() { return quests; }
 }

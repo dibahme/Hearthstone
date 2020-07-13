@@ -113,4 +113,5 @@ public class FieldCard implements Choosable {
     public void setFieldCardPhoto(Pane fieldCardPhoto) { this.fieldCardPhoto = fieldCardPhoto; }
     public ImageView getBackgroundEffect() { return backgroundEffect; }
     public ImageView getPoisonousIcon() { return poisonousIcon; }
+    public void setParity(int parity){this.parity = parity;}
 }

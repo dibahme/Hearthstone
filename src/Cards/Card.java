@@ -14,11 +14,10 @@ public class Card {
 
     private int price , mana , health , damage , restore;
     private String name , type , hero , description , battleCry , deathRattle , rarity , reward , quest;
-    private ArrayList <CardAttributes> cardAttributes;
+    private ArrayList <CardAttributes> cardAttributes = new ArrayList<>();
     private ArrayList <CardAbility> cardActions;
     private transient ArrayList <CardAbility> cardAbilities;
     private transient Image cardImage;
-
 
     public Card(String name){
         File userPath = new File("src/Cards/CardsInfo/CardsDescription/" + name + ".json");
@@ -40,7 +39,6 @@ public class Card {
                 for (CardAbility cardAction : cardActions)
                     cardAbilities.add(cardAction.getAbility());
 
-            //this.cardImage = new Image(new FileInputStream("src/Cards/CardsInfo/ShopCards/" + name + ".png"));
         }catch(Exception ignored){
             ignored.printStackTrace();
         }
@@ -66,6 +64,7 @@ public class Card {
     public String getDeathRattle() { return deathRattle; }
     public String getRarity() { return rarity; }
     public FieldCard getFieldCard(){ return FieldCard.getCard(this); }
+    public ArrayList<CardAbility> getCardActions() { return cardActions; }
     public Card getCloned(){
         try {
             return (Card) Class.forName("Cards." + this.getType()).getConstructor(String.class).newInstance(this.getName());

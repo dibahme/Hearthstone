@@ -16,7 +16,7 @@ public class Log {
     private static Player player = Main.player;
 
     public static void logger(String event , String description){
-        path = new File("C:\\Users\\diba hashemi\\Desktop\\AP\\Project\\Part2\\src\\Logs\\" + player.getUsername() + player.getRegistrationDate() + ".txt");
+        path = new File("src/Logs/" + player.getUsername() + player.getRegistrationDate().replace(':' , '.') + ".txt");
         if(event.equals("Sign_Up")) {
             try {
                 path.createNewFile();

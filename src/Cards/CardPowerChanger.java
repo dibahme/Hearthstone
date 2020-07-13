@@ -44,7 +44,7 @@ public class CardPowerChanger extends CardAbility {
     private Zone zone;
     private TargetType targetType;
     private SelectionType selectionType;
-    private ArrayList<CardAttribute.CardAttributes> cardAttributes;
+    private ArrayList<CardAttribute.CardAttributes> cardAttributes = new ArrayList<>();
 
     public CardPowerChanger(int attackNumber , int healthNumber , boolean change , TargetType targetType ,
                             SelectionType selectionType , ArrayList<CardAttributes> cardAttributes , Zone zone){
@@ -53,7 +53,7 @@ public class CardPowerChanger extends CardAbility {
         this.change = change;
         this.targetType = targetType;
         this.selectionType = selectionType;
-        this.cardAttributes = cardAttributes;
+        this.zone = zone;
     }
 
 
@@ -66,10 +66,10 @@ public class CardPowerChanger extends CardAbility {
         return health;
     }
 
-    public void applyChangeToHero(Text targetHealth){
+    public void applyChangeToHero(Text targetHealth , Play play){
         int health = changeField(targetHealth , healthNumber);
         if(health <= 0)
-            GameOperations.getInstance().gameOver();
+            GameOperations.getInstance().gameOver(play.getContestant()[0].getHero().getHealth() != targetHealth);
         else
             targetHealth.setText(String.valueOf(health));
     }
@@ -91,9 +91,8 @@ public class CardPowerChanger extends CardAbility {
     }
 
     public void applyChange(Choosable choosable , Play play){
-//        Choosable choosable = targetCards.get(new Random().nextInt(targetCards.size()));
         if(choosable instanceof Hero)
-            applyChangeToHero(choosable.getHealth());
+            applyChangeToHero(choosable.getHealth() , play);
         else if(choosable instanceof FieldCard)
             applyChangeToCard((FieldCard) choosable , play);
     }
@@ -129,16 +128,10 @@ public class CardPowerChanger extends CardAbility {
         Text friend = play.getMyHeroHealth() , enemy = play.getOpponentHeroHealth();
         switch(this.zone.name()){
             case "FRIEND" :
-                applyChangeToHero(targetCard.getParity() == 0 ? friend : enemy);
+                applyChangeToHero(targetCard.getParity() == 0 ? friend : enemy , play);
                 break;
             case "ENEMY" :
-                applyChangeToHero(targetCard.getParity() == 0 ? enemy : friend);
-                break;
-            case "BOTH" :
-                //not happened yet! :D
-                break;
-            case "SELF":
-                //not happened yet! :D
+                applyChangeToHero(targetCard.getParity() == 0 ? enemy : friend , play);
                 break;
         }
     }

@@ -37,7 +37,7 @@ public class CardAbility {
     public String getClassJson() { return classJson; }
     public ApplicationTime getApplicationTime(){return applicationTime;}
     public void handleOperations(FieldCard targetCard , Play play , FieldCard card){ }
-    public void applyChangeToHero(Text targetHealth){}
+    public void applyChangeToHero(Text targetHealth , Play play){}
     public void applyChangeToCard(FieldCard card , Play play){}
 
     public void chooseTarget(ArrayList <? extends Choosable> targetCards , Play play){
@@ -64,7 +64,7 @@ public class CardAbility {
                 if(fieldCard instanceof  FieldCard)
                     applyChangeToCard((FieldCard) fieldCard , play);
                 else if(fieldCard instanceof Hero)
-                    applyChangeToHero(fieldCard.getHealth());
+                    applyChangeToHero(fieldCard.getHealth() , play);
                 play.getGameField().getChildren().remove(hBox);
             });
         }

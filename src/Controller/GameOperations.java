@@ -1,7 +1,9 @@
 package Controller;
 
 import Cards.*;
+import Logs.Log;
 import Scenes.Play.Play;
+import Scenes.Scenes;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -74,13 +76,13 @@ public class GameOperations {
         }
 
         if(attacker.getCard() instanceof Weapon) {
-            changeHealth(new Text("1"), weapon.getDurabilityText());
-            changeHealth(weapon.getAttackText() , attackee.getHealth());
+            changeHealth(new Text("1"), weapon.getDurabilityText() , playScene);
+            changeHealth(weapon.getAttackText() , attackee.getHealth() , playScene);
             checkRemove(attacker , playScene.getContestant()[attacker.getParity()].getWeapon().getDurabilityText() , playScene);
         }
         else {
-            changeHealth(attackee.getAttack(), attacker.getHealth());
-            changeHealth(attacker.getAttack() , attackee.getHealth());
+            changeHealth(attackee.getAttack(), attacker.getHealth() , playScene);
+            changeHealth(attacker.getAttack() , attackee.getHealth() , playScene);
             checkRemove(attacker , attacker.getHealth() , playScene);
         }
 
@@ -102,16 +104,24 @@ public class GameOperations {
         }
     }
 
-    public void changeHealth(Text attacker , Text attackee){
+    public void changeHealth(Text attacker , Text attackee , Play play){
         attackee.setText(String.valueOf(Integer.parseInt(attackee.getText()) - Integer.parseInt(attacker.getText())));
-        checkGameFinish();
+        checkGameFinish(play);
     }
 
-    private void checkGameFinish(){
-        // TODO
+    private void checkGameFinish(Play play){
+        if(Integer.parseInt(play.getContestant()[0].getHero().getHealth().getText()) <= 0)
+            gameOver(false , play);
+        else if(Integer.parseInt(play.getContestant()[1].getHero().getHealth().getText()) <= 0)
+            gameOver(true , play);
     }
 
-    public void gameOver(){
-        // TODO
+    public void gameOver(boolean win , Play play){
+        if(!play.isConfigExists()){
+
+        }
+        Scenes.menuScene();
+        Scenes.alertBox(Scenes.currentStage , (win ? "Congratulations! You've win the game." : "Uh-Oh! Better luck next time."));
+        Log.logger("Game_" + (win ? "WON" : "Lost") , "");
     }
 }

@@ -3,6 +3,7 @@ package Cards;
 import Controller.GameOperations;
 import Scenes.Play.Play;
 import Scenes.Play.PlayerGraphics;
+import javafx.scene.text.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class CardSummoner extends CardAbility{
     ArrayList <TargetPlace> targetPlaces;
     CardType cardType;
     SourcePlace sourcePlace;
+    boolean change;
+    int attackNumber , healthNumber;
     private ArrayList<CardAttributes> cardAttributes;
 
     public CardSummoner(CardType cardType , SourcePlace sourcePlace
@@ -45,8 +48,22 @@ public class CardSummoner extends CardAbility{
         this.cardAttributes = cardAttributes;
     }
 
+    public void changeAttackAndHealth(Text changeField , int number){
+        if(change){
+            if(number != -1) {
+                changeField.setText(String.valueOf(number));
+                System.out.println("yuhahaha " + changeField);
+            }
+        }
+        else
+            changeField.setText(String.valueOf(Integer.parseInt(changeField.getText()) - number));
+    }
+
     public void applyChangeToCard(FieldCard targetCard , Play play){
+        System.out.println("im card " + targetCard.getCard().getName() + " and I'm here :D" + (targetCard.getCard() instanceof Weapon));
         PlayerGraphics player = play.getContestant()[targetCard.getParity()];
+        Weapon weapon = player.getWeapon();
+
         for(TargetPlace targetPlace : targetPlaces) {
             switch (targetPlace.name()){
                 case "FIELD":
@@ -64,6 +81,9 @@ public class CardSummoner extends CardAbility{
                     break;
             }
         }
+
+        changeAttackAndHealth(targetCard.getCard() instanceof Weapon ? weapon.getAttackText() : targetCard.getAttack() , attackNumber);
+        changeAttackAndHealth(targetCard.getCard() instanceof Weapon ? weapon.getDurabilityText() : targetCard.getHealth() , healthNumber);
     }
 
     public void chooseCard(ArrayList <Card> sourceCards , FieldCard targetCard , Play play){
@@ -114,14 +134,12 @@ public class CardSummoner extends CardAbility{
                     sourceCards.add(new Card(cardFile.getName().substring(0 ,cardFile.getName().length() - ".json".length())));
                 break;
             case "WEAPON":
-                System.out.println("DEBUG   " + file.list());
                 for(String cardName : file.list()){
                     Card tmp = new Card(cardName.substring(0 ,cardName.length() - ".json".length()));
                     if(tmp.getType().equals("Weapon"))
                         sourceCards.add(new Weapon(tmp.getName()));
                 }
         }
-
         chooseCard(sourceCards , targetCard , play);
     }
 

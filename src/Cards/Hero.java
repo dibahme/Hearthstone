@@ -15,7 +15,7 @@ import java.util.*;
 public class Hero implements Choosable{
 
     private String name;
-    private int health , heroPowerCost;
+    private int health , heroPowerCost , parity;
     private transient Text healthText;
     private transient ImageView image;
     private ArrayList<Card> defaultHand;

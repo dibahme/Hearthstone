@@ -90,7 +90,6 @@ public class Play {
 
     @FXML
     private void initialize(){
-
         File file = new File("src/Cards/Config/config.json");
         PlayerGraphics friend = new PlayerGraphics() , opponent = new PlayerGraphics();
         opponentHero = Hero.getRandomHero();
@@ -110,14 +109,13 @@ public class Play {
                 myHeroImage.setImage(myHero.getImage().getImage());
 
                 ConfigReader configReader = gson.fromJson(stringBuilder.toString() , ConfigReader.class);
-
                 friend = new PlayerGraphics(ConfigReader.getCards(configReader.getFriend()),
                         friendFieldCards , friendDeckCards , myHero ,
-                        new HeroPower(myHeroPowerImage , myHeroPowerCost , 0 , myHero) , friendWeapon);
+                        new HeroPower(myHeroPowerImage , myHeroPowerCost , 0 , myHero , this) , friendWeapon);
 
                 opponent = new PlayerGraphics(ConfigReader.getCards(configReader.getEnemy()) , opponentFieldCards ,
                         opponentDeckCards , opponentHero ,
-                        new HeroPower(opponentHeroPowerImage , opponentHeroPowerCost , 1 , opponentHero) , opponentWeapon);
+                        new HeroPower(opponentHeroPowerImage , opponentHeroPowerCost , 1 , opponentHero, this) , opponentWeapon);
 
                 configExists = true;
             } catch (FileNotFoundException e) { e.printStackTrace(); }
@@ -125,9 +123,9 @@ public class Play {
         else{
             myHero = new Hero(Main.player.getCurrentDeck().getHero());
             friend = new PlayerGraphics(Main.player.getCurrentDeck().getDeckCards() , friendFieldCards , friendDeckCards,
-                    myHero, new HeroPower(myHeroPowerImage , myHeroPowerCost , 0 , myHero) , friendWeapon);
+                    myHero, new HeroPower(myHeroPowerImage , myHeroPowerCost , 0 , myHero , this) , friendWeapon);
             opponent = new PlayerGraphics(opponentHero.getDefaultHand() , opponentFieldCards , opponentDeckCards ,
-                    opponentHero, new HeroPower(opponentHeroPowerImage , opponentHeroPowerCost , 1 , opponentHero) , opponentWeapon);
+                    opponentHero, new HeroPower(opponentHeroPowerImage , opponentHeroPowerCost , 1 , opponentHero , this) , opponentWeapon);
         }
 
         setHeroAttributes(myHero , myHeroImage , myHeroHealth , 0);
@@ -233,8 +231,10 @@ public class Play {
                 contestant[turnParity].fieldCards.add(fieldCard);
             }
 
-            if(contestant[1-fieldCard.getParity()].getHero().getName().equals("Hunter"))
-                GameOperations.getInstance().changeHealth(new Text("1") ,fieldCard.getHealth());
+            if(contestant[1-fieldCard.getParity()].getHero().getName().equals("Hunter")) {
+                GameOperations.getInstance().changeHealth(new Text("1"), fieldCard.getHealth() , this);
+                GameOperations.getInstance().checkRemove(fieldCard , fieldCard.getHealth() , this);
+            }
 
             fieldCard.getFieldCardPhoto().setOnMouseClicked(e -> {
                 if(turnParity == card.getParity()
@@ -319,9 +319,9 @@ public class Play {
                     GameOperations.getInstance().transitionAction(selectedCard , opponentHeroImage , this);
 
                     Weapon weapon = contestant[fieldCard.getParity()].getWeapon();
-                    GameOperations.getInstance().changeHealth(fieldCard.getCard() instanceof Weapon ? weapon.getAttackText() : fieldCard.getAttack() , opponentHeroHealth);
+                    GameOperations.getInstance().changeHealth(fieldCard.getCard() instanceof Weapon ? weapon.getAttackText() : fieldCard.getAttack() , opponentHeroHealth , this);
                     if(fieldCard.getCard() instanceof Weapon) {
-                        GameOperations.getInstance().changeHealth(new Text("1"), weapon.getDurabilityText());
+                        GameOperations.getInstance().changeHealth(new Text("1"), weapon.getDurabilityText() , this);
                         GameOperations.getInstance().checkRemove(fieldCard , weapon.getDurabilityText() , this);
                     }
                 }
@@ -390,4 +390,5 @@ public class Play {
     public Text getOpponentHeroHealth() { return opponentHeroHealth; }
     public Text getMyHeroHealth() { return myHeroHealth; }
     public ImageView getOpponentHeroImage() { return opponentHeroImage; }
+    public boolean isConfigExists() { return configExists; }
 }

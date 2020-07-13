@@ -6,5 +6,9 @@
 	"price" : 5,
 	"mana" : 1,
 	"quest" : "Spend 8 Mana on spells.",
-	"reward" : "Summon a 6/6 Minion"
+	"reward" : "Summon a 6/6 Minion",
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 6,\"healthNumber\" : 6,\"change\" : true ,\"targetPlaces\" : [\"FIELD\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"ANTI_SPELL\" ,\"cardAttributes\" : []}",
+		"className" : "CardSummoner"
+	}]
 }

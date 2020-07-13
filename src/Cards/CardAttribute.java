@@ -30,7 +30,9 @@ public class CardAttribute {
 
 
     public void applyCardAttributeEffects(FieldCard fieldCard){
-        for(CardAttribute.CardAttributes ability : fieldCard.getCard().getCardAttributes()) {
+
+        for(int i = 0 ; i < fieldCard.getCard().getCardAttributes().size() ; i++) {
+            CardAttributes ability = fieldCard.getCard().getCardAttributes().get(i);
             String path = ability.getValue();
             if(path == null) {
                 if (ability.name().equals("POISONOUS"))

@@ -6,5 +6,9 @@
 	"price" : 5,
 	"mana" : 1,
 	"quest" : "Spend 10 Mana on minions.",
-	"reward" : "Summon a minion from your deck."
+	"reward" : "Summon a minion from your deck.",
+	"cardActions" : [{
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -1,\"healthNumber\" : -1,\"change\" : true ,\"targetPlaces\" : [\"FIELD\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"DECK\" ,\"cardAttributes\" : []}",
+		"className" : "CardSummoner"
+	}]
 }

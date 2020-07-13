@@ -208,14 +208,14 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Text>
-      <ImageView fitHeight="145.0" fitWidth="139.0" layoutX="695.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="145.0" fitWidth="139.0" layoutX="695.0" layoutY="54.0" preserveRatio="true">
          <image>
-            <Image url="@../../Images/Hero%20Powewr.png" />
+            <Image url="@../../Images/HeroPower.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="691.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="691.0" layoutY="467.0" preserveRatio="true">
          <image>
-            <Image url="@../../Images/Hero%20Powewr.png" />
+            <Image url="@../../Images/HeroPower.png" />
          </image>
       </ImageView>
       <Text fx:id="opponentHeroPowerCost" fill="WHITE" layoutX="760.0" layoutY="83.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="1">
