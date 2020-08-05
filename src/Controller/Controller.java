@@ -144,7 +144,7 @@ public class Controller {
     }
 
     public static void commandHandler() {
-        Scenes.enterScene();
+        Scenes.networkScene();
     }
 
 }

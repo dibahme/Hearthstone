@@ -87,7 +87,6 @@ public class FieldCard implements Choosable {
     }
 
     public FieldCard cloneForCardAbility(){
-        System.out.println("just checking " + this.getCard().getName());
         FieldCard fieldCard = getCard(this.getCard());
         fieldCard.setHealth(this.getHealth().getText());
         fieldCard.setAttack(this.getAttack().getText());

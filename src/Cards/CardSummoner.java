@@ -52,7 +52,6 @@ public class CardSummoner extends CardAbility{
         if(change){
             if(number != -1) {
                 changeField.setText(String.valueOf(number));
-                System.out.println("yuhahaha " + changeField);
             }
         }
         else
@@ -60,7 +59,6 @@ public class CardSummoner extends CardAbility{
     }
 
     public void applyChangeToCard(FieldCard targetCard , Play play){
-        System.out.println("im card " + targetCard.getCard().getName() + " and I'm here :D" + (targetCard.getCard() instanceof Weapon));
         PlayerGraphics player = play.getContestant()[targetCard.getParity()];
         Weapon weapon = player.getWeapon();
 
@@ -84,6 +82,8 @@ public class CardSummoner extends CardAbility{
 
         changeAttackAndHealth(targetCard.getCard() instanceof Weapon ? weapon.getAttackText() : targetCard.getAttack() , attackNumber);
         changeAttackAndHealth(targetCard.getCard() instanceof Weapon ? weapon.getDurabilityText() : targetCard.getHealth() , healthNumber);
+        if(player.getHero().getName().equals("Hunter"))
+            targetCard.getCard().getCardAttributes().add(CardAttributes.RUSH);
     }
 
     public void chooseCard(ArrayList <Card> sourceCards , FieldCard targetCard , Play play){

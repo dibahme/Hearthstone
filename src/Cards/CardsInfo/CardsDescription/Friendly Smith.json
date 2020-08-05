@@ -7,7 +7,7 @@
 	"mana" : 1,
 	"cardAttributes" : [],
 	"cardActions" : [{
-		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : 2,\"healthNumber\" : 2,\"change\" : false ,\"targetPlaces\" : [\"DECK\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"WEAPON\" ,\"cardAttributes\" : []}",
+		"classJson" : "{\"applicationTime\" : \"BATTLE_CRY\",\"attackNumber\" : -2,\"healthNumber\" : -2,\"change\" : false ,\"targetPlaces\" : [\"FIELD\"] ,\"cardType\" : \"RANDOM\" ,\"sourcePlace\" : \"WEAPON\" ,\"cardAttributes\" : []}",
 		"className" : "CardSummoner"
 	}],
 	"Description" : "find a weapon and add 2 health and damage to it and add it to your deck"

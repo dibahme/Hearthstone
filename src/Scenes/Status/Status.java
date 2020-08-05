@@ -58,7 +58,11 @@ public class Status {
 
             Text text1 = buildText("#" + (i+1) + "\nName: " + deck.getName() + "\nHero: " + deck.getHero() ,
                     "Copperplate Gothic Bold" , 24 , Color.LIGHTSEAGREEN);
-            Text text2 = buildText("Wins : 0\nGames: 0\nWinning Probability: 0\nMost Used Card: None\nMean Mana Cost: " + deck.getMeanCost() ,
+            Text text2 = buildText("Wins : " + deck.getWins() +
+                            "\nGames: " + deck.getTotalPlays() +
+                            "\nWinning Probability: " + deck.getWins()/Math.max(1 , deck.getTotalPlays()) +
+                            "\nMost Used Card: " + deck.mostUsedCard() +
+                            "\nMean Mana Cost: " + deck.getMeanCost() ,
                     "Copperplate Gothic Light" , 15 , Color.GOLDENROD);
 
             hBox.getChildren().addAll(text1 , text2);

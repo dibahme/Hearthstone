@@ -45,6 +45,7 @@ public class CardPowerChanger extends CardAbility {
     private TargetType targetType;
     private SelectionType selectionType;
     private ArrayList<CardAttribute.CardAttributes> cardAttributes = new ArrayList<>();
+    private boolean isPriest;
 
     public CardPowerChanger(int attackNumber , int healthNumber , boolean change , TargetType targetType ,
                             SelectionType selectionType , ArrayList<CardAttributes> cardAttributes , Zone zone){
@@ -67,16 +68,16 @@ public class CardPowerChanger extends CardAbility {
     }
 
     public void applyChangeToHero(Text targetHealth , Play play){
-        int health = changeField(targetHealth , healthNumber);
+        int health = changeField(targetHealth , healthNumber*(isPriest && !change ? 2 : 1));
         if(health <= 0)
-            GameOperations.getInstance().gameOver(play.getContestant()[0].getHero().getHealth() != targetHealth);
+            GameOperations.getInstance().gameOver(play.getContestant()[0].getHero().getHealth() != targetHealth , play);
         else
             targetHealth.setText(String.valueOf(health));
     }
 
     public void applyChangeToCard(FieldCard target , Play play){
         int health = changeField(target.getHealth() , healthNumber);
-        changeField(target.getAttack() , attackNumber);
+        changeField(target.getAttack() , attackNumber*(isPriest && !change ? 2 : 1));
 
         for(CardAttributes cardAttribute : cardAttributes){
             if(!target.getCard().getCardAttributes().contains(cardAttribute))
@@ -193,7 +194,9 @@ public class CardPowerChanger extends CardAbility {
 
     public void handleOperations(FieldCard targetCard ,Play play , FieldCard card){
         try {
+            isPriest = play.getContestant()[targetCard.getParity()].getHero().getName().equals("Priest");
             this.getClass().getDeclaredMethod(targetType.getValue() , FieldCard.class , Play.class , FieldCard.class).invoke(this , targetCard , play , card);
+            isPriest = false;
         } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) { e.printStackTrace(); }
     }
 

@@ -117,9 +117,8 @@ public class GameOperations {
     }
 
     public void gameOver(boolean win , Play play){
-        if(!play.isConfigExists()){
-
-        }
+        if(!play.isConfigExists())
+            Main.player.getCurrentDeck().updatePlaysInfo(win);
         Scenes.menuScene();
         Scenes.alertBox(Scenes.currentStage , (win ? "Congratulations! You've win the game." : "Uh-Oh! Better luck next time."));
         Log.logger("Game_" + (win ? "WON" : "Lost") , "");

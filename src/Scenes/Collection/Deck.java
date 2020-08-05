@@ -16,11 +16,13 @@ import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Deck{
 
     private ArrayList <Card> deckCards = new ArrayList<>();
+    private HashMap <String , Integer > numberOfUsage;
     private String name = "", hero = "";
     private int wins = 0, totalPlays = 0;
     private double meanCost = 0;
@@ -83,6 +85,8 @@ public class Deck{
         }
         else if(numberInHand >= numberInDeck) {
             Card card = new Card(cardName);
+            updateMeanCost();
+            numberOfUsage.putIfAbsent(cardName , 0);
             try {
                 deckCards.add((Card) Class.forName("Cards." + card.getType()).getConstructor(String.class).newInstance(card.getName()));
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) {
@@ -117,6 +121,7 @@ public class Deck{
             Log.logger("Error" , "Card Doesn't Exist");
         }
         else {
+            updateMeanCost();
             this.name = this.deckName.getText();
             this.hero = this.heroBox.getValue();
             Log.logger("Button_Clicked" , "Remove Card " + cardName);
@@ -249,8 +254,37 @@ public class Deck{
     public void setAttributes(Deck deck){
         this.name = deck.getName();
         this.hero = deck.getHero();
+        this.meanCost = deck.meanCost;
+        this.numberOfUsage = deck.numberOfUsage;
+        this.totalPlays = deck.totalPlays;
+        this.wins = deck.wins;
         this.getDeckCards().addAll(deck.getDeckCards());
         Deck.primaryDeck = deck;
+    }
+
+    public void updatePlaysInfo(boolean win){
+        totalPlays++;
+        if(win) wins++;
+    }
+
+    public void updateMeanCost(){
+        this.meanCost = 0;
+        for(Card card : this.deckCards)
+            this.meanCost += card.getMana();
+        this.meanCost /= this.deckCards.size();
+    }
+
+    public String mostUsedCard(){
+        int mx = 0;
+        String mostUsed = "";
+        for(String key : getNumberOfUsage().keySet()){
+            if(getNumberOfUsage().get(key) >= mx){
+                mx = getNumberOfUsage().get(key);
+                mostUsed = key;
+            }
+        }
+
+        return  mostUsed;
     }
 
     public ArrayList <Card> getDeckCards(){return deckCards;}
@@ -259,4 +293,7 @@ public class Deck{
     public double getMeanCost(){return meanCost;}
     public void setName(String name){this.name = name;}
     public void setHero(String hero){this.hero = hero;}
+    public HashMap<String, Integer> getNumberOfUsage() { return numberOfUsage; }
+    public int getWins(){return wins;}
+    public int getTotalPlays(){return totalPlays;}
 }

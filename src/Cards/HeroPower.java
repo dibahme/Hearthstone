@@ -21,6 +21,7 @@ public class HeroPower implements Choosable{
     private Text heroPowerCost;
     private Hero hero;
     private int lastTurn = -1;
+
     public HeroPower(Circle circle , Text text , int parity , Hero hero , Play play){
         this.heroPowerImage = circle;
         this.parity = parity;
@@ -34,15 +35,16 @@ public class HeroPower implements Choosable{
         this.hero = hero;
 
         circle.setOnMouseClicked(e -> {
-            System.out.println("here we are :))");
-            if(lastTurn != play.getTurn())
+            if(lastTurn != play.getTurn() && (Main.player.getInfoPassive().equals(InfoPassiveHandler.InfoPassive.FREE_POWER)
+                    || play.getManasLeft() >= Integer.parseInt(heroPowerCost.getText())))
                 mouseClickedAction(play);
         });
     }
 
     public void mouseClickedAction(Play play){
-        System.out.println("im here in mouseclickedAction");
-        PlayerGraphics opponent = play.getContestant()[1 - parity] , friend = play.getContestant()[parity];;
+        PlayerGraphics opponent = play.getContestant()[1 - parity] , friend = play.getContestant()[parity];
+        if(!Main.player.getInfoPassive().equals(InfoPassiveHandler.InfoPassive.FREE_POWER))
+            play.handleManasLeft(play.getManasLeft() - Integer.parseInt(heroPowerCost.getText()));
         CardPowerChanger cardPowerChanger;
         FieldCard fieldCard = new FieldCard();
         fieldCard.setParity(parity);

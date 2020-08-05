@@ -34,4 +34,5 @@ public class PlayerGraphics{
     public Hero getHero() { return hero; }
     public void setWeapon(Weapon weapon){this.weapon = weapon;}
     public ArrayList<Quest> getQuests() { return quests; }
+    public HeroPower getHeroPower() { return heroPower; }
 }

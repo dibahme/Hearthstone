@@ -6,8 +6,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static Controller.GameOperations.gameState;
@@ -41,6 +46,8 @@ public class CardAbility {
     public void applyChangeToCard(FieldCard card , Play play){}
 
     public void chooseTarget(ArrayList <? extends Choosable> targetCards , Play play){
+        if(targetCards.isEmpty())
+            return;
         HBox hBox = new HBox();
         hBox.setStyle("-fx-background-color: rgba(0 , 0 , 0 , 0.8)");
         hBox.setPrefWidth(1280);
@@ -49,15 +56,25 @@ public class CardAbility {
         hBox.setPadding(new Insets(50 , 0 , 0 , 0));
         play.getGameField().getChildren().add(hBox);
         hBox.setTranslateY(250);
+
         for(Choosable fieldCard : targetCards) {
+            Text txt = new Text("Yours");
+            txt.setFill(Color.WHITE);
+            txt.setFont(Font.font(Font.getFontNames().get(0) , FontWeight.EXTRA_BOLD , 16));
+            txt.setTranslateX(40);
+
             Pane pane = new Pane();
             if (fieldCard instanceof FieldCard) {
                 FieldCard clonedCard = ((FieldCard) fieldCard).cloneForCardAbility();
                 pane = new Pane(clonedCard.getFieldCardPhoto());
+                if(((FieldCard) fieldCard).getParity() == play.getTurn()%2)
+                    pane.getChildren().add(txt);
             }
-            else if (fieldCard instanceof Hero)
+            else if (fieldCard instanceof Hero) {
                 pane = new Pane(((Hero) fieldCard).getImage());
-
+                if(fieldCard == play.getContestant()[play.getTurn()%2].getHero())
+                    pane.getChildren().add(txt);
+            }
 
             hBox.getChildren().add(pane);
             pane.setOnMouseClicked(e -> {

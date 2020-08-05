@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import Cards.Minion;
 import Cards.Spell;
+import Client.Client;
 import Scenes.Collection.Deck;
 import static Scenes.Play.InfoPassiveHandler.InfoPassive;
 
@@ -19,6 +20,7 @@ public class Player {
     private ArrayList <Deck> allDecks = new ArrayList<>();
     private transient String hero = "Mage";
     private transient InfoPassive infoPassive;
+    private transient Client client;
 
     public Player(String user, String pass, String regDate) {
         this.username = user;
@@ -52,4 +54,6 @@ public class Player {
     public void setCurrentDeck(Deck deck){this.currentDeck = deck;}
     public void setInfoPassive(InfoPassive infoPassive){this.infoPassive = infoPassive;}
     public InfoPassive getInfoPassive(){return infoPassive;}
+    public void setClient(Client client){this.client = client;}
+    public Client getClient(){return client;}
 }

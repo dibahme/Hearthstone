@@ -26,10 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static Controller.GameOperations.gameState;
 import static Scenes.Scenes.notificationBox;
@@ -143,6 +140,7 @@ public class Play {
         }
 
         handleManasLeft(manas);
+        new TurnTimer(turn , this);
     }
 
     public FieldCard addCardToDeck(Card card , int parity){
@@ -160,6 +158,21 @@ public class Play {
         return new FieldCard();
     }
 
+    private int canSummonCard(FieldCard card){
+        String heroName = contestant[card.getParity()].getHero().getName();
+        int manas = card.getCard().getMana();
+        if(card.getCard().getMana() <= manasLeft + offCard && turnParity == card.getParity())
+            return manasLeft - manas + offCard;
+        if(heroName.equals("Mage") && card.getCard() instanceof Spell && manas - 2 <= manasLeft + offCard)
+            return manasLeft - Math.max(0 , manas-2 - offCard);
+        String cardClass = card.getCard().getHero();
+        if(heroName.equals("Rogue") && !cardClass.equals("Rogue") && !cardClass.equals("Neutral") && manas - 2 <= manasLeft + offCard)
+            return manasLeft - Math.max(0 , manas-2 - offCard);
+
+        return -1;
+    }
+
+
     private void deckCardPreparation(FieldCard card){
         card.getDeckCardImage().setOnMousePressed(e -> {
             if(card.getCard().getMana() + offCard <= manasLeft && turnParity == card.getParity()) {
@@ -174,13 +187,13 @@ public class Play {
         });
 
         card.getDeckCardImage().setOnMouseDragged(e -> {
-            if(card.getCard().getMana() <= manasLeft + offCard && turnParity == card.getParity())
+            if(canSummonCard(card) != -1)
                 card.getCardDuplicate().relocate(e.getSceneX() , e.getSceneY());
         });
 
         card.getDeckCardImage().setOnMouseReleased(e -> {
             double Y = e.getSceneY();
-            if(card.getCard().getMana() <= manasLeft + offCard && card.getMinY() <= Y && Y <= card.getMaxY() && turnParity == card.getParity()){
+            if(canSummonCard(card) != -1 && card.getMinY() <= Y && Y <= card.getMaxY() && turnParity == card.getParity()){
                 if(card.getCard() instanceof Spell || contestant[card.getParity()].fieldCardsBox.getChildren().size() < 7){
                     if (Minion.class.equals(card.getCard().getClass()))
                         handleFieldPlace(card, e.getX());
@@ -196,7 +209,6 @@ public class Play {
     }
 
     public void handleWeaponCard(FieldCard card){
-
         Weapon weapon = new Weapon(card.getCard().getName());
         weapon.setWeaponImage(contestant[card.getParity()].getWeapon().getWeaponImage());
         weapon.setDurabilityText(contestant[card.getParity()].getWeapon().getDurabilityText());
@@ -212,6 +224,9 @@ public class Play {
     public void handleFieldPlace(FieldCard card , double loc){
         try {
             Cards.FieldCard fieldCard = card;
+            if(contestant[turnParity].getHero().getName().equals("Hunter"))
+                fieldCard.getCard().getCardAttributes().add(CardAttribute.CardAttributes.RUSH);
+
             HBox fieldCardsBox = contestant[turnParity].fieldCardsBox;
             List<Node> myFieldCards = fieldCardsBox.getChildren();
 
@@ -248,8 +263,8 @@ public class Play {
                     selectedCard = fieldCard;
                 }
                 else if(turnParity != card.getParity() && selectedCard != null) {
-                    if(!CardAttribute.getInstance().hasTaunt(1 - card.getParity() , this) ||
-                            selectedCard.getCard().getCardAttributes().contains(CardAttribute.CardAttributes.TAUNT))
+                    if(!CardAttribute.getInstance().hasTaunt(card.getParity() , this) ||
+                            fieldCard.getCard().getCardAttributes().contains(CardAttribute.CardAttributes.TAUNT))
                     GameOperations.getInstance().attackHandler(selectedCard, fieldCard, this);
                 }
             });
@@ -281,6 +296,12 @@ public class Play {
     }
 
     private void handlePlayedCardOperation(FieldCard card){
+
+        if(!configExists && turnParity == 0) {
+            HashMap <String , Integer> usage = Main.player.getCurrentDeck().getNumberOfUsage();
+            usage.put(card.getCard().getName(), usage.get(card.getCard().getName()) + 1);
+        }
+
         Card deckCard = card.getCard();
         Log.logger("Card_Played_By_" + (card.getParity() == 0 ? "Friend" : "Opponent") , deckCard.getName());
         notificationBox(deckCard.getName() + " Is Played" , 400 , 100);
@@ -293,7 +314,7 @@ public class Play {
             Quest.checkPlayerQuests(this.contestant[card.getParity()].getQuests() , card.getParity(),
                     deckCard.getMana() - offCard , card.getCard() , this);
 
-        handleManasLeft(manasLeft - deckCard.getMana() + offCard);
+        handleManasLeft(canSummonCard(card));
         contestant[turnParity].deckCardsBox.getChildren().remove(card.getDeckCardImage());
 
         for(int i = 0 ; i < contestant[turnParity].fieldCards.size() ; i++) {
@@ -313,13 +334,15 @@ public class Play {
     private void setHeroAttributes(Hero hero , ImageView image , Text health , int parity){
         try {
             hero.setHealthText(health);
+            hero.getHealth().setText(String.valueOf(hero.getHealthNumber()));
             image.setOnMouseClicked(e -> {
                 if(turnParity != parity && selectedCard != null && selectedCard.getSummonedTurn() != turn){
                     FieldCard fieldCard = selectedCard;
-                    GameOperations.getInstance().transitionAction(selectedCard , opponentHeroImage , this);
+                    GameOperations.getInstance().transitionAction(selectedCard , image , this);
 
                     Weapon weapon = contestant[fieldCard.getParity()].getWeapon();
-                    GameOperations.getInstance().changeHealth(fieldCard.getCard() instanceof Weapon ? weapon.getAttackText() : fieldCard.getAttack() , opponentHeroHealth , this);
+                    GameOperations.getInstance().changeHealth(fieldCard.getCard() instanceof Weapon ? weapon.getAttackText() : fieldCard.getAttack(),
+                            parity == 0 ? myHeroHealth : opponentHeroHealth , this);
                     if(fieldCard.getCard() instanceof Weapon) {
                         GameOperations.getInstance().changeHealth(new Text("1"), weapon.getDurabilityText() , this);
                         GameOperations.getInstance().checkRemove(fieldCard , weapon.getDurabilityText() , this);
@@ -334,10 +357,10 @@ public class Play {
     private void backButton() {
         Scenes.menuScene();
         Log.logger("Button_Clicked" , "Back");
+        turn = -1;
     }
 
     public void drawCard(int parity){
-        System.out.println("there is " + contestant[parity].hand.size() + " cards left in this player's hand");
         if(!contestant[parity].hand.isEmpty()){
             FieldCard card = addCardToDeck(contestant[parity].hand.get(0) , parity);
             for(FieldCard fieldCard : contestant[parity].fieldCards)
@@ -347,8 +370,7 @@ public class Play {
     }
 
     @FXML
-    private void endTurnAction(){
-        System.out.println("in the first line of end turn action number of cards in the hand is " + contestant[0].hand.size());
+    public void endTurnAction(){
         for(FieldCard fieldCard : contestant[turnParity].fieldCards)
             for(CardAbility cardAbility : fieldCard.getCard().getCardAbilities())
                 cardAbility.doAction(fieldCard , this , gameState.END_TURN , null);
@@ -373,6 +395,8 @@ public class Play {
                 InfoPassiveHandler.class.getMethod(Main.player.getInfoPassive().getValue() , Play.class).invoke(null , this);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) { e.printStackTrace(); }
         }
+
+        new TurnTimer(turn , this);
     }
 
     public AnchorPane getGameField() { return gameField; }
@@ -391,4 +415,5 @@ public class Play {
     public Text getMyHeroHealth() { return myHeroHealth; }
     public ImageView getOpponentHeroImage() { return opponentHeroImage; }
     public boolean isConfigExists() { return configExists; }
+    public int getManasLeft(){return manasLeft;}
 }

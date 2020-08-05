@@ -6,6 +6,8 @@ import Cards.Card;
 import Logs.Log;
 import Scenes.Collection.Collection;
 import static Scenes.Play.InfoPassiveHandler.InfoPassive;
+
+import Scenes.NetworkConnection.NetworkConnection;
 import Scenes.Play.Play;
 import Scenes.Shop.Shop;
 import Scenes.Status.Status;
@@ -14,6 +16,7 @@ import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -241,7 +244,6 @@ public class Scenes {
         currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         currentStage.setScene(scene);
         currentStage.setTitle("Hearthstone");
-        currentStage.show();
     }
 
     public static void collectionScene(){
@@ -355,6 +357,7 @@ public class Scenes {
 
             FXMLLoader loader = new FXMLLoader(Play.class.getResource("Play.fxml"));
             Pane root = loader.load();
+            root.getChildren().add(txt);
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
             currentStage.setFullScreen(true);
@@ -405,6 +408,18 @@ public class Scenes {
                 secondStage.initModality(Modality.WINDOW_MODAL);
             }catch(Exception ignored){}
             secondStage.show();
+        }catch(Exception ignored){ignored.printStackTrace();}
+    }
+
+    public static void networkScene(){
+        try {
+            FXMLLoader loader = new FXMLLoader(NetworkConnection.class.getResource("NetworkConnection.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1280, 720);
+            currentStage.setScene(scene);
+            currentStage.setFullScreen(true);
+            currentStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+            currentStage.show();
         }catch(Exception ignored){ignored.printStackTrace();}
     }
 }
